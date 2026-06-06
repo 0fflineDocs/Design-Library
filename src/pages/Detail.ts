@@ -1,23 +1,5 @@
 import type { DesignSystem, TypeScaleEntry } from '../lib/types'
-
-type ElAttrs<K extends keyof HTMLElementTagNameMap> = {
-  [P in keyof Omit<HTMLElementTagNameMap[K], 'style'>]?: HTMLElementTagNameMap[K][P]
-} & { style?: Partial<CSSStyleDeclaration> }
-
-function el<K extends keyof HTMLElementTagNameMap>(
-  tag: K,
-  attrs: ElAttrs<K> = {},
-  ...children: (Node | string)[]
-): HTMLElementTagNameMap[K] {
-  const node = document.createElement(tag)
-  const { style: styleObj, ...rest } = attrs
-  Object.assign(node, rest)
-  if (styleObj) Object.assign(node.style, styleObj)
-  for (const child of children) {
-    node.appendChild(typeof child === 'string' ? document.createTextNode(child) : child)
-  }
-  return node
-}
+import { el } from '../lib/el'
 
 const HAIR = '1px solid rgba(255,255,255,0.08)'
 
@@ -159,6 +141,7 @@ function renderSection(
       fontWeight: '300',
     },
   })
+  // Trusted content: parsed from author-controlled DESIGN.md
   descEl.innerHTML = desc
 
   meta.appendChild(numEl)
@@ -413,6 +396,7 @@ export function renderDetail(design: DesignSystem): HTMLElement {
   const overviewEl = el('div', {
     style: { maxWidth: '540px', marginTop: '24px', fontSize: '14px', color: 'var(--lib-fg-muted)', lineHeight: '1.75', fontWeight: '300' },
   })
+  // Trusted content: parsed from author-controlled DESIGN.md
   overviewEl.innerHTML = design.prose.overview
   masthead.appendChild(overviewEl)
   page.appendChild(masthead)
