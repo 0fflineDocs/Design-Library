@@ -68,7 +68,7 @@ function renderTopbar(design: DesignSystem): HTMLElement {
     }
   })
   copyBtn.addEventListener('click', () => {
-    const modules = import.meta.glob('/designs/*/DESIGN.md', { eager: true, as: 'raw' }) as Record<string, string>
+    const modules = import.meta.glob('/designs/*/DESIGN.md', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>
     const key = `/designs/${design.slug}/DESIGN.md`
     const raw = modules[key] ?? ''
     navigator.clipboard.writeText(raw).then(() => {

@@ -5,7 +5,8 @@ export async function loadDesigns(): Promise<DesignSystem[]> {
   // import.meta.glob returns { '/designs/slug/DESIGN.md': rawString, ... }
   const modules = import.meta.glob('/designs/*/DESIGN.md', {
     eager: true,
-    as: 'raw',
+    query: '?raw',
+    import: 'default',
   }) as Record<string, string>
 
   return Object.entries(modules).map(([path, raw]) => {
