@@ -9,11 +9,18 @@ export async function loadDesigns(): Promise<DesignSystem[]> {
     import: 'default',
   }) as Record<string, string>
 
-  return Object.entries(modules).map(([path, raw]) => {
-    // Extract slug from path: '/designs/hermes-labs/DESIGN.md' → 'hermes-labs'
+  const results: DesignSystem[] = []
+
+  for (const [path, raw] of Object.entries(modules)) {
     const slug = path.split('/')[2]
-    const design = parseDesignMd(raw, slug)
-    design.raw = raw
-    return design
-  }).sort((a, b) => a.name.localeCompare(b.name))
+    try {
+      const design = parseDesignMd(raw, slug)
+      design.raw = raw
+      results.push(design)
+    } catch (err) {
+      console.error(`[design-library] Failed to parse ${path}:`, err)
+    }
+  }
+
+  return results.sort((a, b) => a.name.localeCompare(b.name))
 }
