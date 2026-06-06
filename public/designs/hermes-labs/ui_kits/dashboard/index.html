@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hermes Labs — Control</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 3 L61 32 L32 61 L3 32 Z' stroke='%23D4AF37' stroke-width='2' fill='none' opacity='0.55'/%3E%3Cpath d='M16 38 L32 21 L48 38' stroke='%23E6C552' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Ccircle cx='32' cy='32' r='2.4' fill='%23E6C552'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="colors_and_type.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script type="text/babel" src="Icons.jsx"></script>
+  <script type="text/babel" src="Data.jsx"></script>
+  <script type="text/babel" src="TopBar.jsx"></script>
+  <script type="text/babel" src="AgentCard.jsx"></script>
+  <script type="text/babel" src="SystemHealth.jsx"></script>
+  <script type="text/babel" src="CronSchedule.jsx"></script>
+  <script type="text/babel" src="ActivityLog.jsx"></script>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    function useUTCClock() {
+      const fmt = () => {
+        const d = new Date();
+        const p = (n) => String(n).padStart(2, '0');
+        return `${p(d.getUTCHours())}:${p(d.getUTCMinutes())}:${p(d.getUTCSeconds())}`;
+      };
+      const [t, setT] = useState(fmt());
+      useEffect(() => {
+        const id = setInterval(() => setT(fmt()), 1000);
+        return () => clearInterval(id);
+      }, []);
+      return t;
+    }
+
+    function Dashboard() {
+      const time = useUTCClock();
+      const d = window.HLData;
+      return (
+        <div className="app">
+          <TopBar time={time} />
+
+          <section className="section" data-screen-label="Agents">
+            <div className="section__head">
+              <h2 className="section__title">Agent Fleet</h2>
+              <span className="section__note">5 profiles · 4 running · 1 idle</span>
+            </div>
+            <div className="agents">
+              {d.agents.map((a) => <AgentCard key={a.name} agent={a} />)}
+            </div>
+          </section>
+
+          <section className="section" data-screen-label="Health & Schedule">
+            <div className="grid-2">
+              <SystemHealth metrics={d.metrics} />
+              <CronSchedule crons={d.crons} />
+            </div>
+          </section>
+
+          <section className="section" data-screen-label="Activity">
+            <ActivityLog entries={d.log} />
+          </section>
+
+          <footer className="footer">
+            <span>Hermes Labs © 2026</span>
+            <span className="footer__status"><span className="dot" /> All systems nominal</span>
+          </footer>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<Dashboard />);
+  </script>
+</body>
+</html>

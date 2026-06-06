@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  body { margin: 0; background: var(--obsidian); padding: 24px 28px; }
+  .lab { font-family: var(--mono-meta); font-size: 10px; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px; }
+  .tags { display: flex; gap: 12px; flex-wrap: wrap; }
+  .tag { font-family: var(--mono-meta); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 9px; border-radius: 2px; border: 1px solid transparent; }
+  .neuro { background: var(--moss); color: var(--gold); }
+  .ai { color: var(--gold); border-color: var(--gold); }
+  .security { color: var(--fg); border-color: var(--danger-tint); }
+  .pharma { color: var(--copper); border-color: var(--copper); }
+  .note { font-family: var(--mono-meta); font-size: 10px; color: var(--fg-muted); margin-top: 16px; }
+</style>
+</head>
+<body>
+  <div class="lab">Topic tags · color-coded by category</div>
+  <div class="tags">
+    <span class="tag neuro">Neuro</span>
+    <span class="tag ai">AI</span>
+    <span class="tag security">Security</span>
+    <span class="tag pharma">Pharma</span>
+  </div>
+  <div class="note">Moss fill · gold border · danger-tint border · copper border</div>
+</body>
+</html>

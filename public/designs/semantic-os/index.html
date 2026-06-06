@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Term Detail - Vector Embedding</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+tailwind.config = {
+darkMode: "class",
+theme: {
+extend: {
+"colors": {
+"on-secondary-fixed": "#1a1c1c",
+"inverse-primary": "#9900ce",
+"on-tertiary-fixed": "#1c1b1b",
+"on-secondary": "#2f3131",
+"secondary-container": "#454747",
+"surface-tint": "#ecb1ff",
+"surface-dim": "#131313",
+"primary-fixed": "#f9d8ff",
+"primary-fixed-dim": "#ecb1ff",
+"surface-bright": "#3a3939",
+"error": "#ffb4ab",
+"on-secondary-fixed-variant": "#454747",
+"inverse-on-surface": "#313030",
+"on-primary": "#520070",
+"outline-variant": "#514254",
+"on-secondary-container": "#b4b5b5",
+"on-surface": "#e5e2e1",
+"surface-container-low": "#1c1b1b",
+"primary": "#ecb1ff",
+"on-primary-fixed-variant": "#75009e",
+"tertiary": "#c8c6c5",
+"surface-variant": "#353534",
+"surface-container-highest": "#353534",
+"on-primary-fixed": "#320046",
+"tertiary-container": "#777676",
+"on-background": "#e5e2e1",
+"surface-container-high": "#2a2a2a",
+"error-container": "#93000a",
+"tertiary-fixed-dim": "#c8c6c5",
+"background": "#131313",
+"surface-container-lowest": "#0e0e0e",
+"on-tertiary": "#313030",
+"tertiary-fixed": "#e5e2e1",
+"inverse-surface": "#e5e2e1",
+"on-tertiary-container": "#ffffff",
+"outline": "#9d8ba0",
+"secondary-fixed": "#e2e2e2",
+"surface": "#131313",
+"on-primary-container": "#ffffff",
+"on-error": "#690005",
+"secondary": "#c6c6c7",
+"on-error-container": "#ffdad6",
+"on-surface-variant": "#d5c0d7",
+"surface-container": "#201f1f",
+"on-tertiary-fixed-variant": "#474746",
+"secondary-fixed-dim": "#c6c6c7",
+"primary-container": "#bf00ff"
+},
+"borderRadius": {
+"DEFAULT": "0.25rem",
+"lg": "0.5rem",
+"xl": "0.75rem",
+"full": "9999px"
+},
+"spacing": {
+"xl": "40px",
+"sm": "8px",
+"margin": "16px",
+"xs": "4px",
+"unit": "4px",
+"lg": "24px",
+"md": "16px",
+"gutter": "12px"
+},
+"fontFamily": {
+"code": ["JetBrains Mono"],
+"body-lg": ["JetBrains Mono"],
+"body-md": ["JetBrains Mono"],
+"headline-lg": ["JetBrains Mono"],
+"headline-md": ["JetBrains Mono"],
+"display": ["JetBrains Mono"],
+"label-sm": ["JetBrains Mono"]
+},
+"fontSize": {
+"code": ["13px", { "lineHeight": "1.6", "fontWeight": "400" }],
+"body-lg": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+"body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+"headline-lg": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+"headline-md": ["20px", { "lineHeight": "1.3", "fontWeight": "600" }],
+"display": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+"label-sm": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "500" }]
+}
+}
+}
+}
+</script>
+<style>
+body { background-color: #131313; color: #e5e2e1; }
+.glass-panel { background: rgba(32, 31, 31, 0.6); backdrop-filter: blur(8px); }
+.terminal-cursor { display: inline-block; width: 8px; height: 16px; background-color: #ecb1ff; animation: blink 1s step-end infinite; vertical-align: text-bottom; ml-1;}
+@keyframes blink { 50% { opacity: 0; } }
+.node-line { stroke: #bf00ff; stroke-width: 1; opacity: 0.5; }
+.node-point { fill: #ecb1ff; }
+.node-bg { fill: #131313; stroke: #353534; stroke-width: 1; }
+::-webkit-scrollbar { width: 0px; background: transparent; }
+</style>
+<style>
+body {
+min-height: max(884px, 100dvh);
+}
+</style>
+</head>
+<body class="font-code text-body-md antialiased min-h-screen flex flex-col pb-24 md:pb-0">
+<!-- TopAppBar -->
+<header class="bg-background dark:bg-background w-full top-0 sticky border-b border-surface-variant dark:border-surface-variant z-40">
+<div class="flex justify-between items-center px-margin h-16 w-full cursor-terminal">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary dark:text-primary">terminal</span>
+<span class="font-display text-display text-primary dark:text-primary tracking-tighter text-xl">SEMANTIC_OS.v1</span>
+</div>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="text-primary font-bold hover:text-primary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[18px]">search</span>
+<span class="font-label-sm text-label-sm">SEARCH</span>
+</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[18px]">hub</span>
+<span class="font-label-sm text-label-sm">GRAPH</span>
+</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[18px]">account_tree</span>
+<span class="font-label-sm text-label-sm">NODES</span>
+</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-[18px]">person_2</span>
+<span class="font-label-sm text-label-sm">USER</span>
+</a>
+</nav>
+<button class="text-primary dark:text-primary hover:text-primary transition-colors">
+<span class="material-symbols-outlined">settings_input_component</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-5xl mx-auto px-margin py-lg space-y-8">
+<!-- Breadcrumb -->
+<div class="flex items-center text-on-surface-variant font-code text-code mb-4">
+<span class="text-primary mr-2">~</span>
+<span class="mr-2">/</span>
+<span class="mr-2">nodes</span>
+<span class="mr-2">/</span>
+<span class="text-on-surface">vector_embedding</span>
+<span class="terminal-cursor ml-1"></span>
+</div>
+<!-- Hero Section -->
+<section class="border border-surface-variant p-lg relative overflow-hidden bg-surface-container-lowest">
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#ecb1ff 1px, transparent 1px); background-size: 20px 20px;"></div>
+<div class="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<div class="flex items-center gap-3 mb-4">
+<span class="px-2 py-1 border border-primary text-primary font-label-sm text-label-sm bg-primary/10 tracking-widest">
+ADVANCED
+</span>
+<span class="text-on-surface-variant font-code text-code">ID: ND-0x4F2A</span>
+</div>
+<h1 class="font-display text-display text-on-surface mb-2 tracking-tight break-words">
+VECTOR EMBEDDING
+</h1>
+</div>
+<div class="text-right">
+<div class="font-code text-code text-on-surface-variant mb-1">DIMENSIONS: <span class="text-primary">1536</span></div>
+<div class="font-code text-code text-on-surface-variant">MODEL: <span class="text-on-surface">TEXT-EMBEDDING-3-LARGE</span></div>
+</div>
+</div>
+</section>
+<!-- Definition & Semantic Graph Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-margin">
+<!-- Definition -->
+<section class="border border-surface-variant bg-surface p-margin flex flex-col">
+<h2 class="font-label-sm text-label-sm text-on-surface-variant mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">info</span>
+DEFINITION
+</h2>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed mb-4 flex-1">
+A dense mathematical representation of semantic meaning. Vector embeddings translate words, sentences, or entire documents into high-dimensional numerical arrays (vectors) where geometric distance correlates with semantic similarity. This enables machines to understand nuance, context, and relationships between concepts computationally.
+</p>
+<div class="pt-4 border-t border-surface-variant flex gap-4 text-code font-code text-on-surface-variant">
+<div class="flex flex-col">
+<span class="text-xs mb-1">DTYPE</span>
+<span class="text-on-surface">Float32</span>
+</div>
+<div class="flex flex-col">
+<span class="text-xs mb-1">METRIC</span>
+<span class="text-on-surface">Cosine Sim</span>
+</div>
+</div>
+</section>
+<!-- Semantic Graph Visualization -->
+<section class="border border-surface-variant bg-surface p-margin flex flex-col min-h-[300px] relative overflow-hidden">
+<h2 class="font-label-sm text-label-sm text-on-surface-variant mb-4 flex items-center gap-2 absolute top-margin left-margin z-10">
+<span class="material-symbols-outlined text-[16px]">share</span>
+LOCAL TOPOLOGY
+</h2>
+<div class="absolute inset-0 flex items-center justify-center pt-8">
+<svg class="pointer-events-none" height="100%" viewBox="0 0 400 300" width="100%">
+<line class="node-line" x1="200" x2="100" y1="150" y2="80"></line>
+<line class="node-line" x1="200" x2="300" y1="150" y2="80"></line>
+<line class="node-line" x1="200" x2="80" y1="150" y2="200"></line>
+<line class="node-line" x1="200" x2="320" y1="150" y2="200"></line>
+<line class="node-line" x1="200" x2="200" y1="150" y2="250"></line>
+<rect class="node-bg" height="40" width="40" x="180" y="130"></rect>
+<rect fill="#bf00ff" height="30" opacity="0.2" width="30" x="185" y="135"></rect>
+<circle class="node-point" cx="200" cy="150" r="4"></circle>
+<rect class="node-bg" height="30" width="30" x="85" y="65"></rect>
+<circle cx="100" cy="80" fill="#e5e2e1" r="3"></circle>
+<text fill="#e5e2e1" font-family="JetBrains Mono" font-size="10" text-anchor="middle" x="100" y="55">Token</text>
+<rect class="node-bg" height="30" width="30" x="285" y="65"></rect>
+<circle cx="300" cy="80" fill="#e5e2e1" r="3"></circle>
+<text fill="#e5e2e1" font-family="JetBrains Mono" font-size="10" text-anchor="middle" x="300" y="55">Transformer</text>
+<rect class="node-bg" height="30" width="30" x="65" y="185"></rect>
+<circle cx="80" cy="200" fill="#e5e2e1" r="3"></circle>
+<text fill="#e5e2e1" font-family="JetBrains Mono" font-size="10" text-anchor="middle" x="60" y="215">LLM</text>
+<rect class="node-bg" height="30" width="30" x="305" y="185"></rect>
+<circle cx="320" cy="200" fill="#e5e2e1" r="3"></circle>
+<text fill="#e5e2e1" font-family="JetBrains Mono" font-size="10" text-anchor="middle" x="340" y="215">Semantic Search</text>
+<rect class="node-bg" height="30" width="30" x="185" y="235"></rect>
+<circle cx="200" cy="250" fill="#e5e2e1" r="3"></circle>
+<text fill="#e5e2e1" font-family="JetBrains Mono" font-size="10" text-anchor="middle" x="200" y="280">RAG</text>
+</svg>
+</div>
+</section>
+</div>
+<!-- Related Terms -->
+<section class="border-t border-surface-variant pt-margin">
+<h2 class="font-label-sm text-label-sm text-on-surface-variant mb-4">RELATED VECTORS</h2>
+<div class="flex flex-wrap gap-2">
+<button class="px-3 py-1 border border-surface-variant text-on-surface font-code text-code hover:border-primary hover:text-primary transition-colors bg-surface">Cosine Similarity</button>
+<button class="px-3 py-1 border border-surface-variant text-on-surface font-code text-code hover:border-primary hover:text-primary transition-colors bg-surface">Dimensionality Reduction</button>
+<button class="px-3 py-1 border border-surface-variant text-on-surface font-code text-code hover:border-primary hover:text-primary transition-colors bg-surface">Word2Vec</button>
+<button class="px-3 py-1 border border-surface-variant text-on-surface font-code text-code hover:border-primary hover:text-primary transition-colors bg-surface">BERT</button>
+<button class="px-3 py-1 border border-surface-variant text-on-surface font-code text-code hover:border-primary hover:text-primary transition-colors bg-surface">Vector Database</button>
+</div>
+</section>
+<!-- Code Snippet -->
+<section class="border border-surface-variant bg-surface-container-lowest overflow-hidden">
+<div class="flex items-center justify-between px-4 py-2 border-b border-surface-variant bg-surface-container-highest">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">code</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">EXECUTION_CONTEXT.py</span>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+</div>
+<div class="p-margin overflow-x-auto">
+<pre class="font-code text-code leading-relaxed"><code class="text-on-surface"><span class="text-primary">import</span> openai
+<span class="text-primary">import</span> numpy <span class="text-primary">as</span> np
+
+<span class="text-on-surface-variant"># Initialize client and generate embedding</span>
+client = openai.Client()
+response = client.embeddings.create(
+    input=<span class="text-tertiary">"The concept of semantic distance."</span>,
+    model=<span class="text-tertiary">"text-embedding-3-large"</span>
+)
+
+<span class="text-on-surface-variant"># Extract the vector array</span>
+vector_embedding = np.array(response.data[<span class="text-primary">0</span>].embedding)
+
+<span class="text-on-surface-variant"># Shape verification -&gt; (1536,)</span>
+<span class="text-primary">print</span>(<span class="text-tertiary">f"Vector Shape: {</span>vector_embedding.shape<span class="text-tertiary">}"</span>)</code></pre>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden flex justify-around items-center w-full h-16 bg-surface/90 backdrop-blur-md fixed bottom-0 w-full z-50 border-t border-surface-variant dark:border-surface-variant">
+<a class="flex flex-col items-center justify-center text-primary bg-primary-container/10 p-2 border-t-2 border-primary scale-95 active:scale-90 w-1/4 h-full" href="#">
+<span class="material-symbols-outlined mb-1">search</span>
+<span class="font-label-sm text-label-sm">SEARCH</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-container-high transition-all scale-95 active:scale-90 w-1/4 h-full" href="#">
+<span class="material-symbols-outlined mb-1">hub</span>
+<span class="font-label-sm text-label-sm">GRAPH</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-container-high transition-all scale-95 active:scale-90 w-1/4 h-full" href="#">
+<span class="material-symbols-outlined mb-1">account_tree</span>
+<span class="font-label-sm text-label-sm">NODES</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-container-high transition-all scale-95 active:scale-90 w-1/4 h-full" href="#">
+<span class="material-symbols-outlined mb-1">person_2</span>
+<span class="font-label-sm text-label-sm">USER</span>
+</a>
+</nav>
+</body></html>

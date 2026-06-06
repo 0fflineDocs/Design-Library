@@ -1,0 +1,237 @@
+/* =====================================================================
+   EVOLUTION — Design tokens
+   Import on every surface:  <link rel="stylesheet" href="../colors_and_type.css">
+   ===================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+:root {
+  /* ---------- COLOR — surfaces ---------- */
+  --bg: #0E0D0B;              /* warm off-black, never pure */
+  --surface: #16140F;         /* card / panel base */
+  --surface-2: #1F1C16;       /* hover, raised panel */
+  --surface-3: #2A2620;       /* pressed, deep input */
+
+  /* ---------- COLOR — borders ---------- */
+  --border: #2A2620;
+  --border-emphasis: #3D372E;
+  --border-bright: #5C574F;
+
+  /* ---------- COLOR — text ---------- */
+  --fg: #E8E2D5;              /* primary — warm bone */
+  --fg-secondary: #9A9285;
+  --fg-tertiary: #605A4F;
+  --fg-inverse: #0E0D0B;
+
+  /* ---------- COLOR — accents ---------- */
+  --accent: #C7F23C;          /* acid green — signature */
+  --accent-dim: #9DC02E;
+  --accent-rust: #D9603B;     /* secondary, used sparingly */
+  --accent-rust-dim: #A8472A;
+
+  /* ---------- COLOR — data viz ---------- */
+  --series-1: #E8E2D5;        /* bone */
+  --series-2: #C7F23C;        /* acid */
+  --series-3: #D9603B;        /* rust */
+  --series-4: #7C8D8A;        /* slate */
+  --series-5: #B89968;        /* ochre */
+
+  /* ---------- COLOR — semantic ---------- */
+  --positive: #C7F23C;
+  --negative: #D9603B;
+  --warning: #B89968;
+
+  /* ---------- TYPE — families ---------- */
+  --font-display: "Instrument Serif", "Times New Roman", Georgia, serif;
+  --font-sans: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+
+  /* ---------- TYPE — scale ---------- */
+  --display-1: clamp(96px, 14vw, 240px);
+  --display-2: 96px;
+  --h1: 64px;
+  --h2: 40px;
+  --h3: 24px;
+  --h4: 18px;
+  --body-lg: 18px;
+  --body: 16px;
+  --small: 14px;
+  --caption: 13px;
+  --label: 12px;
+
+  /* ---------- TYPE — line heights ---------- */
+  --lh-tight: 0.9;
+  --lh-display: 1.0;
+  --lh-h1: 1.05;
+  --lh-h2: 1.1;
+  --lh-h3: 1.25;
+  --lh-body: 1.55;
+  --lh-caption: 1.3;
+
+  /* ---------- TYPE — tracking ---------- */
+  --track-display: -0.02em;
+  --track-tight: -0.01em;
+  --track-normal: 0;
+  --track-wide: 0.04em;
+  --track-label: 0.12em;
+
+  /* ---------- TYPE — weights ---------- */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-bold: 700;
+
+  /* ---------- SPACING (4px base) ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+  --space-32: 128px;
+  --space-48: 192px;
+
+  /* ---------- LAYOUT ---------- */
+  --content-max: 1440px;
+  --pad-page: 48px;
+  --pad-page-mobile: 24px;
+  --gutter: 24px;
+  --section-rhythm: 192px;
+  --nav-height: 64px;
+
+  /* ---------- BORDER / RADIUS ---------- */
+  --radius-0: 0;
+  --radius-sm: 2px;
+  --hairline: 1px solid var(--border);
+  --hairline-emphasis: 1px solid var(--border-emphasis);
+
+  /* ---------- MOTION ---------- */
+  --ease-settle: cubic-bezier(0.2, 0, 0, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --duration-quick: 120ms;
+  --duration-hover: 180ms;
+  --duration-entrance: 400ms;
+}
+
+/* =====================================================================
+   Base reset + element defaults
+   ===================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: var(--body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection { background: var(--accent); color: var(--fg-inverse); }
+
+/* =====================================================================
+   Semantic typography classes — use these everywhere
+   ===================================================================== */
+
+.t-wordmark {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--display-1);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--track-display);
+  color: var(--fg);
+}
+
+.t-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--display-2);
+  line-height: var(--lh-display);
+  letter-spacing: var(--track-display);
+}
+
+.t-h1 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--h1);
+  line-height: var(--lh-h1);
+  letter-spacing: var(--track-tight);
+}
+
+.t-h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--h2);
+  line-height: var(--lh-h2);
+  letter-spacing: var(--track-tight);
+}
+
+.t-h3 {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: var(--h3);
+  line-height: var(--lh-h3);
+  letter-spacing: var(--track-tight);
+}
+
+.t-h4 {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: var(--h4);
+  line-height: 1.3;
+}
+
+.t-body-lg {
+  font-family: var(--font-sans);
+  font-size: var(--body-lg);
+  line-height: var(--lh-body);
+}
+
+.t-body {
+  font-family: var(--font-sans);
+  font-size: var(--body);
+  line-height: var(--lh-body);
+}
+
+.t-small { font-size: var(--small); line-height: 1.45; }
+
+.t-caption {
+  font-family: var(--font-mono);
+  font-size: var(--caption);
+  line-height: var(--lh-caption);
+  color: var(--fg-secondary);
+}
+
+.t-label {
+  font-family: var(--font-mono);
+  font-size: var(--label);
+  line-height: 1;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--fg-secondary);
+}
+
+.t-data {
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum" 1;
+}
+
+.t-italic { font-style: italic; }
+
+/* Color helpers */
+.fg          { color: var(--fg); }
+.fg-secondary{ color: var(--fg-secondary); }
+.fg-tertiary { color: var(--fg-tertiary); }
+.fg-accent   { color: var(--accent); }
+.fg-rust     { color: var(--accent-rust); }
+
+/* Hairlines */
+.rule { border: none; height: 1px; background: var(--border); margin: 0; }
+.rule-emphasis { background: var(--border-emphasis); }

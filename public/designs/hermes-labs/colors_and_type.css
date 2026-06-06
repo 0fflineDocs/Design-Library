@@ -1,0 +1,180 @@
+/* ============================================================
+   HERMES LABS — Color & Type Foundations
+   Dark control center meets luxury watch face.
+   Warm blacks, antique gold, precision typography.
+   Every neutral is tinted toward the brand hue — nothing is
+   pure #000 or #fff. OKLCH values keep the warmth consistent.
+   ============================================================ */
+
+/* ---- Webfonts (Google Fonts) ---- */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  /* ============================================================
+     1. RAW COLOR TOKENS
+     Hex anchors from the brand spec, plus OKLCH equivalents.
+     The OKLCH form is authored at chroma ~0.008 on hue 85 so
+     every "neutral" carries a fraction of warm gold.
+     ============================================================ */
+
+  /* Backgrounds & surfaces — warm-tinted blacks */
+  --obsidian:        #0A0A0A;   /* oklch(0.145 0.004 85) — primary background     */
+  --surface:         #121210;   /* oklch(0.185 0.006 95) — cards, sidebar         */
+  --elevated:        #1A1A16;   /* oklch(0.235 0.008 95) — hover, active cards     */
+  --elevated-hi:     #222019;   /* oklch(0.275 0.010 90) — pressed / deepest hover */
+
+  /* Foreground — warm parchment, never pure white */
+  --fg:              #E5DFD0;   /* oklch(0.905 0.018 90) — primary text            */
+  --fg-muted:        #8A8578;   /* oklch(0.605 0.012 90) — secondary, metadata     */
+  --fg-faint:        #565248;   /* oklch(0.430 0.010 90) — disabled, ghost         */
+
+  /* Brand accents */
+  --gold:            #D4AF37;   /* oklch(0.785 0.135 90)  — antique gold accent    */
+  --gold-soft:       #B89A4A;   /* oklch(0.700 0.085 92)  — dimmed gold            */
+  --copper:          #B67333;   /* oklch(0.640 0.110 60)  — copper ember, warnings */
+
+  /* Semantic states */
+  --danger:          #C04040;   /* oklch(0.575 0.155 25)  — error, down            */
+  --emerald:         #2A7A5C;   /* oklch(0.545 0.090 165) — healthy, ok            */
+  --amber:           #C9952E;   /* oklch(0.720 0.130 80)  — pending, warning       */
+
+  /* Gold-tinted alpha layers */
+  --border:          rgba(212, 175, 55, 0.12);  /* default hairline border        */
+  --border-strong:   rgba(212, 175, 55, 0.24);  /* emphasized / focus border       */
+  --glow:            rgba(212, 175, 55, 0.08);  /* accent glow behind active items */
+  --glow-strong:     rgba(212, 175, 55, 0.14);
+  --scrim:           rgba(10, 10, 10, 0.72);     /* overlay / shadow scrim          */
+
+  /* State alphas for the semantic colors */
+  --danger-glow:     rgba(192, 64, 64, 0.14);
+  --emerald-glow:    rgba(42, 122, 92, 0.16);
+  --amber-glow:      rgba(201, 149, 46, 0.14);
+
+  /* ============================================================
+     2. TYPEFACES
+     ============================================================ */
+  --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
+  --font-ui:      'Manrope', system-ui, -apple-system, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+
+  /* ============================================================
+     3. TYPE SCALE  (ratio ~1.25, 4 hierarchy levels max)
+     ============================================================ */
+  --text-logo:   1.0625rem;  /* 17px — wordmark, letter-spaced mono     */
+  --text-title:  1.5rem;     /* 24px — section titles (display)         */
+  --text-h:      1.0625rem;  /* 17px — card headings (ui)               */
+  --text-body:   0.9375rem;  /* 15px — body / labels                    */
+  --text-sm:     0.8125rem;  /* 13px — metadata, badges                 */
+  --text-xs:     0.6875rem;  /* 11px — micro labels, eyebrows           */
+  --text-metric: 1.75rem;    /* 28px — large data readouts (display)    */
+
+  /* Line heights */
+  --leading-tight:  1.1;
+  --leading-snug:   1.35;
+  --leading-normal: 1.55;
+
+  /* Letter spacing */
+  --tracking-display: -0.02em;   /* Cormorant headlines                  */
+  --tracking-wide:    0.18em;    /* mono eyebrows / wordmark             */
+  --tracking-wider:   0.28em;    /* micro uppercase labels               */
+
+  /* ============================================================
+     4. SPACING SCALE (rem)
+     0.25 0.5 0.75 1 1.5 2 3 4 6 — vary rhythm, avoid monotony
+     ============================================================ */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 3rem;
+  --s-8: 4rem;
+  --s-9: 6rem;
+
+  /* ============================================================
+     5. RADII, BORDERS, SHADOWS, MOTION
+     ============================================================ */
+  --r-xs:  3px;
+  --r-sm:  6px;
+  --r-md:  10px;
+  --r-lg:  14px;
+  --r-pill: 999px;
+
+  --hair: 1px solid var(--border);
+
+  /* Shadows — deep, soft, warm-black. No colored glows except gold accent. */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+  --shadow-md: 0 8px 24px -8px rgba(0,0,0,0.7);
+  --shadow-lg: 0 24px 60px -16px rgba(0,0,0,0.85);
+  --shadow-gold: 0 0 0 1px var(--border-strong), 0 12px 32px -12px rgba(0,0,0,0.8);
+
+  /* Motion — calm, precise. No bounce, no elastic. */
+  --ease: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 120ms;
+  --dur:      200ms;
+  --dur-slow: 320ms;
+}
+
+/* ============================================================
+   6. SEMANTIC ELEMENT STYLES
+   Drop these onto raw elements to get on-brand defaults.
+   ============================================================ */
+
+.hl-display,
+.hl-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-tight);
+  color: var(--fg);
+}
+.hl-title { font-size: var(--text-title); }
+
+.hl-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.hl-heading {
+  font-family: var(--font-ui);
+  font-size: var(--text-h);
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--fg);
+}
+
+.hl-body {
+  font-family: var(--font-ui);
+  font-size: var(--text-body);
+  font-weight: 400;
+  line-height: var(--leading-normal);
+  color: var(--fg);
+  max-width: 70ch;   /* 65–75 char measure */
+}
+
+.hl-meta {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+}
+
+.hl-metric {
+  font-family: var(--font-display);
+  font-size: var(--text-metric);
+  font-weight: 600;
+  letter-spacing: var(--tracking-display);
+  color: var(--gold);
+  font-feature-settings: 'tnum' 1;
+}
+
+/* Status color utilities */
+.is-ok      { color: var(--emerald); }
+.is-warn    { color: var(--amber); }
+.is-down    { color: var(--danger); }
+.is-accent  { color: var(--gold); }

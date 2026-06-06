@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hermes — Aegean</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   HERMETICA DESIGN TOKENS — Hermes variant
+   ═══════════════════════════════════════════ */
+:root {
+  --parchment: #EBE4D6;
+  --parchment-2: #E2DAC8;
+  --parchment-3: #D6CDB8;
+  --limestone: #C9C0AC;
+  --ash: #8E8472;
+  --graphite: #3A332B;
+  --obsidian: #15110D;
+  --bronze: #8C6A3F;
+  --bronze-deep: #6E5230;
+  --bronze-patina: #6E7A5C;
+  --temple-red: #9A3324;
+  --aegean: #2E5266;
+
+  --serif: "Cormorant Garamond", "EB Garamond", "Adobe Garamond Pro", Georgia, serif;
+  --mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
+
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px;
+  --s-6: 32px; --s-7: 48px; --s-8: 64px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: var(--obsidian);
+  font-family: var(--serif);
+  -webkit-font-smoothing: antialiased;
+}
+
+canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ─── Overlay ───────────────────────────── */
+.overlay {
+  position: fixed;
+  bottom: var(--s-6);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: var(--s-3);
+  z-index: 10;
+  align-items: center;
+}
+
+.btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: var(--s-2) var(--s-4);
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  cursor: pointer;
+  background: transparent;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.btn--day {
+  color: var(--aegean);
+  border-color: rgba(46,82,102,0.3);
+  background: rgba(235,228,214,0.5);
+}
+.btn--day:hover { background: rgba(235,228,214,0.8); border-color: var(--aegean); }
+
+.btn--night {
+  color: var(--bronze);
+  border-color: rgba(140,106,63,0.3);
+  background: rgba(21,17,13,0.4);
+}
+.btn--night:hover { background: rgba(21,17,13,0.7); border-color: var(--bronze); }
+
+.quality {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--ash);
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+.quality.visible { opacity: 0.6; }
+
+.fps {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--ash);
+  opacity: 0;
+  transition: opacity 0.5s;
+  position: fixed;
+  top: var(--s-4);
+  right: var(--s-4);
+  z-index: 10;
+}
+.fps.visible { opacity: 0.5; }
+
+</style>
+</head>
+<body>
+
+<canvas id="c"></canvas>
+
+<div class="fps" id="fps">-- FPS</div>
+
+<div class="overlay">
+  <button class="btn btn--day" id="theme-btn" aria-label="Toggle day/night mode">DAY</button>
+  <span class="quality" id="quality-label">HIGH</span>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// HERMES — AEGEAN
+// Raw WebGL raymarched ocean + Greek city horizon + temple glint
+// No libraries. No three.js. Single self-contained file.
+// ═══════════════════════════════════════════════════════════════
+
+const canvas = document.getElementById('c');
+const gl = canvas.getContext('webgl', { antialias: false });
+const fpsEl = document.getElementById('fps');
+const themeBtn = document.getElementById('theme-btn');
+const qualityLabel = document.getElementById('quality-label');
+
+// ─── Quality ──────────────────────────────────────────────────
+const QUALITY = {
+  low:    { scale: 0.25, raymarchSteps: 20, waveIterRaymarch: 4,  fbmOctaves: 2 },
+  medium: { scale: 0.35, raymarchSteps: 24, waveIterRaymarch: 6,  fbmOctaves: 3 },
+  high:   { scale: 0.40, raymarchSteps: 32, waveIterRaymarch: 8,  fbmOctaves: 4 }
+};
+const WAVE_ITER_NORMAL = 16;
+let currentQuality = 'high';
+let autoQualityFpsHistory = [];
+let lastQualityChangeTime = 0;
+const AUTO_QUALITY_FPS_LOW = 28, AUTO_QUALITY_FPS_HIGH = 55;
+const AUTO_QUALITY_SAMPLE_TIME = 2000, AUTO_QUALITY_COOLDOWN = 4000;
+
+// ─── Day/night ────────────────────────────────────────────────
+let nightTarget = window.matchMedia('(prefers-color-scheme: dark)').matches ? 1.0 : 0.0;
+let nightBlend = nightTarget;
+let nightFadeStart = null, nightFadeFrom = nightBlend, nightFadeTo = nightBlend;
+const THEME_FADE_DURATION = 900;
+
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+  nightFadeFrom = nightBlend;
+  nightFadeTo = e.matches ? 1.0 : 0.0;
+  nightFadeStart = performance.now();
+});
+
+// ─── Ripples ──────────────────────────────────────────────────
+const MAX_RIPPLES = 10;
+const ripples = [];
+let rippleWriteIdx = 0;
+
+function spawnRipple(clientX, clientY) {
+  const rect = canvas.getBoundingClientRect();
+  const nx = (clientX - rect.left) / rect.width * 2 - 1;
+  const ny = -(clientY - rect.top) / rect.height * 2 + 1;
+  const aspect = rect.width / rect.height;
+  const rayX = nx * aspect * 1.5;
+  const rayY = ny * 1.5;
+  if (rayY > -0.001) return;
+  const t = -1.5 / rayY;
+  ripples[rippleWriteIdx] = {
+    x: rayX * t, z: 1.0 + 1.5 * t,
+    birthTime: performance.now() / 1000,
+    amplitude: 0.6 + Math.random() * 0.4
+  };
+  rippleWriteIdx = (rippleWriteIdx + 1) % MAX_RIPPLES;
+}
+
+canvas.addEventListener('click', e => spawnRipple(e.clientX, e.clientY));
+canvas.addEventListener('touchstart', e => {
+  if (e.touches.length === 1) spawnRipple(e.touches[0].clientX, e.touches[0].clientY);
+});
+
+// ─── Theme button ─────────────────────────────────────────────
+function updateThemeButton() {
+  const isNight = nightBlend > 0.5;
+  themeBtn.textContent = isNight ? 'NIGHT' : 'DAY';
+  themeBtn.className = 'btn ' + (isNight ? 'btn--night' : 'btn--day');
+}
+updateThemeButton();
+themeBtn.addEventListener('click', () => {
+  nightFadeFrom = nightBlend;
+  nightFadeTo = nightBlend > 0.5 ? 0.0 : 1.0;
+  nightFadeStart = performance.now();
+});
+
+// ─── Shader compilation ──────────────────────────────────────
+function createShader(type, source) {
+  const s = gl.createShader(type);
+  gl.shaderSource(s, source);
+  gl.compileShader(s);
+  if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+    console.error('Shader error:', gl.getShaderInfoLog(s));
+    gl.deleteShader(s); return null;
+  }
+  return s;
+}
+function createProgram(vs, fs) {
+  const p = gl.createProgram();
+  gl.attachShader(p, vs); gl.attachShader(p, fs); gl.linkProgram(p);
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) {
+    console.error('Link error:', gl.getProgramInfoLog(p));
+    gl.deleteProgram(p); return null;
+  }
+  return p;
+}
+
+const OCEAN_VS = `
+attribute vec2 position;
+void main() { gl_Position = vec4(position, 0.0, 1.0); }
+`;
+
+const DITHER_VS = `
+attribute vec2 a_position;
+attribute vec2 a_texCoord;
+varying vec2 v_texCoord;
+void main() {
+  gl_Position = vec4(a_position, 0.0, 1.0);
+  v_texCoord = a_texCoord;
+}
+`;
+
+// ─── Ocean shader with Greek city + temple glint ──────────────
+function buildOceanFS(q) {
+  const Q = QUALITY[q];
+  return `
+precision highp float;
+uniform vec2 iResolution;
+uniform float iTime;
+uniform vec4 u_ripples[10];
+uniform int u_rippleCount;
+uniform float u_night;
+
+#define PI 3.14159265359
+#define DRAG_MULT 0.38
+#define WATER_DEPTH 1.0
+#define CAMERA_HEIGHT 1.5
+#define ITERATIONS_RAYMARCH ${Q.waveIterRaymarch}
+#define ITERATIONS_NORMAL ${WAVE_ITER_NORMAL}
+#define RAYMARCH_STEPS ${Q.raymarchSteps}
+#define FBM_OCTAVES ${Q.fbmOctaves}
+
+// ─── Noise ───────────────────────────────────
+float hash21(vec2 p) {
+  return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+}
+float noise21(vec2 p) {
+  vec2 i = floor(p); vec2 f = fract(p);
+  f = f*f*(3.0-2.0*f);
+  return mix(mix(hash21(i), hash21(i+vec2(1,0)), f.x),
+             mix(hash21(i+vec2(0,1)), hash21(i+vec2(1,1)), f.x), f.y);
+}
+float fbm(vec2 p) {
+  float v=0.0, a=0.5, fq=1.0;
+  for(int i=0;i<FBM_OCTAVES;i++) { v+=a*noise21(p*fq); fq*=2.0; a*=0.5; }
+  return v;
+}
+
+mat3 rotateAxis(vec3 axis, float angle) {
+  float s=sin(angle),c=cos(angle),oc=1.0-c;
+  return mat3(oc*axis.x*axis.x+c,oc*axis.x*axis.y-axis.z*s,oc*axis.z*axis.x+axis.y*s,
+              oc*axis.x*axis.y+axis.z*s,oc*axis.y*axis.y+c,oc*axis.y*axis.z-axis.x*s,
+              oc*axis.z*axis.x-axis.y*s,oc*axis.y*axis.z+axis.x*s,oc*axis.z*axis.z+c);
+}
+
+vec2 dirToSkyUV(vec3 dir) {
+  return vec2(atan(dir.z,dir.x)/(2.0*PI)+0.5, clamp(dir.y*0.5+0.5,0.0,1.0));
+}
+
+// ─── Waves ───────────────────────────────────
+vec2 wavedx(vec2 pos, vec2 dir, float fq, float ts) {
+  float x=dot(dir,pos)*fq+ts, wave=exp(sin(x)-1.0);
+  return vec2(wave,-wave*cos(x));
+}
+
+float getwaves_base(vec2 pos, int iters) {
+  float wps=length(pos)*0.1, iter=0.0, fq=1.0, tm=2.0, wt=1.0, sv=0.0, sw=0.0;
+  vec2 swellDir=normalize(vec2(-0.25,1.0));
+  for(int i=0;i<16;i++) {
+    if(i>=iters) break;
+    vec2 p=normalize(mix(vec2(sin(iter),cos(iter)),swellDir,0.35));
+    vec2 r=wavedx(pos,p,fq,iTime*tm+wps);
+    pos+=p*r.y*wt*DRAG_MULT; sv+=r.x*wt; sw+=wt;
+    wt=mix(wt,0.0,0.2); fq*=1.18; tm*=1.07; iter+=1232.4;
+  }
+  float bw=sv/sw;
+  float swell=sin(dot(pos,swellDir)*0.18-iTime*0.08);
+  vec2 cp=vec2(iTime*0.2,1.0);
+  return bw+swell*smoothstep(28.0,4.0,length(pos-cp))*0.35;
+}
+
+float getripples(vec2 pos) {
+  float s=0.0;
+  for(int i=0;i<10;i++) {
+    if(i>=u_rippleCount) break;
+    vec4 r=u_ripples[i]; float age=iTime-r.z;
+    if(age<0.0||age>12.0) continue;
+    float d=length(pos-r.xy), env=exp(-0.45*age)*exp(-d*0.16);
+    s+=r.w*env*smoothstep(0.0,0.3,age)*sin(d*4.0-age*3.2);
+  }
+  return s;
+}
+
+float getwaves(vec2 pos, int iters) { return getwaves_base(pos,iters)+getripples(pos); }
+
+float raymarchwater(vec3 cam, vec3 start, vec3 end, float depth) {
+  vec3 pos=start, dir=normalize(end-start);
+  for(int i=0;i<RAYMARCH_STEPS;i++) {
+    float h=getwaves(pos.xz,ITERATIONS_RAYMARCH)*depth-depth;
+    if(h+0.01>pos.y) return distance(pos,cam);
+    pos+=dir*(pos.y-h);
+  }
+  return distance(start,cam);
+}
+
+vec3 normal(vec2 pos, float e, float depth) {
+  vec2 ex=vec2(e,0);
+  float H=getwaves(pos.xy,ITERATIONS_NORMAL)*depth;
+  vec3 a=vec3(pos.x,H,pos.y);
+  return normalize(cross(
+    a-vec3(pos.x-e,getwaves(pos.xy-ex.xy,ITERATIONS_NORMAL)*depth,pos.y),
+    a-vec3(pos.x,getwaves(pos.xy+ex.yx,ITERATIONS_NORMAL)*depth,pos.y+e)));
+}
+
+vec3 getRay(vec2 fc) {
+  vec2 uv=((fc.xy/iResolution.xy)*2.0-1.0)*vec2(iResolution.x/iResolution.y,1.0);
+  return rotateAxis(vec3(1,0,0),0.14)*normalize(vec3(uv.x,uv.y,1.5));
+}
+
+float intersectPlane(vec3 o,vec3 d,vec3 pt,vec3 n) {
+  return clamp(dot(pt-o,n)/dot(d,n),-1.0,9991999.0);
+}
+
+// ─── Greek City Silhouette ───────────────────
+// Returns building height as fraction of horizon-space (0=none, 1=tall)
+float cityBuilding(float x) {
+  // Wrap around - city appears multiple times across horizon
+  float cx = fract(x * 3.0); // 3 city clusters across the 360° horizon
+  
+  // Temple: central cluster, prominent building
+  float templeCX = abs(cx - 0.5);
+  
+  // Main temple (center of cluster)
+  float temple = 0.0;
+  if (templeCX < 0.08) {
+    // Temple width = 0.16 of cluster width
+    float tx = templeCX / 0.08; // 0..1 from center
+    
+    // Pediment (triangular roof)
+    float pediment = (1.0 - tx) * 1.2;
+    
+    // Columns: flat entablature below pediment
+    float columns = 0.75;
+    
+    // Column gaps (fluted columns)
+    float colDetail = 0.0;
+    if (tx < 0.9) {
+      float colX = fract(tx * 12.0 + 0.5); // 12 columns
+      colDetail = smoothstep(0.1, 0.2, colX) * smoothstep(0.9, 0.8, colX);
+    }
+    
+    temple = mix(pediment * 0.35 + columns * 0.65, pediment, smoothstep(0.7, 1.0, tx));
+    temple = max(temple, columns * colDetail * 0.5); // column gaps visible
+  }
+  
+  // Surrounding buildings
+  float b1 = 0.0, b2 = 0.0, b3 = 0.0, b4 = 0.0;
+  
+  // Left buildings
+  float lx = cx;
+  b1 = smoothstep(0.0, 0.05, lx) * smoothstep(0.12, 0.09, lx) * 0.5;
+  b2 = smoothstep(0.1, 0.14, lx) * smoothstep(0.22, 0.19, lx) * 0.35;
+  
+  // Right buildings
+  float rx = cx - 0.58;
+  b3 = smoothstep(0.0, 0.04, rx) * smoothstep(0.1, 0.07, rx) * 0.55;
+  b4 = smoothstep(0.08, 0.12, rx) * smoothstep(0.2, 0.17, rx) * 0.3;
+  
+  // Dome (small Byzantine church)
+  float domeCX = abs(cx - 0.32);
+  float dome = smoothstep(0.03, 0.0, domeCX) * 0.6;
+  
+  // Cypress trees between buildings
+  float tree1 = smoothstep(0.24, 0.25, cx) * smoothstep(0.27, 0.26, cx) * 0.7;
+  float tree2 = smoothstep(0.52, 0.53, cx) * smoothstep(0.55, 0.54, cx) * 0.65;
+  
+  return max(max(max(max(max(max(temple, b1), b2), b3), b4), dome), max(tree1, tree2));
+}
+
+// Temple glint — golden flash when sun aligns with temple
+float templeGlint(vec3 sundir, vec3 viewdir) {
+  // Temple surface normal (faces slightly upward toward sun)
+  vec3 templeNormal = normalize(vec3(0.0, 0.3, -1.0));
+  vec3 R = reflect(-sundir, templeNormal);
+  float alignment = dot(normalize(R), normalize(viewdir));
+  // Sharp specular — only glints when perfectly aligned
+  float glint = pow(max(0.0, alignment), 80.0);
+  // Slow pulsation for organic feel
+  float pulse = 0.7 + 0.3 * sin(iTime * 0.7 + 1.2);
+  return glint * pulse * 2.5;
+}
+
+// ─── Sky ─────────────────────────────────────
+vec3 extra_cheap_atmosphere(vec3 raydir, vec3 sundir) {
+  float st=1.0/(raydir.y*1.0+0.1), st2=1.0/(sundir.y*11.0+1.0);
+  float raysundt=pow(abs(dot(sundir,raydir)),10.0);
+  float sundt=pow(max(0.0,dot(sundir,raydir)),8.0);
+  vec3 suncolor=mix(vec3(1.0),max(vec3(0),vec3(1)-vec3(5.5,13.0,22.4)/22.4),st2);
+  vec3 bs=vec3(5.0,9.0,15.0)/22.4*suncolor;
+  vec3 bs2=max(vec3(0),bs-vec3(5.0,9.0,15.0)*0.002*(st-6.0*sundir.y*sundir.y));
+  bs2*=st*(0.24+raysundt*0.10);
+  return bs2*(1.0+0.4*pow(1.0-raydir.y,3.0));
+}
+
+vec3 getSunDirection() {
+  // Slow drift across a low afternoon arc — full cycle ~20 minutes
+  float t = mod(iTime * 0.0052, PI);
+  float azimuth = (t - 0.5*PI) * 0.7;
+  float elevation = sin(t) * 0.22 + 0.12;
+  return normalize(vec3(sin(azimuth)*cos(elevation), sin(elevation), cos(azimuth)*cos(elevation)));
+}
+
+// Greek day sky — deep aegean blue, warm near horizon
+vec3 getDaySky(vec3 dir) {
+  vec3 atm = extra_cheap_atmosphere(dir, getSunDirection()) * 0.6;
+  // Add aegean blue tint
+  vec3 aegeanSky = mix(vec3(0.18, 0.48, 0.52), vec3(0.30, 0.60, 0.68), dir.y);
+  // Warm horizon glow
+  float horizonGlow = exp(-abs(dir.y) * 8.0);
+  vec3 warmGlow = vec3(0.95, 0.7, 0.35) * horizonGlow * 0.4;
+  return aegeanSky + atm * 0.5 + warmGlow;
+}
+
+// Greek night sky — deep obsidian with warm stars
+float star(vec2 suv, vec2 cellId, vec2 grid) {
+  float rnd=hash21(cellId);
+  if(rnd>0.82) return 0.0;
+  vec2 sp=vec2(hash21(cellId+0.1),hash21(cellId+0.2));
+  vec2 suv2=(cellId+sp)/grid;
+  vec2 dp=(suv-suv2)*iResolution.xy;
+  float sz=0.25+hash21(cellId+0.3)*0.4;
+  float d=length(dp), core=smoothstep(sz,sz*0.2,d);
+  float fp=hash21(cellId+0.4)*6.283, fs=0.2+hash21(cellId+0.5)*0.3;
+  float fa=mix(0.1,0.35,hash21(cellId+0.7));
+  float fl=mix(1.0-fa,1.0+fa,0.5+0.5*sin(iTime*fs+fp));
+  return core*fl*mix(0.6,1.4,hash21(cellId+0.6)/12.0);
+}
+
+vec3 getNightSky(vec3 dir) {
+  vec2 suv=dirToSkyUV(dir);
+  vec3 top=vec3(0.015,0.018,0.04), bot=vec3(0.03,0.035,0.06);
+  vec3 col=mix(bot,top,suv.y);
+  if(suv.y>0.45) {
+    float gx=40.0,gy=30.0;
+    vec2 grid=vec2(gx,gy), bc=floor(vec2(suv.x*gx,suv.y*gy));
+    float s=0.0;
+    for(int yi=-1;yi<=1;yi++) for(int xi=-1;xi<=1;xi++) {
+      vec2 cell=bc+vec2(float(xi),float(yi));
+      if(cell.y<0.0||cell.y>=gy) continue;
+      cell.x=mod(cell.x+gx,gx);
+      s+=star(suv,cell,grid);
+    }
+    col+=vec3(1.0,0.9,0.7)*s*smoothstep(0.45,0.65,suv.y);
+  }
+  // Warm Mediterranean night glow near horizon
+  col+=vec3(0.04,0.03,0.01)*exp(-abs(dir.y)*12.0);
+  return col;
+}
+
+// Visible sun disc
+float sunDisc(vec3 dir) {
+  vec3 sd=getSunDirection();
+  float angle=acos(clamp(dot(dir,sd),-1.0,1.0));
+  float disc=smoothstep(0.04,0.036,angle);
+  float glow=exp(-angle*55.0)*0.25;
+  return disc+glow;
+}
+
+// ─── ACES ────────────────────────────────────
+vec3 aces(vec3 color) {
+  mat3 m1=mat3(0.59719,0.07600,0.02840,0.35458,0.90834,0.13383,0.04823,0.01566,0.83777);
+  mat3 m2=mat3(1.60475,-0.10208,-0.00327,-0.53108,1.10813,-0.07276,-0.07367,-0.00605,1.07602);
+  vec3 v=m1*color, a=v*(v+0.0245786)-0.000090537, b=v*(0.983729*v+0.4329510)+0.238081;
+  return pow(clamp(m2*(a/b),0.0,1.0),vec3(1.0/2.2));
+}
+
+// ─── Main ────────────────────────────────────
+void main() {
+  vec2 fc=gl_FragCoord.xy;
+  vec3 ray=getRay(fc);
+  vec3 sundir=getSunDirection();
+  vec2 suv=dirToSkyUV(ray);
+  
+  // ── Sky ──
+  if(ray.y>=-0.003) {
+    vec3 C;
+    if(u_night<0.01) C=getDaySky(ray);
+    else if(u_night>0.99) C=getNightSky(ray);
+    else C=mix(getDaySky(ray),getNightSky(ray),u_night);
+    
+    // Sun disc (day only)
+    float sd=sunDisc(ray)*(1.0-u_night);
+    C+=vec3(1.0,0.85,0.4)*sd*2.5;
+    
+    // ── City silhouette on horizon ──
+    float horizonDist=abs(ray.y);
+    float cityFade=smoothstep(0.015,0.0,horizonDist);
+    if(cityFade>0.0) {
+      float bx=cityBuilding(suv.x);
+      if(bx>0.0) {
+        // Building height in screen space
+        float bldgHeight=bx*0.12;
+        float bldgMask=smoothstep(bldgHeight+0.003,bldgHeight-0.003,cityFade*0.1);
+        // Building color: warm limestone by day, dark silhouette by night
+        vec3 bldgCol=mix(
+          mix(vec3(0.85,0.78,0.65),vec3(0.7,0.6,0.45),bx),
+          vec3(0.04,0.04,0.06), u_night);
+        C=mix(C,bldgCol,bldgMask*cityFade*0.95);
+        
+        // Temple glint (golden flash on the pediment)
+        float glint=templeGlint(sundir,ray)*(1.0-u_night);
+        // Only glint on the temple area
+        float templeX=abs(fract(suv.x*3.0)-0.5);
+        float templeMask=smoothstep(0.09,0.07,templeX);
+        C+=vec3(1.0,0.8,0.25)*glint*templeMask*bldgMask*2.0;
+      }
+    }
+    
+    gl_FragColor=vec4(aces(C*1.8),1.0);
+    return;
+  }
+  
+  // ── Water ──
+  vec3 wpHigh=vec3(0,0,0), wpLow=vec3(0,-WATER_DEPTH,0);
+  vec3 origin=vec3(iTime*0.2,CAMERA_HEIGHT,1.0);
+  
+  float hph=intersectPlane(origin,ray,wpHigh,vec3(0,1,0));
+  float lph=intersectPlane(origin,ray,wpLow,vec3(0,1,0));
+  
+  float dist=raymarchwater(origin,origin+ray*hph,origin+ray*lph,WATER_DEPTH);
+  vec3 whp=origin+ray*dist;
+  
+  float eps=max(0.01,dist*0.004);
+  vec3 N=normal(whp.xz,eps,WATER_DEPTH);
+  N=mix(N,vec3(0,1,0),0.8*min(1.0,sqrt(dist*0.01)*1.1));
+  
+  float fresnel=0.04+0.96*pow(1.0-max(0.0,dot(-N,ray)),5.0);
+  float ff=0.04+0.96*pow(1.0-max(0.0,dot(vec3(0,1,0),-ray)),5.0);
+  fresnel=mix(fresnel,ff,min(1.0,sqrt(dist*0.01)*1.1));
+  
+  vec3 R=normalize(reflect(ray,N)); R.y=abs(R.y);
+  
+  // Reflect sky in water
+  vec3 reflection;
+  if(u_night<0.01) reflection=getDaySky(R);
+  else if(u_night>0.99) reflection=getNightSky(R);
+  else reflection=mix(getDaySky(R),getNightSky(R),u_night);
+  
+  // Sun reflection on water
+  float sunRefl=sunDisc(R)*(1.0-u_night);
+  reflection+=vec3(1.0,0.85,0.4)*sunRefl*2.0;
+  
+  // City reflection on water (faint)
+  float cityRefl=cityBuilding(dirToSkyUV(R).x)*smoothstep(0.015,0.0,abs(R.y));
+  reflection=mix(reflection,mix(vec3(0.85,0.78,0.65),vec3(0.04,0.04,0.06),u_night),cityRefl*0.3*(1.0-u_night*0.7));
+  
+  vec3 scatBase=mix(vec3(0.02,0.18,0.10),vec3(0.01,0.04,0.02),u_night);
+  vec3 scattering=scatBase*(0.2+(whp.y+WATER_DEPTH)/WATER_DEPTH);
+  
+  vec3 C=fresnel*reflection+scattering;
+  
+  // Distance fog
+  vec3 fogCol=mix(vec3(0.12,0.42,0.28),vec3(0.01,0.03,0.02),u_night);
+  float fogAmt=1.0-exp(-dist*0.018);
+  C=mix(C,fogCol,fogAmt);
+  
+  float wb=mix(1.3,1.8,u_night);
+  gl_FragColor=vec4(aces(C*wb),1.0);
+}
+`;
+}
+
+// ─── Film grain dither ────────────────────────────────────────
+const DITHER_FS = `
+precision highp float;
+uniform sampler2D u_image;
+uniform vec2 u_resolution;
+uniform float u_time;
+uniform float u_night;
+uniform float u_noiseScale;
+varying vec2 v_texCoord;
+
+#define INTENSITY_DAY 0.3
+#define INTENSITY_NIGHT 0.055
+#define SPEED 1.5
+#define VARIANCE_DAY 0.65
+#define VARIANCE_NIGHT 0.5
+
+float gaussian(float z, float u, float o) {
+  return (1.0/(o*sqrt(2.0*3.1415)))*exp(-(((z-u)*(z-u))/(2.0*(o*o))));
+}
+
+void main() {
+  vec4 color=texture2D(u_image,v_texCoord);
+  float gray=dot(color.rgb,vec3(0.299,0.587,0.114));
+  
+  float t=u_time*SPEED;
+  vec2 uv=gl_FragCoord.xy*u_noiseScale/u_resolution;
+  float seed=dot(uv,vec2(12.9898,78.233));
+  float noise=fract(sin(seed)*43758.5453+t);
+  float variance=mix(VARIANCE_DAY,VARIANCE_NIGHT,u_night);
+  noise=gaussian(noise,0.0,variance*variance);
+  
+  vec3 grain=vec3(noise)*(1.0-vec3(gray));
+  float gi=mix(INTENSITY_DAY,INTENSITY_NIGHT,u_night);
+
+  gl_FragColor=vec4(clamp(color.rgb+grain*gi,0.0,1.0),1.0);
+}
+`;
+
+// ─── Build programs ───────────────────────────────────────────
+let oceanProgram, ditherProgram, oceanFS;
+const oceanVShader = createShader(gl.VERTEX_SHADER, OCEAN_VS);
+const dithVShader = createShader(gl.VERTEX_SHADER, DITHER_VS);
+
+let positionLocation, resolutionLocation, timeLocation;
+let ripplesLocation, rippleCountLocation, nightLocation;
+
+function rebuildOceanProgram() {
+  if (oceanFS) gl.deleteShader(oceanFS);
+  if (oceanProgram) gl.deleteProgram(oceanProgram);
+  oceanFS = createShader(gl.FRAGMENT_SHADER, buildOceanFS(currentQuality));
+  oceanProgram = createProgram(oceanVShader, oceanFS);
+  positionLocation = gl.getAttribLocation(oceanProgram, 'position');
+  resolutionLocation = gl.getUniformLocation(oceanProgram, 'iResolution');
+  timeLocation = gl.getUniformLocation(oceanProgram, 'iTime');
+  ripplesLocation = gl.getUniformLocation(oceanProgram, 'u_ripples');
+  rippleCountLocation = gl.getUniformLocation(oceanProgram, 'u_rippleCount');
+  nightLocation = gl.getUniformLocation(oceanProgram, 'u_night');
+}
+
+const ditherFS = createShader(gl.FRAGMENT_SHADER, DITHER_FS);
+ditherProgram = createProgram(dithVShader, ditherFS);
+rebuildOceanProgram();
+
+// ─── Geometry ─────────────────────────────────────────────────
+const oceanPosBuf = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, oceanPosBuf);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]), gl.STATIC_DRAW);
+
+const ditherPosBuf = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, ditherPosBuf);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);
+
+const ditherTexBuf = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, ditherTexBuf);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0,0,1,0,0,1,1,1]), gl.STATIC_DRAW);
+
+const ditherPosLoc = gl.getAttribLocation(ditherProgram, 'a_position');
+const ditherTexLoc = gl.getAttribLocation(ditherProgram, 'a_texCoord');
+const ditherResLoc = gl.getUniformLocation(ditherProgram, 'u_resolution');
+const ditherImgLoc = gl.getUniformLocation(ditherProgram, 'u_image');
+const ditherTimeLoc = gl.getUniformLocation(ditherProgram, 'u_time');
+const ditherNightLoc = gl.getUniformLocation(ditherProgram, 'u_night');
+const ditherNoiseLoc = gl.getUniformLocation(ditherProgram, 'u_noiseScale');
+
+// ─── Framebuffers ─────────────────────────────────────────────
+let framebuffer = null, renderTexture = null, fbWidth = 0, fbHeight = 0;
+
+function setupFramebuffer(w, h) {
+  if (framebuffer && fbWidth === w && fbHeight === h) return;
+  if (framebuffer) { gl.deleteFramebuffer(framebuffer); gl.deleteTexture(renderTexture); }
+  fbWidth = w; fbHeight = h;
+  renderTexture = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, renderTexture);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  framebuffer = gl.createFramebuffer();
+  gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, renderTexture, 0);
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+}
+
+// ─── Resize ───────────────────────────────────────────────────
+function resize() {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const w = Math.floor(window.innerWidth * dpr);
+  const h = Math.floor(window.innerHeight * dpr);
+  if (canvas.width === w && canvas.height === h) return;
+  canvas.width = w; canvas.height = h;
+  gl.viewport(0, 0, w, h);
+  const q = QUALITY[currentQuality];
+  const isLowDpi = dpr < 1.5;
+  const scale = isLowDpi ? q.scale * 1.7 : q.scale;
+  setupFramebuffer(Math.floor(w * scale), Math.floor(h * scale));
+}
+window.addEventListener('resize', () => {
+  clearTimeout(window._resizeTimer);
+  window._resizeTimer = setTimeout(resize, 150);
+});
+resize();
+
+// ─── Quality ──────────────────────────────────────────────────
+function setQuality(q) {
+  if (q === currentQuality || !QUALITY[q]) return;
+  currentQuality = q;
+  rebuildOceanProgram();
+  resize();
+  lastQualityChangeTime = performance.now();
+  qualityLabel.textContent = q.toUpperCase();
+  qualityLabel.classList.add('visible');
+  setTimeout(() => qualityLabel.classList.remove('visible'), 2000);
+}
+
+function updateAutoQuality(time, fps) {
+  autoQualityFpsHistory.push({ time, fps });
+  const cutoff = time - AUTO_QUALITY_SAMPLE_TIME;
+  autoQualityFpsHistory = autoQualityFpsHistory.filter(s => s.time >= cutoff);
+  if (autoQualityFpsHistory.length < 5) return;
+  if (time - lastQualityChangeTime < AUTO_QUALITY_COOLDOWN) return;
+  const avg = autoQualityFpsHistory.reduce((s, x) => s + x.fps, 0) / autoQualityFpsHistory.length;
+  const tiers = Object.keys(QUALITY);
+  const idx = tiers.indexOf(currentQuality);
+  if (avg < AUTO_QUALITY_FPS_LOW && idx > 0) { setQuality(tiers[idx - 1]); autoQualityFpsHistory = []; }
+  else if (avg > AUTO_QUALITY_FPS_HIGH && idx < tiers.length - 1) { setQuality(tiers[idx + 1]); autoQualityFpsHistory = []; }
+}
+
+// ─── Render loop ──────────────────────────────────────────────
+let fpsCounter = 0, fpsLastUpdate = performance.now(), currentFps = 0;
+
+function updateNightBlend(time) {
+  if (nightFadeStart !== null) {
+    const progress = Math.min((time - nightFadeStart) / THEME_FADE_DURATION, 1);
+    const eased = progress * progress * (3.0 - 2.0 * progress);
+    nightBlend = nightFadeFrom + (nightFadeTo - nightFadeFrom) * eased;
+    if (progress >= 1) { nightFadeStart = null; nightBlend = nightFadeTo; }
+  } else { nightBlend = nightFadeTo; }
+}
+
+function render(time) {
+  requestAnimationFrame(render);
+  updateNightBlend(time);
+  
+  fpsCounter++;
+  if (time - fpsLastUpdate >= 1000) {
+    currentFps = Math.round(fpsCounter * 1000 / (time - fpsLastUpdate));
+    fpsCounter = 0; fpsLastUpdate = time;
+    if (new URLSearchParams(location.search).has('fps')) {
+      fpsEl.textContent = currentFps + ' FPS';
+      fpsEl.classList.add('visible');
+    }
+    updateAutoQuality(time, currentFps);
+    updateThemeButton();
+  }
+  
+  const q = QUALITY[currentQuality];
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const isLowDpi = dpr < 1.5;
+  const scale = isLowDpi ? q.scale * 1.7 : q.scale;
+  const rw = Math.floor(canvas.width * scale);
+  const rh = Math.floor(canvas.height * scale);
+  
+  // Ocean pass
+  gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+  gl.viewport(0, 0, rw, rh);
+  gl.useProgram(oceanProgram);
+  gl.bindBuffer(gl.ARRAY_BUFFER, oceanPosBuf);
+  gl.enableVertexAttribArray(positionLocation);
+  gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+  gl.uniform2f(resolutionLocation, rw, rh);
+  gl.uniform1f(timeLocation, time * 0.001);
+  gl.uniform1f(nightLocation, nightBlend);
+  
+  const rd = new Float32Array(40); let rc = 0;
+  for (let i = 0; i < MAX_RIPPLES; i++) {
+    const r = ripples[i];
+    if (r && (time * 0.001 - r.birthTime) < 12.0 && (time * 0.001 - r.birthTime) >= 0) {
+      const off = rc * 4;
+      rd[off] = r.x; rd[off + 1] = r.z; rd[off + 2] = r.birthTime; rd[off + 3] = r.amplitude;
+      rc++;
+    }
+  }
+  gl.uniform4fv(ripplesLocation, rd);
+  gl.uniform1i(rippleCountLocation, rc);
+  gl.drawArrays(gl.TRIANGLES, 0, 6);
+  
+  // Dither pass
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  gl.viewport(0, 0, canvas.width, canvas.height);
+  gl.useProgram(ditherProgram);
+  gl.bindBuffer(gl.ARRAY_BUFFER, ditherPosBuf);
+  gl.enableVertexAttribArray(ditherPosLoc);
+  gl.vertexAttribPointer(ditherPosLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.bindBuffer(gl.ARRAY_BUFFER, ditherTexBuf);
+  gl.enableVertexAttribArray(ditherTexLoc);
+  gl.vertexAttribPointer(ditherTexLoc, 2, gl.FLOAT, false, 0, 0);
+  gl.activeTexture(gl.TEXTURE0);
+  gl.bindTexture(gl.TEXTURE_2D, renderTexture);
+  gl.uniform1i(ditherImgLoc, 0);
+  gl.uniform2f(ditherResLoc, canvas.width, canvas.height);
+  gl.uniform1f(ditherTimeLoc, time * 0.001);
+  gl.uniform1f(ditherNightLoc, nightBlend);
+  gl.uniform1f(ditherNoiseLoc, isLowDpi ? 1.7 : 1.0);
+  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+}
+
+requestAnimationFrame(render);
+</script>
+</body>
+</html>

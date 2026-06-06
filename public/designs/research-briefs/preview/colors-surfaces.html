@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  body { margin: 0; background: var(--obsidian); font-family: var(--sans-body); }
+  .wrap { display: flex; gap: 1px; padding: 20px; background: var(--gold-tint-soft); }
+  .sw { flex: 1; height: 150px; display: flex; flex-direction: column; justify-content: flex-end; padding: 14px; }
+  .name { font-family: var(--sans-body); font-weight: 600; font-size: 13px; color: var(--fg); }
+  .hex { font-family: var(--mono-meta); font-size: 11px; color: var(--fg-muted); margin-top: 4px; }
+  .role { font-family: var(--mono-meta); font-size: 10px; color: var(--fg-muted); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: auto; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="sw" style="background: var(--obsidian);">
+      <div class="role">Page</div>
+      <div class="name">Obsidian Black</div><div class="hex">#0A0A0A</div>
+    </div>
+    <div class="sw" style="background: var(--surface);">
+      <div class="role">Card</div>
+      <div class="name">Surface</div><div class="hex">#121210</div>
+    </div>
+    <div class="sw" style="background: var(--surface-elevated);">
+      <div class="role">Hover / Selected</div>
+      <div class="name">Elevated Surface</div><div class="hex">#1A1A16</div>
+    </div>
+  </div>
+</body>
+</html>

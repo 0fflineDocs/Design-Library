@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../colors_and_type.css" />
+<style>
+  body { margin: 0; background: var(--obsidian); padding: 22px 28px; font-family: var(--sans-body); }
+  .lab { font-family: var(--mono-meta); font-size: 10px; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px; }
+  .grid { display: flex; gap: 24px; align-items: flex-end; }
+  .item { text-align: center; }
+  .box { width: 76px; height: 76px; background: var(--surface-elevated); margin-bottom: 10px; }
+  .r-sm { border-radius: 2px; } .r-md { border-radius: 3px; }
+  .border { border: 1px solid var(--gold-tint-line); }
+  .accent { border-left: 3px solid var(--gold); }
+  .cap { font-family: var(--mono-meta); font-size: 10px; color: var(--fg-muted); }
+  .cap b { color: var(--fg); font-weight: 500; display: block; }
+</style>
+</head>
+<body>
+  <div class="lab">Radii &amp; borders · minimal, editorial</div>
+  <div class="grid">
+    <div class="item"><div class="box r-sm"></div><div class="cap"><b>2px</b>pills · tags</div></div>
+    <div class="item"><div class="box r-md"></div><div class="cap"><b>3px</b>cards</div></div>
+    <div class="item"><div class="box r-md border"></div><div class="cap"><b>hairline</b>gold 0.08</div></div>
+    <div class="item"><div class="box r-md accent"></div><div class="cap"><b>3px gold</b>hover · featured</div></div>
+  </div>
+</body>
+</html>

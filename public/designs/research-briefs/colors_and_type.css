@@ -1,0 +1,194 @@
+/* ============================================================
+   HERMES LABS — Research Briefs
+   Colors & Type foundations
+   ------------------------------------------------------------
+   Editorial darkness. White text on near-black, gold as
+   reading-lamp glow. Every surface carries a faint gold tint
+   (≈0.008 chroma) — nothing is sterile gray or pure black.
+   ============================================================ */
+
+/* ----- Fonts ------------------------------------------------ */
+/* Loaded from Google Fonts in HTML <head>:
+   Cormorant Garamond (400,500,600,700 + italics)
+   Manrope (300–700)  ·  JetBrains Mono (400,500)            */
+
+:root {
+  /* ====== BASE COLOR TOKENS ====== */
+
+  /* Backgrounds / surfaces (each tinted toward gold) */
+  --obsidian:        #0A0A0A;            /* page background            */
+  --surface:         #121210;            /* card backgrounds           */
+  --surface-elevated:#1A1A16;            /* hover / selected / pinned  */
+
+  /* Text */
+  --fg:              #E5DFD0;            /* primary body text          */
+  --fg-muted:        #8A8578;            /* dates, reading time, meta  */
+
+  /* Accents */
+  --gold:            #D4AF37;            /* antique gold — rules, glyphs */
+  --copper:          #B67333;            /* copper ember — bylines      */
+  --moss:            #172B22;            /* deep moss — pull quotes     */
+
+  /* Translucent accents */
+  --gold-tint:       rgba(212,175,55,0.10); /* subtle gold border/tint */
+  --gold-tint-soft:  rgba(212,175,55,0.08); /* card border at rest     */
+  --gold-tint-line:  rgba(212,175,55,0.20); /* hero / divider rule     */
+  --moss-wash:       rgba(22,43,34,0.60);    /* featured / spotlight bg */
+  --danger-tint:     rgba(192,64,64,0.30);   /* security tag / error    */
+  --danger:          #C04040;                /* error foreground        */
+
+  /* ====== TYPE FAMILIES ====== */
+  --serif-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --sans-body:     "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono-meta:     "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* ====== TYPE SCALE (1.25× minor third) ====== */
+  --fs-display:   4rem;     /* 64px — hero headline            */
+  --fs-h1:        3rem;     /* 48px — page title               */
+  --fs-h2:        2rem;     /* 32px — section title            */
+  --fs-h3:        1.5rem;   /* 24px — featured card title      */
+  --fs-card:      1.1rem;   /* ~18px — card title              */
+  --fs-body:      0.95rem;  /* ~15px — body / excerpt          */
+  --fs-meta:      0.75rem;  /* 12px — metadata, pills          */
+  --fs-micro:     0.65rem;  /* ~10px — footer, fine print      */
+
+  /* ====== WEIGHTS ====== */
+  --w-light:   350;
+  --w-regular: 400;
+  --w-medium:  500;
+  --w-semibold:600;
+  --w-bold:    700;
+
+  /* ====== LINE HEIGHTS ====== */
+  --lh-tight:  1.05;   /* display headlines      */
+  --lh-snug:   1.2;    /* card titles            */
+  --lh-body:   1.6;    /* body copy              */
+
+  /* ====== TRACKING ====== */
+  --ls-display: -0.02em;  /* large serif                */
+  --ls-label:    0.05em;  /* pills, eyebrow labels      */
+  --ls-archive:  0.15em;  /* ARCHIVE-style mono headers */
+
+  /* ====== MEASURE ====== */
+  --measure: 75ch;        /* body text max width        */
+
+  /* ====== SPACING SCALE (rem) ====== */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-6: 1.5rem;
+  --sp-8: 2rem;
+  --sp-12: 3rem;
+  --sp-16: 4rem;
+  --sp-24: 6rem;
+  --sp-32: 8rem;
+
+  /* ====== BORDERS / RADII ====== */
+  --hairline:   1px solid var(--gold-tint-soft);
+  --rule:       1px solid var(--gold-tint-line);
+  --radius-sm:  2px;     /* pills, tags — barely-there       */
+  --radius-md:  3px;     /* cards                            */
+  --accent-bar: 3px;     /* gold left border on hover/featured */
+
+  /* ====== MOTION ====== */
+  /* Restrained: fades and short eases only. No bounce/elastic. */
+  --ease:     cubic-bezier(0.4, 0.0, 0.2, 1);
+  --dur-fast: 120ms;
+  --dur:      200ms;
+  --dur-slow: 320ms;
+}
+
+/* ============================================================
+   SEMANTIC ELEMENT STYLES
+   Apply these classes/elements directly for consistent type.
+   ============================================================ */
+
+.h-display {
+  font-family: var(--serif-display);
+  font-weight: var(--w-bold);
+  font-size: var(--fs-display);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-display);
+  color: var(--fg);
+}
+
+.h1 {
+  font-family: var(--serif-display);
+  font-weight: var(--w-semibold);
+  font-size: var(--fs-h1);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-display);
+  color: var(--fg);
+}
+
+.h2 {
+  font-family: var(--serif-display);
+  font-weight: var(--w-medium);
+  font-size: var(--fs-h2);
+  line-height: var(--lh-snug);
+  color: var(--fg);
+}
+
+.card-title {
+  font-family: var(--serif-display);
+  font-weight: var(--w-medium);
+  font-size: var(--fs-card);
+  line-height: var(--lh-snug);
+  color: var(--fg);
+}
+
+.pull-quote {
+  font-family: var(--serif-display);
+  font-style: italic;
+  font-weight: var(--w-regular);
+  font-size: var(--fs-h3);
+  line-height: 1.35;
+  color: var(--fg);
+}
+
+p, .body {
+  font-family: var(--sans-body);
+  font-weight: var(--w-regular);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--fg);
+  max-width: var(--measure);
+}
+
+.subtitle {
+  font-family: var(--sans-body);
+  font-weight: var(--w-light);
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: var(--fg-muted);
+}
+
+.meta, .mono {
+  font-family: var(--mono-meta);
+  font-weight: var(--w-regular);
+  font-size: var(--fs-meta);
+  letter-spacing: 0.02em;
+  color: var(--fg-muted);
+}
+
+.eyebrow {
+  font-family: var(--sans-body);
+  font-weight: var(--w-medium);
+  font-size: var(--fs-meta);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--fg);
+}
+
+.archive-label {
+  font-family: var(--mono-meta);
+  font-weight: var(--w-medium);
+  font-size: var(--fs-meta);
+  letter-spacing: var(--ls-archive);
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+a { color: var(--gold); text-decoration: none; }
+a:hover { color: var(--fg); }
