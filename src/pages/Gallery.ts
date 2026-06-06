@@ -9,18 +9,66 @@ function renderCard(design: DesignSystem): HTMLElement {
       background: '#111',
       border: '1px solid rgba(255,255,255,0.07)',
       borderRadius: '4px',
-      padding: '24px',
       cursor: 'pointer',
-      transition: 'border-color 0.15s',
+      transition: 'border-color 0.15s, transform 0.15s',
       textDecoration: 'none',
+      overflow: 'hidden',
     },
   })
 
   card.addEventListener('mouseenter', () => {
     card.style.borderColor = 'rgba(212,175,55,0.4)'
+    card.style.transform = 'translateY(-2px)'
   })
   card.addEventListener('mouseleave', () => {
     card.style.borderColor = 'rgba(255,255,255,0.07)'
+    card.style.transform = 'translateY(0)'
+  })
+
+  const previewFrame = el('div', {
+    style: {
+      position: 'relative',
+      height: '220px',
+      overflow: 'hidden',
+      borderBottom: '1px solid rgba(255,255,255,0.07)',
+      background: '#0b0b0b',
+    },
+  })
+
+  if (design.preview) {
+    const iframe = el('iframe', {
+      src: `/designs/${design.slug}/${design.preview}`,
+      title: `${design.name} preview`,
+      loading: 'lazy',
+      tabIndex: '-1',
+      style: {
+        width: '1280px',
+        height: '800px',
+        border: '0',
+        transform: 'scale(0.34)',
+        transformOrigin: 'top left',
+        pointerEvents: 'none',
+      },
+    })
+    previewFrame.appendChild(iframe)
+  } else {
+    previewFrame.appendChild(el('div', {
+      style: {
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontFamily: 'var(--font-mono)',
+        fontSize: '10px',
+        color: 'var(--lib-fg-faint)',
+        letterSpacing: '0.12em',
+        textTransform: 'uppercase',
+      },
+    }, 'Preview unavailable'))
+  }
+
+  const body = el('div', {
+    style: { padding: '20px 24px 24px' },
   })
 
   // Color swatches (first 5)
@@ -61,9 +109,11 @@ function renderCard(design: DesignSystem): HTMLElement {
     },
   }, design.tagline)
 
-  card.appendChild(swatchRow)
-  card.appendChild(name)
-  card.appendChild(tagline)
+  body.appendChild(swatchRow)
+  body.appendChild(name)
+  body.appendChild(tagline)
+  card.appendChild(previewFrame)
+  card.appendChild(body)
 
   return card
 }
@@ -95,8 +145,18 @@ export function renderGallery(designs: DesignSystem[]): HTMLElement {
       letterSpacing: '0.03em',
     },
   }, 'All Designs')
+  const subtitle = el('p', {
+    style: {
+      maxWidth: '640px',
+      marginTop: '14px',
+      color: 'var(--lib-fg-muted)',
+      lineHeight: '1.7',
+      fontWeight: '300',
+    },
+  }, 'A grid of live preview windows. Click any card to open that design system’s full reference page.')
   header.appendChild(title)
   header.appendChild(heading)
+  header.appendChild(subtitle)
   page.appendChild(header)
 
   const grid = el('div', {
