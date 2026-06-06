@@ -1,6 +1,7 @@
 ---
 name: AID — AI Dictionary
 tagline: Semantic OS for AI literacy. Dark shell, light workspace, purple graph. Concept navigation over memorization.
+preview: index.html
 
 palette:
   - name: Void

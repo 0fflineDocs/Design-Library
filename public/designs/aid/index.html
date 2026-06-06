@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AID — AI Dictionary</title>
+<meta name="description" content="AID — a semantic knowledge OS for AI literacy, with a dark navigation shell, light workspace, and relationship graph." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --aid-black: #07080b;
+    --aid-panel-black: #101116;
+    --aid-white: #ffffff;
+    --aid-bg: #f7f7f8;
+    --aid-border: #e7e7eb;
+    --aid-muted: #6f7380;
+    --aid-text: #111216;
+    --aid-purple: #7b4dff;
+    --aid-purple-soft: #efe9ff;
+    --aid-purple-glow: rgba(123, 77, 255, 0.32);
+    --aid-green: #19c37d;
+    --font-display: "Syne", sans-serif;
+    --font-ui: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
+    --ease: cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    min-height: 100%;
+    background: var(--aid-bg);
+    color: var(--aid-text);
+    font-family: var(--font-ui);
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    background:
+      radial-gradient(900px 460px at 92% 8%, rgba(123,77,255,0.08), transparent 55%),
+      linear-gradient(180deg, #fafafd 0%, var(--aid-bg) 100%);
+  }
+  a { color: inherit; text-decoration: none; }
+
+  .shell {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    min-height: 100vh;
+  }
+
+  .sidebar {
+    background: var(--aid-black);
+    color: #fff;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    padding: 28px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .brand {
+    padding: 4px 10px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .brand-mark {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+  .brand-sub {
+    margin-top: 12px;
+    font-family: var(--font-ui);
+    font-size: 12px;
+    color: rgba(255,255,255,0.66);
+    line-height: 1.5;
+  }
+  .brand-meta {
+    margin-top: 10px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+  .nav-label {
+    padding: 0 10px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: rgba(255,255,255,0.36);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+  }
+  .nav {
+    display: grid;
+    gap: 8px;
+  }
+  .nav-item {
+    padding: 14px 14px 14px 16px;
+    border-radius: 14px;
+    color: rgba(255,255,255,0.72);
+    transition: background 180ms var(--ease), color 180ms var(--ease), transform 180ms var(--ease);
+  }
+  .nav-item:hover { transform: translateX(2px); color: #fff; }
+  .nav-item.active {
+    background: var(--aid-panel-black);
+    color: #fff;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+  }
+  .nav-kicker {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: rgba(255,255,255,0.38);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 6px;
+  }
+  .nav-title {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.25;
+  }
+  .sidebar-footer {
+    margin-top: auto;
+    display: grid;
+    gap: 14px;
+    padding: 14px 10px 4px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .literacy {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgba(255,255,255,0.72);
+    font-size: 12px;
+  }
+  .literacy strong {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .sync {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .sync-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: var(--aid-green);
+    box-shadow: 0 0 10px rgba(25,195,125,0.55);
+  }
+
+  .workspace {
+    min-width: 0;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+  }
+  .command {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--aid-border);
+    background: rgba(255,255,255,0.74);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .command-search {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: #fff;
+    border: 1px solid var(--aid-border);
+    box-shadow: 0 10px 30px rgba(17,18,22,0.04);
+  }
+  .command-search span {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--aid-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+  .command-search b {
+    color: var(--aid-text);
+    font-weight: 500;
+  }
+  .command-hints {
+    display: flex;
+    gap: 10px;
+  }
+  .hint {
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid var(--aid-border);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--aid-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  .content {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+    gap: 20px;
+    padding: 20px 24px 24px;
+    min-width: 0;
+  }
+  .panel-col {
+    display: grid;
+    gap: 18px;
+    min-width: 0;
+  }
+  .card {
+    background: var(--aid-white);
+    border: 1px solid var(--aid-border);
+    border-radius: 18px;
+    box-shadow: 0 14px 40px rgba(17,18,22,0.04);
+  }
+  .hero-card {
+    padding: 28px 28px 24px;
+  }
+  .hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .badge {
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: var(--aid-purple-soft);
+    color: var(--aid-purple);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .meta-chip {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--aid-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 5vw, 56px);
+    line-height: 0.96;
+    letter-spacing: -0.03em;
+    margin-bottom: 12px;
+  }
+  .hero-card p {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--aid-muted);
+    max-width: 55ch;
+  }
+  .section-card {
+    padding: 22px 24px 24px;
+  }
+  .section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--aid-muted);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    line-height: 1;
+  }
+  .body-copy {
+    font-size: 15px;
+    line-height: 1.78;
+    color: var(--aid-text);
+  }
+  .chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+  }
+  .chip {
+    padding: 9px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--aid-border);
+    background: #fbfbfd;
+    font-size: 13px;
+    color: var(--aid-text);
+  }
+  .example {
+    margin-top: 18px;
+    padding: 16px 18px;
+    border-radius: 14px;
+    background: #fafafe;
+    border: 1px solid var(--aid-border);
+  }
+  .example b {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--aid-muted);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .example p {
+    color: var(--aid-text);
+    line-height: 1.7;
+    font-size: 14px;
+  }
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 18px;
+  }
+  .meta-box {
+    padding: 14px;
+    border-radius: 14px;
+    background: #fafafe;
+    border: 1px solid var(--aid-border);
+  }
+  .meta-box span {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--aid-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 8px;
+  }
+  .meta-box strong {
+    font-size: 14px;
+    color: var(--aid-text);
+    font-weight: 500;
+  }
+
+  .graph-card {
+    padding: 22px 22px 18px;
+    display: grid;
+    gap: 18px;
+  }
+  .graph-wrap {
+    position: relative;
+    height: 520px;
+    border-radius: 18px;
+    background:
+      radial-gradient(circle at center, rgba(123,77,255,0.06), transparent 38%),
+      linear-gradient(180deg, #fff 0%, #fafafd 100%);
+    border: 1px solid var(--aid-border);
+    overflow: hidden;
+  }
+  .graph-wrap::before,
+  .graph-wrap::after {
+    content: "";
+    position: absolute;
+    inset: 50%;
+    border: 1px dashed rgba(123,77,255,0.12);
+    border-radius: 999px;
+    transform: translate(-50%, -50%);
+  }
+  .graph-wrap::before { width: 270px; height: 270px; }
+  .graph-wrap::after { width: 420px; height: 420px; }
+  .edge {
+    position: absolute;
+    height: 1px;
+    background: rgba(123,77,255,0.18);
+    transform-origin: left center;
+  }
+  .edge-label {
+    position: absolute;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--aid-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    background: rgba(255,255,255,0.92);
+    padding: 4px 6px;
+    border-radius: 999px;
+    border: 1px solid var(--aid-border);
+  }
+  .node {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 16px;
+    min-width: 120px;
+    height: 56px;
+    border-radius: 18px;
+    border: 1px solid var(--aid-border);
+    background: #fff;
+    box-shadow: 0 16px 34px rgba(17,18,22,0.06);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--aid-text);
+  }
+  .node.center {
+    min-width: 170px;
+    height: 68px;
+    background: var(--aid-panel-black);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 0 0 14px var(--aid-purple-glow), 0 24px 44px rgba(17,18,22,0.24);
+  }
+  .node small {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: rgba(255,255,255,0.58);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .inspector {
+    padding: 16px;
+    border-radius: 14px;
+    background: #fafafe;
+    border: 1px solid var(--aid-border);
+  }
+  .inspector-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .inspector h3 {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .strength {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--aid-purple);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .inspector p {
+    color: var(--aid-muted);
+    line-height: 1.72;
+    font-size: 14px;
+  }
+
+  .statusbar {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 14px 24px 18px;
+    border-top: 1px solid var(--aid-border);
+    color: var(--aid-muted);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  @media (max-width: 1100px) {
+    .shell { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .content { grid-template-columns: 1fr; }
+    .graph-wrap { height: 440px; }
+  }
+</style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">A I D</div>
+        <div class="brand-sub">AI Dictionary<br />personal knowledge OS</div>
+        <div class="brand-meta">calm machine literacy</div>
+      </div>
+
+      <div class="nav-label">Workspace</div>
+      <nav class="nav">
+        <a class="nav-item" href="#">
+          <div class="nav-kicker">Track</div>
+          <div class="nav-title">Foundations</div>
+        </a>
+        <a class="nav-item active" href="#">
+          <div class="nav-kicker">Selected term</div>
+          <div class="nav-title">Vector Embedding</div>
+        </a>
+        <a class="nav-item" href="#">
+          <div class="nav-kicker">Next concept</div>
+          <div class="nav-title">Retrieval-Augmented Generation</div>
+        </a>
+        <a class="nav-item" href="#">
+          <div class="nav-kicker">Difficulty</div>
+          <div class="nav-title">Intermediate</div>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="literacy"><span>Literacy mode</span><strong>02</strong></div>
+        <div class="sync"><span class="sync-dot"></span> Semantic index synced</div>
+      </div>
+    </aside>
+
+    <main class="workspace">
+      <div class="command">
+        <div class="command-search">
+          <span>Cmd + K</span>
+          <b>Search concepts, models, people, or techniques</b>
+        </div>
+        <div class="command-hints">
+          <div class="hint">/ commands</div>
+          <div class="hint">graph mode</div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="panel-col">
+          <section class="card hero-card">
+            <div class="hero-meta">
+              <div class="badge">Intermediate</div>
+              <div class="meta-chip">Technique / NLP / ML / 2003+</div>
+            </div>
+            <h1>Vector Embedding</h1>
+            <p>
+              Numeric coordinates that place words, sentences, or documents inside a
+              semantic space where distance maps to meaning. Similar concepts land near
+              each other; unrelated ones drift apart.
+            </p>
+          </section>
+
+          <section class="card section-card">
+            <div class="section-head">
+              <div class="section-label">Definition</div>
+              <div class="section-title">Concept Core</div>
+            </div>
+            <div class="body-copy">
+              Vector embeddings encode data into dense numerical representations that
+              preserve semantic relationships. They are the substrate beneath search,
+              clustering, recommendation, retrieval, and similarity workflows across
+              modern AI systems.
+            </div>
+            <div class="chip-row">
+              <div class="chip">semantic similarity</div>
+              <div class="chip">latent space</div>
+              <div class="chip">nearest neighbors</div>
+              <div class="chip">retrieval</div>
+            </div>
+            <div class="example">
+              <b>Example</b>
+              <p>
+                If “doctor” and “physician” sit close together while “banana” stays far
+                away, the model has captured semantic relation rather than just exact
+                token overlap.
+              </p>
+            </div>
+            <div class="meta-grid">
+              <div class="meta-box">
+                <span>Used in</span>
+                <strong>Search + ranking</strong>
+              </div>
+              <div class="meta-box">
+                <span>Primary input</span>
+                <strong>Text, image, audio</strong>
+              </div>
+              <div class="meta-box">
+                <span>Navigation mode</span>
+                <strong>Graph + chips</strong>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <section class="card graph-card">
+          <div class="section-head">
+            <div class="section-label">Relationship Graph</div>
+            <div class="section-title">Concept Navigation</div>
+          </div>
+
+          <div class="graph-wrap">
+            <div class="edge" style="left: 245px; top: 244px; width: 115px; transform: rotate(-154deg);"></div>
+            <div class="edge" style="left: 330px; top: 210px; width: 135px; transform: rotate(-26deg);"></div>
+            <div class="edge" style="left: 310px; top: 288px; width: 145px; transform: rotate(28deg);"></div>
+            <div class="edge" style="left: 215px; top: 296px; width: 120px; transform: rotate(147deg);"></div>
+
+            <div class="edge-label" style="left: 212px; top: 170px;">input to embed</div>
+            <div class="edge-label" style="left: 412px; top: 184px;">used in workflow</div>
+            <div class="edge-label" style="left: 404px; top: 314px;">enables retrieval</div>
+            <div class="edge-label" style="left: 122px; top: 328px;">measured by distance</div>
+
+            <div class="node center" style="left: 240px; top: 214px;">
+              <div>Vector Embedding<small>selected term</small></div>
+            </div>
+            <div class="node" style="left: 104px; top: 116px;">Tokens</div>
+            <div class="node" style="left: 436px; top: 124px;">Semantic Search</div>
+            <div class="node" style="left: 430px; top: 328px;">RAG Pipeline</div>
+            <div class="node" style="left: 74px; top: 338px;">Cosine Similarity</div>
+            <div class="node" style="left: 260px; top: 56px;">Latent Space</div>
+          </div>
+
+          <div class="inspector">
+            <div class="inspector-top">
+              <h3>Semantic Search</h3>
+              <div class="strength">relation strength / high</div>
+            </div>
+            <p>
+              Embeddings make semantic search possible by comparing meaning-space proximity
+              instead of exact keyword overlap. This is why related concepts can still be
+              found when phrasing changes.
+            </p>
+          </div>
+        </section>
+      </div>
+
+      <div class="statusbar">
+        <span>Reading mode / term detail</span>
+        <span>Primary navigation / graph</span>
+        <span>Focus state / vector embedding</span>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,6 +1,7 @@
 ---
 name: Olympus
 tagline: Dark navy OKLCH. Acid green key guard. Cormorant Garamond meets Inter.
+preview: index.html
 
 palette:
   - name: Deep Navy

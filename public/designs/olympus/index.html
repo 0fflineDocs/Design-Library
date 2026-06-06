@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Olympus Key Guard</title>
+<meta name="description" content="Olympus Key Guard — dark navy credential and access control interface with acid-green active states." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #151b2e;
+    --surface: #1c2438;
+    --surface-2: #212a41;
+    --line: rgba(240, 237, 232, 0.12);
+    --fg: #f0ede8;
+    --muted: #8a8070;
+    --accent: #b8e832;
+    --danger: #d94a3a;
+    --display: "Cormorant Garamond", Georgia, serif;
+    --ui: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: "JetBrains Mono", monospace;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--ui);
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    background:
+      radial-gradient(900px 500px at 78% 10%, rgba(184,232,50,0.08), transparent 55%),
+      radial-gradient(800px 480px at 10% 100%, rgba(240,237,232,0.04), transparent 60%),
+      var(--bg);
+  }
+  a { color: inherit; text-decoration: none; }
+
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(21,27,46,0.82);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-row {
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .brand-mark {
+    font-family: var(--display);
+    font-size: 29px;
+    font-style: italic;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+  }
+  .nav {
+    display: flex;
+    gap: 18px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .status-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .oracle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 12px;
+    border: 1px solid rgba(184,232,50,0.3);
+    border-radius: 999px;
+    background: rgba(184,232,50,0.05);
+  }
+  .oracle-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--accent);
+    box-shadow: 0 0 12px rgba(184,232,50,0.7);
+  }
+  .oracle-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+  .button {
+    padding: 10px 16px;
+    background: var(--accent);
+    color: #151b2e;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    border-radius: 3px;
+  }
+  .ticker {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--surface);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .ticker-track {
+    display: inline-flex;
+    padding: 10px 0;
+    min-width: max-content;
+    animation: marquee 34s linear infinite;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(240,237,232,0.52);
+  }
+  .ticker-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 20px;
+  }
+  .ticker-item::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: var(--accent);
+    flex: none;
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    border-bottom: 1px solid var(--line);
+    min-height: 82vh;
+  }
+  .hero-copy {
+    padding: 54px 56px 64px;
+    border-right: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    margin-bottom: 26px;
+  }
+  h1 {
+    font-family: var(--display);
+    font-size: clamp(64px, 8vw, 124px);
+    line-height: 0.87;
+    letter-spacing: -0.03em;
+    margin-bottom: 28px;
+    font-weight: 500;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .hero-copy p {
+    max-width: 42ch;
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 34px;
+  }
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .action {
+    border: 1px solid var(--line);
+    padding: 16px 18px;
+    min-width: 180px;
+    transition: border-color 180ms var(--ease), transform 180ms var(--ease);
+  }
+  .action:hover { border-color: rgba(184,232,50,0.45); transform: translateY(-2px); }
+  .action-kicker {
+    display: block;
+    font-family: var(--mono);
+    font-size: 9px;
+    opacity: 0.45;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .action-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .hero-image {
+    position: relative;
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .hero-image img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.9;
+  }
+  .hero-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(21,27,46,0.08), rgba(21,27,46,0.72) 75%, rgba(21,27,46,0.96));
+  }
+  .terminal {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    bottom: 24px;
+    z-index: 1;
+    border: 1px solid var(--line);
+    background: rgba(21,27,46,0.88);
+    backdrop-filter: blur(8px);
+    padding: 14px 16px;
+  }
+  .terminal-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 9px;
+    margin-bottom: 10px;
+  }
+  .terminal-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+  .terminal-lights {
+    display: flex;
+    gap: 5px;
+  }
+  .terminal-lights span {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--accent);
+  }
+  .terminal pre {
+    font-family: var(--mono);
+    font-size: 10px;
+    line-height: 1.65;
+    color: var(--accent);
+    white-space: pre-wrap;
+  }
+
+  .section {
+    padding: 72px 56px;
+  }
+  .section-head {
+    margin-bottom: 34px;
+  }
+  .section-kicker {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: var(--display);
+    font-size: 54px;
+    line-height: 0.95;
+    font-weight: 500;
+  }
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px;
+  }
+  .pillar {
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+  }
+  .pillar-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .pillar-name {
+    font-family: var(--display);
+    font-size: 36px;
+  }
+  .pillar-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .pillar-body {
+    color: var(--muted);
+    line-height: 1.75;
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  .pillar-tag {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: rgba(240,237,232,0.55);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .stats {
+    position: relative;
+    padding: 88px 56px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+    text-align: center;
+  }
+  .stat-value {
+    font-family: var(--display);
+    font-size: 66px;
+    line-height: 1;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+  }
+
+  .footer {
+    padding: 56px;
+    display: flex;
+    justify-content: space-between;
+    gap: 44px;
+  }
+  .footer-brand {
+    max-width: 320px;
+  }
+  .footer-brand h3 {
+    font-family: var(--display);
+    font-size: 42px;
+    font-style: italic;
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+  .footer-brand p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.75;
+  }
+  .footer-columns {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(120px, 1fr));
+    gap: 32px;
+  }
+  .footer-columns h4 {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    margin-bottom: 14px;
+  }
+  .footer-columns ul {
+    list-style: none;
+    display: grid;
+    gap: 9px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @media (max-width: 980px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-copy { border-right: 0; border-bottom: 1px solid var(--line); }
+    .pillars, .stats-grid, .footer-columns { grid-template-columns: 1fr; }
+    .footer { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-row">
+      <div class="brand">
+        <div class="brand-mark">Aegis</div>
+        <nav class="nav">
+          <a href="#pantheon">Intelligence</a>
+          <a href="#pantheon">Infrastructure</a>
+          <a href="#oracle">Oracle</a>
+        </nav>
+      </div>
+      <div class="status-row">
+        <div class="oracle">
+          <span class="oracle-dot"></span>
+          <span class="oracle-label">Oracle: Active</span>
+        </div>
+        <a class="button" href="#oracle">Secure Access</a>
+      </div>
+    </div>
+    <div class="ticker">
+      <div class="ticker-track">
+        <span class="ticker-item">Intercepted: Brute Force at Gate VII (Athens Node) — Mitigation 99.8%</span>
+        <span class="ticker-item">Persistent Watch by Argus-4 across 1,248 sentry nodes</span>
+        <span class="ticker-item">Encryption standard rotated: Promethean v2.1</span>
+        <span class="ticker-item">Hydra-9 signature catalogued — quarantined in Tartarus</span>
+        <span class="ticker-item">Oracle forecast: low risk · 12 minor anomalies absorbed</span>
+        <span class="ticker-item">Intercepted: Brute Force at Gate VII (Athens Node) — Mitigation 99.8%</span>
+        <span class="ticker-item">Persistent Watch by Argus-4 across 1,248 sentry nodes</span>
+        <span class="ticker-item">Encryption standard rotated: Promethean v2.1</span>
+        <span class="ticker-item">Hydra-9 signature catalogued — quarantined in Tartarus</span>
+        <span class="ticker-item">Oracle forecast: low risk · 12 minor anomalies absorbed</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <div class="eyebrow">Protocol v4.0.2 / Active Defense</div>
+      <h1>Ancient Vigilance.<br />Digital <em>Permanence.</em></h1>
+      <p>
+        Aegis marries the unyielding logic of Hellenic strategy with modern predictive
+        neural defense. Olympus Key Guard is the credential citadel: key lifecycle control,
+        access policy, and perimeter telemetry on one mythic navy surface.
+      </p>
+      <div class="hero-actions">
+        <a class="action" href="#oracle">
+          <span class="action-kicker">Protocol</span>
+          <span class="action-title">Request Audit</span>
+        </a>
+        <a class="action" href="#pantheon">
+          <span class="action-kicker">Consult</span>
+          <span class="action-title">The Oracle</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-image">
+      <img src="athena-rack.jpg" alt="Marble bust of Athena threaded with phosphor-green fiber optic cables" />
+      <div class="terminal">
+        <div class="terminal-head">
+          <span class="terminal-label">Kernel Stream // Node_Hades_Secure</span>
+          <div class="terminal-lights"><span></span><span style="opacity:.7"></span><span style="opacity:.45"></span></div>
+        </div>
+        <pre>&gt; initializing aegis_handshake...
+&gt; verified: 0x882a...991c
+&gt; scanning perimeter for lateral movement
+&gt; [ALERT] unrecognized sig detected in V_SUITE
+&gt; mitigation deployed. protocol: MEDUSA</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="pantheon">
+    <div class="section-head">
+      <div class="section-kicker">Architectural Pillars</div>
+      <div class="section-title">The Pantheon of Defense</div>
+    </div>
+
+    <div class="pillars">
+      <article class="pillar">
+        <div class="pillar-top">
+          <div class="pillar-name">Athena</div>
+          <div class="pillar-num">01</div>
+        </div>
+        <p class="pillar-body">Strategic intelligence. The analysis engine predicts intent before execution, turning raw telemetry into command decisions.</p>
+        <div class="pillar-tag">Predictive Analysis / Logic-Lock</div>
+      </article>
+      <article class="pillar">
+        <div class="pillar-top">
+          <div class="pillar-name">Hermes</div>
+          <div class="pillar-num">02</div>
+        </div>
+        <p class="pillar-body">Secure transit at the speed of thought. Encrypted credential movement keeps every node synchronized and shielded.</p>
+        <div class="pillar-tag">Secure Transit / Global Backbone</div>
+      </article>
+      <article class="pillar">
+        <div class="pillar-top">
+          <div class="pillar-name">Argus</div>
+          <div class="pillar-num">03</div>
+        </div>
+        <p class="pillar-body">Total visibility with a thousand eyes on every packet, container, and policy edge. Threat hunting never blinks.</p>
+        <div class="pillar-tag">Total Visibility / Threat Hunting</div>
+      </article>
+    </div>
+  </section>
+
+  <section class="stats" id="oracle">
+    <div class="stats-grid">
+      <div>
+        <div class="stat-value">99.9%</div>
+        <div class="stat-label">Uptime Integrity</div>
+      </div>
+      <div>
+        <div class="stat-value">2ms</div>
+        <div class="stat-label">Response Latency</div>
+      </div>
+      <div>
+        <div class="stat-value">40B</div>
+        <div class="stat-label">Daily Intercepts</div>
+      </div>
+      <div>
+        <div class="stat-value">0</div>
+        <div class="stat-label">Critical Breaches</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-brand">
+      <h3>Aegis</h3>
+      <p>
+        Architecting the future of cyber-defense through the timeless principles of
+        Hellenic strategy. Museum-grade security for the hyper-connected age.
+      </p>
+    </div>
+    <div class="footer-columns">
+      <div>
+        <h4>Protocols</h4>
+        <ul>
+          <li>Medusa-6</li>
+          <li>Oracle Mesh</li>
+          <li>Aegis Sync</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Infrastructure</h4>
+        <ul>
+          <li>Citadel Nodes</li>
+          <li>Key Vault</li>
+          <li>Perimeter Watch</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Status</h4>
+        <ul>
+          <li style="color: var(--accent);">All Gates Secure</li>
+          <li>Last Rotation: 02:14 UTC</li>
+          <li style="color: var(--danger);">1 Low-Severity Anomaly</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
