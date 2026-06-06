@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hermes Labs Design System</title>
+<meta name="description" content="Design system browser for Hermes Labs — colors, typography, components, and UI kits." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --obsidian:  #0a0a0a;
+    --surface:   #131414;
+    --surface-2: #1a1b1b;
+    --surface-3: #232423;
+    --gold:      #d4af37;
+    --gold-soft: #b89230;
+    --gold-glow: rgba(212,175,55,0.15);
+    --ivory:     #f7f4e9;
+    --silver:    #b7bdc6;
+    --silver-dim:#6b6f76;
+    --line:      rgba(212,175,55,0.13);
+    --line-hi:   rgba(212,175,55,0.26);
+    --ease:      cubic-bezier(0.2,0,0,1);
+    --display:   "Cormorant Garamond", Georgia, serif;
+    --ui:        "Manrope", -apple-system, sans-serif;
+    --mono:      "JetBrains Mono", monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    min-height: 100%;
+    background: var(--obsidian);
+    color: var(--ivory);
+    font-family: var(--ui);
+    -webkit-font-smoothing: antialiased;
+    font-weight: 300;
+  }
+  body::before {
+    content: "";
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(ellipse 1200px 700px at 70% -5%, rgba(212,175,55,0.06), transparent 60%),
+      radial-gradient(ellipse 700px 500px at -5% 100%, rgba(212,175,55,0.03), transparent 55%);
+  }
+
+  .shell {
+    position: relative; z-index: 1;
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 48px 100px;
+  }
+
+  /* ── nav ── */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-brand {
+    display: flex; align-items: center; gap: 14px;
+    text-decoration: none; color: inherit;
+  }
+  .nav-mark {
+    width: 32px; height: 32px;
+    border: 1px solid var(--line-hi);
+    background: linear-gradient(160deg, rgba(212,175,55,0.1), transparent);
+    display: grid; place-items: center;
+    font-family: var(--display); font-size: 18px; color: var(--gold);
+  }
+  .nav-title {
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--silver-dim);
+  }
+  .nav-back {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--silver-dim); text-decoration: none;
+    display: flex; align-items: center; gap: 8px;
+    transition: color 200ms;
+  }
+  .nav-back:hover { color: var(--gold); }
+
+  /* ── header ── */
+  header {
+    padding: 60px 0 48px;
+    border-bottom: 1px solid var(--line);
+  }
+  .header-eyebrow {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px;
+  }
+  h1 {
+    font-family: var(--display); font-size: clamp(40px,5.5vw,68px);
+    font-weight: 400; line-height: 0.95;
+    color: var(--ivory); margin-bottom: 16px;
+  }
+  .header-sub {
+    font-size: 14px; color: var(--silver-dim); max-width: 500px; line-height: 1.6;
+  }
+
+  /* ── section head ── */
+  .section-head {
+    display: flex; align-items: center; gap: 20px;
+    padding: 52px 0 24px;
+  }
+  .section-label {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.26em; text-transform: uppercase; color: var(--silver-dim);
+    flex-shrink: 0;
+  }
+  .section-rule { flex: 1; height: 1px; background: var(--line); }
+
+  /* ── grid ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    margin-top: 1px;
+  }
+
+  /* ── card ── */
+  .card {
+    background: var(--obsidian);
+    text-decoration: none; color: inherit;
+    display: flex; flex-direction: column;
+    transition: background 200ms var(--ease);
+    position: relative; overflow: hidden;
+  }
+  .card::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+    background: var(--gold); opacity: 0;
+    transition: opacity 200ms var(--ease);
+  }
+  .card:hover { background: var(--surface-2); }
+  .card:hover::before { opacity: 1; }
+
+  .thumb {
+    width: 100%; aspect-ratio: 16 / 9;
+    overflow: hidden; background: var(--surface);
+    border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: top center;
+    display: block;
+    transition: transform 400ms var(--ease);
+  }
+  .card:hover .thumb img { transform: scale(1.04); }
+  .thumb-placeholder {
+    display: flex; align-items: center; justify-content: center;
+    width: 100%; height: 100%;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--silver-dim);
+  }
+
+  .card-body { padding: 22px 22px 16px; flex: 1; display: flex; flex-direction: column; gap: 7px; }
+  .card-eyebrow {
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-soft);
+  }
+  .card-title {
+    font-family: var(--display); font-size: 20px; font-weight: 400;
+    line-height: 1.15; color: var(--ivory);
+  }
+  .card-desc {
+    font-size: 12.5px; color: var(--silver-dim); line-height: 1.55; flex: 1;
+  }
+
+  .card-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 22px; border-top: 1px solid var(--line);
+    background: rgba(0,0,0,0.2);
+  }
+  .card-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+  .tag {
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--silver-dim); border: 1px solid var(--line); padding: 3px 6px; border-radius: 1px;
+    transition: border-color 200ms, color 200ms;
+  }
+  .card:hover .tag { border-color: var(--line-hi); color: var(--silver); }
+  .arrow { color: var(--silver-dim); font-size: 15px; transition: color 200ms, transform 200ms; }
+  .card:hover .arrow { color: var(--gold); transform: translateX(3px); }
+
+  /* ── screenshots grid ── */
+  .img-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+    margin-top: 4px;
+  }
+  .img-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    text-decoration: none; color: inherit;
+    transition: border-color 200ms;
+  }
+  .img-card:hover { border-color: var(--line-hi); }
+  .img-card img {
+    display: block; width: 100%;
+    transition: transform 300ms var(--ease);
+  }
+  .img-card:hover img { transform: scale(1.03); }
+  .img-card-label {
+    padding: 10px 12px;
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--silver-dim);
+    border-top: 1px solid var(--line);
+  }
+
+  footer {
+    margin-top: 72px; padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  footer p {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--silver-dim); letter-spacing: 0.1em;
+  }
+
+  @media (max-width: 800px) {
+    .shell { padding: 0 20px 80px; }
+    .grid { grid-template-columns: 1fr; }
+    .img-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <nav>
+    <div class="nav-brand">
+      <div class="nav-mark">H</div>
+      <span class="nav-title">Hermes Labs · Design System</span>
+    </div>
+    <a class="nav-back" href="../index.html">← Design Library</a>
+  </nav>
+
+  <header>
+    <p class="header-eyebrow">Design System</p>
+    <h1>Hermes Labs<br/>Design System</h1>
+    <p class="header-sub">Color tokens, typography scale, component specs, and a full dashboard UI kit — all built around an obsidian-and-gold design language.</p>
+  </header>
+
+  <!-- UI Kits -->
+  <div class="section-head">
+    <span class="section-label">01 — Dashboard UI Kit</span>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="grid">
+    <a class="card" href="ui_kits/dashboard/index.html" id="card-dashboard">
+      <div class="thumb">
+        <img src="screenshots/dashboard.png" alt="Dashboard UI Kit" loading="lazy" />
+      </div>
+      <div class="card-body">
+        <span class="card-eyebrow">UI Kit</span>
+        <h2 class="card-title">Agent Operations Dashboard</h2>
+        <p class="card-desc">Full-fidelity dashboard UI — agent cards, cron scheduler, activity log, system health panel, and top navigation. Interactive React components with IBM Plex type.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">React</span><span class="tag">Dashboard</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- Design System Specs -->
+  <div class="section-head">
+    <span class="section-label">02 — Design System Specs</span>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="grid">
+    <a class="card" href="preview/colors-core.html" id="spec-colors-core">
+      <div class="thumb"><div class="thumb-placeholder">Colors — Core</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Color</span>
+        <h2 class="card-title">Core Colors</h2>
+        <p class="card-desc">Primary palette — obsidian backgrounds, surface layers, border tints, and base neutrals.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Tokens</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/colors-accents.html" id="spec-colors-accents">
+      <div class="thumb"><div class="thumb-placeholder">Colors — Accents</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Color</span>
+        <h2 class="card-title">Accent Colors</h2>
+        <p class="card-desc">Gold, copper, moss, and semantic status tints — the emotional layer of the palette.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Tokens</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/colors-text.html" id="spec-colors-text">
+      <div class="thumb"><div class="thumb-placeholder">Colors — Text</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Color</span>
+        <h2 class="card-title">Text Colors</h2>
+        <p class="card-desc">Ivory, silver, and dim-silver — the three-tier text hierarchy used across all surfaces.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Tokens</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/colors-data-viz.html" id="spec-colors-dataviz">
+      <div class="thumb"><div class="thumb-placeholder">Colors — Data Viz</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Color</span>
+        <h2 class="card-title">Data Visualisation</h2>
+        <p class="card-desc">Series colors for charts, graphs, and status indicators — balanced for contrast on dark surfaces.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Data</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/type-scale.html" id="spec-type-scale">
+      <div class="thumb"><div class="thumb-placeholder">Type — Scale</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Typography</span>
+        <h2 class="card-title">Type Scale</h2>
+        <p class="card-desc">The full type scale — display, heading, body, and caption sizes in both serif and sans.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Type</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/type-display.html" id="spec-type-display">
+      <div class="thumb"><div class="thumb-placeholder">Type — Display</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Typography</span>
+        <h2 class="card-title">Display Type</h2>
+        <p class="card-desc">Cormorant Garamond — the display and editorial serif used for hero headings.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Serif</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/type-body.html" id="spec-type-body">
+      <div class="thumb"><div class="thumb-placeholder">Type — Body</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Typography</span>
+        <h2 class="card-title">Body Type</h2>
+        <p class="card-desc">Manrope — the clean sans-serif used for all UI text, body copy, and labels.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Sans</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/type-mono.html" id="spec-type-mono">
+      <div class="thumb"><div class="thumb-placeholder">Type — Mono</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Typography</span>
+        <h2 class="card-title">Mono Type</h2>
+        <p class="card-desc">JetBrains Mono — data values, timestamps, labels, and terminal-style output.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Mono</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/buttons.html" id="spec-buttons">
+      <div class="thumb"><div class="thumb-placeholder">Buttons</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Component</span>
+        <h2 class="card-title">Buttons</h2>
+        <p class="card-desc">Primary, secondary, ghost, and destructive button variants with all interaction states.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Component</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/cards.html" id="spec-cards">
+      <div class="thumb"><div class="thumb-placeholder">Cards</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Component</span>
+        <h2 class="card-title">Cards</h2>
+        <p class="card-desc">Agent cards, data cards, and summary panels — the primary container components.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Component</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/inputs.html" id="spec-inputs">
+      <div class="thumb"><div class="thumb-placeholder">Inputs</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Component</span>
+        <h2 class="card-title">Inputs</h2>
+        <p class="card-desc">Text inputs, selects, and form controls with focus states, validation, and dark-mode styling.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Component</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/badges-labels.html" id="spec-badges">
+      <div class="thumb"><div class="thumb-placeholder">Badges &amp; Labels</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Component</span>
+        <h2 class="card-title">Badges &amp; Labels</h2>
+        <p class="card-desc">Status badges, category labels, and informational chips for tagging and classification.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Component</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/nav.html" id="spec-nav">
+      <div class="thumb"><div class="thumb-placeholder">Navigation</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Component</span>
+        <h2 class="card-title">Navigation</h2>
+        <p class="card-desc">Sidebar navigation, tab bars, and breadcrumb patterns for multi-surface dashboards.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Component</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/spacing-scale.html" id="spec-spacing">
+      <div class="thumb"><div class="thumb-placeholder">Spacing</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Foundation</span>
+        <h2 class="card-title">Spacing Scale</h2>
+        <p class="card-desc">The 8-point spatial scale — padding, gap, and margin values used throughout the system.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Foundation</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/borders-radii.html" id="spec-borders">
+      <div class="thumb"><div class="thumb-placeholder">Borders &amp; Radii</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Foundation</span>
+        <h2 class="card-title">Borders &amp; Radii</h2>
+        <p class="card-desc">Border widths, border-color tokens, and corner radius values — from 0 to pill.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Foundation</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/motion.html" id="spec-motion">
+      <div class="thumb"><div class="thumb-placeholder">Motion</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Foundation</span>
+        <h2 class="card-title">Motion</h2>
+        <p class="card-desc">Easing curves, duration tokens, and animation examples — from hover micro-interactions to page transitions.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Animation</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/brand-mark.html" id="spec-brand-mark">
+      <div class="thumb"><div class="thumb-placeholder">Brand Mark</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Brand</span>
+        <h2 class="card-title">Brand Mark</h2>
+        <p class="card-desc">The Hermes diamond-chevron monogram — usage rules, clear space, and size variants.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Brand</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/brand-wordmark.html" id="spec-brand-wordmark">
+      <div class="thumb"><div class="thumb-placeholder">Wordmark</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Brand</span>
+        <h2 class="card-title">Brand Wordmark</h2>
+        <p class="card-desc">Hermes Labs logotype — typesetting rules, colour variants, and minimum size guidance.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Brand</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- Screenshots -->
+  <div class="section-head">
+    <span class="section-label">03 — Screenshots</span>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="img-grid">
+    <a class="img-card" href="screenshots/dashboard.png" target="_blank" id="sc-dashboard">
+      <img src="screenshots/dashboard.png" alt="Dashboard" loading="lazy" />
+      <div class="img-card-label">Dashboard — Top</div>
+    </a>
+    <a class="img-card" href="screenshots/dashboard-bottom.png" target="_blank" id="sc-dashboard-bottom">
+      <img src="screenshots/dashboard-bottom.png" alt="Dashboard bottom" loading="lazy" />
+      <div class="img-card-label">Dashboard — Bottom</div>
+    </a>
+  </div>
+
+  <footer>
+    <p>Hermes Labs Design System · 18 spec pages · 1 UI kit</p>
+    <span style="font-family:var(--display);font-size:18px;color:var(--gold-soft);">◆</span>
+  </footer>
+
+</div>
+</body>
+</html>
