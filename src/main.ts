@@ -1,8 +1,13 @@
+import { Buffer } from 'buffer'
 import { loadDesigns } from './lib/loader'
 import { createRouter } from './router'
 import './styles/global.css'
 
 async function main(): Promise<void> {
+  if (typeof globalThis.Buffer === 'undefined') {
+    globalThis.Buffer = Buffer
+  }
+
   const designs = await loadDesigns()
   const root = document.getElementById('app')
   if (!root) throw new Error('#app not found')

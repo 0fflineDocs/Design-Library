@@ -2,7 +2,6 @@
 name: Hermes Dashboard
 tagline: Dark blue-grey control surface. IBM Plex. Agent operations interface.
 preview: index.html
-preview: index.html
 
 palette:
   - name: Sidebar

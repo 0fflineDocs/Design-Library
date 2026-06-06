@@ -2,7 +2,6 @@
 name: Domina Voice
 tagline: Near-black with blood red. An AI voice assistant interface.
 preview: index.html
-preview: index.html
 
 palette:
   - name: Void
