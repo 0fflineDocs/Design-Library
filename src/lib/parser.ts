@@ -54,18 +54,28 @@ export function parseDesignMd(raw: string, slug: string): DesignSystem {
     typography.mono = data.typography.mono as TypefaceSpec
   }
 
-  return {
+  const preview = data.preview !== undefined ? String(data.preview) : undefined
+
+  const result: DesignSystem = {
     slug,
     name: String(data.name ?? ''),
     tagline: String(data.tagline ?? ''),
-    preview: data.preview !== undefined ? String(data.preview) : undefined,
     palette: (data.palette ?? []) as PaletteColor[],
     surfaces: (data.surfaces ?? []) as Surface[],
     typography,
     typescale: (data.typescale ?? []) as TypeScaleEntry[],
     spacing: (data.spacing ?? {}) as Record<string, string>,
     rounded: (data.rounded ?? {}) as Record<string, string>,
-    sigils: data.sigils !== undefined ? (data.sigils as Sigil[]) : undefined,
     prose: parseProse(content),
   }
+
+  if (preview !== undefined) {
+    result.preview = preview
+  }
+
+  if (data.sigils !== undefined) {
+    result.sigils = data.sigils as Sigil[]
+  }
+
+  return result
 }
