@@ -6,7 +6,12 @@ import type {
 } from './types'
 
 function renderMd(md: string): string {
-  return marked.parse(md, { async: false }) as string
+  const result = marked.parse(md)
+  if (typeof result !== 'string') {
+    // marked v12 returns string synchronously when no async hooks registered
+    return String(result)
+  }
+  return result
 }
 
 function parseProse(body: string): DesignSystem['prose'] {
