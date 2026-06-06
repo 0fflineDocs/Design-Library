@@ -11,12 +11,15 @@ export function createRouter(
     root.innerHTML = ''
 
     if (!hash) {
+      document.title = 'Design Library'
       root.appendChild(renderGallery(designs))
     } else {
       const design = designs.find(d => d.slug === hash)
       if (design) {
+        document.title = `${design.name} — Design Library`
         root.appendChild(renderDetail(design))
       } else {
+        document.title = 'Design Library'
         root.innerHTML = `<p style="padding:40px;color:#666;">Design "${hash}" not found.</p>`
       }
     }

@@ -48,6 +48,7 @@ export interface DesignSystem {
   slug: string
   name: string
   tagline: string
+  raw: string
   preview?: string
   palette: PaletteColor[]
   surfaces: Surface[]

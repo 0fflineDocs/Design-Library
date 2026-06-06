@@ -68,10 +68,7 @@ function renderTopbar(design: DesignSystem): HTMLElement {
     }
   })
   copyBtn.addEventListener('click', () => {
-    const modules = import.meta.glob('/designs/*/DESIGN.md', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>
-    const key = `/designs/${design.slug}/DESIGN.md`
-    const raw = modules[key] ?? ''
-    navigator.clipboard.writeText(raw).then(() => {
+    navigator.clipboard.writeText(design.raw).then(() => {
       copyBtn.textContent = 'Copied!'
       copyBtn.style.background = 'rgba(100,180,100,0.1)'
       copyBtn.style.color = '#6abf6a'
@@ -217,22 +214,69 @@ function renderSurfaces(design: DesignSystem): HTMLElement {
   return row
 }
 
+type TypographyKey = 'display' | 'ui' | 'mono'
+
+const TYPEFACE_STYLES: Record<TypographyKey, {
+  fontVar: string
+  aaColor: string
+  aaWeight: string
+  aaLetterSpacing: string
+  sentenceFontSize: string
+  sentenceLineHeight: string
+  sentenceLetterSpacing?: string
+  sentenceFontWeight: string
+  sentence: string
+}> = {
+  display: {
+    fontVar: 'var(--font-display)',
+    aaColor: 'var(--lib-accent)',
+    aaWeight: '400',
+    aaLetterSpacing: '0.03em',
+    sentenceFontSize: '1.05rem',
+    sentenceLineHeight: '1.45',
+    sentenceLetterSpacing: '0.03em',
+    sentenceFontWeight: '400',
+    sentence: 'Intelligence meets elegance. Precision in every letter.',
+  },
+  ui: {
+    fontVar: 'var(--font-ui)',
+    aaColor: 'var(--lib-fg-muted)',
+    aaWeight: '300',
+    aaLetterSpacing: '-0.02em',
+    sentenceFontSize: '14px',
+    sentenceLineHeight: '1.7',
+    sentenceFontWeight: '300',
+    sentence: 'For the working interface. Body copy and labels live here.',
+  },
+  mono: {
+    fontVar: 'var(--font-mono)',
+    aaColor: 'var(--lib-fg-faint)',
+    aaWeight: '400',
+    aaLetterSpacing: '0',
+    sentenceFontSize: '13px',
+    sentenceLineHeight: '1.7',
+    sentenceFontWeight: '400',
+    sentence: 'const x = "mono"; // technical data',
+  },
+}
+
 function renderTypography(design: DesignSystem): HTMLElement {
-  const specs = ([design.typography.display, design.typography.ui] as const).filter(
-    (s): s is NonNullable<typeof s> => s !== undefined
-  )
+  const entries = (['display', 'ui', 'mono'] as TypographyKey[])
+    .filter((key) => design.typography[key] !== undefined)
+    .map((key) => ({ key, spec: design.typography[key]! }))
+
   const grid = el('div', {
     style: {
       display: 'grid',
-      gridTemplateColumns: `repeat(${specs.length}, 1fr)`,
+      gridTemplateColumns: `repeat(${entries.length}, 1fr)`,
       gap: '1px',
       background: 'rgba(212,175,55,0.1)',
       border: HAIR,
     },
   })
 
-  for (const spec of specs) {
-    const isDisplay = spec === design.typography.display
+  for (const { key, spec } of entries) {
+    const s = TYPEFACE_STYLES[key]
     const card = el('div', {
       style: { background: '#0a0a0a', padding: '28px', display: 'flex', flexDirection: 'column' },
     })
@@ -241,28 +285,26 @@ function renderTypography(design: DesignSystem): HTMLElement {
     }, spec.label))
     card.appendChild(el('div', {
       style: {
-        fontFamily: isDisplay ? 'var(--font-display)' : 'var(--font-ui)',
+        fontFamily: s.fontVar,
         fontSize: '96px',
         lineHeight: '0.9',
-        color: isDisplay ? 'var(--lib-accent)' : 'var(--lib-fg-muted)',
-        fontWeight: isDisplay ? '400' : '300',
-        letterSpacing: isDisplay ? '0.03em' : '-0.02em',
+        color: s.aaColor,
+        fontWeight: s.aaWeight,
+        letterSpacing: s.aaLetterSpacing,
       },
     }, 'Aa'))
     const sentence = el('div', {
       style: {
         marginTop: '20px',
-        fontFamily: isDisplay ? 'var(--font-display)' : 'var(--font-ui)',
-        fontSize: isDisplay ? '1.05rem' : '14px',
+        fontFamily: s.fontVar,
+        fontSize: s.sentenceFontSize,
         color: 'var(--lib-fg)',
-        lineHeight: isDisplay ? '1.45' : '1.7',
-        ...(isDisplay ? { letterSpacing: '0.03em' } : {}),
-        fontWeight: isDisplay ? '400' : '300',
+        lineHeight: s.sentenceLineHeight,
+        ...(s.sentenceLetterSpacing ? { letterSpacing: s.sentenceLetterSpacing } : {}),
+        fontWeight: s.sentenceFontWeight,
         flex: '1',
       },
-    }, isDisplay
-      ? 'Intelligence meets elegance. Precision in every letter.'
-      : 'For the working interface. Body copy and labels live here.')
+    }, s.sentence)
     card.appendChild(sentence)
     const weights = el('div', {
       style: { marginTop: '20px', paddingTop: '14px', borderTop: HAIR, display: 'flex', flexWrap: 'wrap', gap: '16px' },

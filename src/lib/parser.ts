@@ -60,6 +60,7 @@ export function parseDesignMd(raw: string, slug: string): DesignSystem {
     slug,
     name: String(data.name ?? ''),
     tagline: String(data.tagline ?? ''),
+    raw,
     palette: (data.palette ?? []) as PaletteColor[],
     surfaces: (data.surfaces ?? []) as Surface[],
     typography,

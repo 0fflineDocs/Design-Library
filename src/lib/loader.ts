@@ -12,6 +12,8 @@ export async function loadDesigns(): Promise<DesignSystem[]> {
   return Object.entries(modules).map(([path, raw]) => {
     // Extract slug from path: '/designs/hermes-labs/DESIGN.md' → 'hermes-labs'
     const slug = path.split('/')[2]
-    return parseDesignMd(raw, slug)
+    const design = parseDesignMd(raw, slug)
+    design.raw = raw
+    return design
   }).sort((a, b) => a.name.localeCompare(b.name))
 }
