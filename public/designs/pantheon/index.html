@@ -1,0 +1,1124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pantheon — A Scholar's Reference to the Greek Gods</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,700;1,400;1,500&family=Spectral+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.4/purify.min.js" integrity="sha512-L1AuUtTQ0EoZAvJLFqCRkUOW0IJ1ou4K/y3PJu9Tb2nyO+OYFsLeMfBygQCuAwMjhQxGqcQX5JXh0HJ8Q++Otw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body data-tone="warm" data-accent="gold">
+
+<!-- ============================================================
+     SVG SYMBOL LIBRARY — Greek key, laurel, ornaments, illustrations
+     ============================================================ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Greek key meander border (single tile) -->
+    <symbol id="meander" viewBox="0 0 60 24">
+      <path d="M0 4 L18 4 L18 16 L6 16 L6 10 L12 10 L12 12 L8 12 L8 14 L16 14 L16 6 L0 6 Z
+               M22 4 L40 4 L40 16 L28 16 L28 10 L34 10 L34 12 L30 12 L30 14 L38 14 L38 6 L22 6 Z
+               M44 4 L62 4 L62 16 L50 16 L50 10 L56 10 L56 12 L52 12 L52 14 L60 14 L60 6 L44 6 Z"
+            fill="currentColor" fill-rule="evenodd"/>
+    </symbol>
+
+    <!-- Lozenge ornament -->
+    <symbol id="lozenge" viewBox="0 0 24 24">
+      <path d="M12 2 L22 12 L12 22 L2 12 Z" fill="none" stroke="currentColor" stroke-width="1"/>
+      <circle cx="12" cy="12" r="1.4" fill="currentColor"/>
+    </symbol>
+
+    <!-- Laurel branch left -->
+    <symbol id="laurel-l" viewBox="0 0 64 24">
+      <path d="M62 12 L20 12" stroke="currentColor" stroke-width="0.75" fill="none"/>
+      <g fill="currentColor">
+        <ellipse cx="52" cy="9" rx="4" ry="1.6" transform="rotate(-20 52 9)"/>
+        <ellipse cx="44" cy="9" rx="4" ry="1.6" transform="rotate(-20 44 9)"/>
+        <ellipse cx="36" cy="9" rx="4" ry="1.6" transform="rotate(-20 36 9)"/>
+        <ellipse cx="28" cy="9" rx="4" ry="1.6" transform="rotate(-20 28 9)"/>
+        <ellipse cx="52" cy="15" rx="4" ry="1.6" transform="rotate(20 52 15)"/>
+        <ellipse cx="44" cy="15" rx="4" ry="1.6" transform="rotate(20 44 15)"/>
+        <ellipse cx="36" cy="15" rx="4" ry="1.6" transform="rotate(20 36 15)"/>
+        <ellipse cx="28" cy="15" rx="4" ry="1.6" transform="rotate(20 28 15)"/>
+      </g>
+    </symbol>
+    <symbol id="laurel-r" viewBox="0 0 64 24">
+      <use href="#laurel-l" transform="translate(64 0) scale(-1 1)"/>
+    </symbol>
+
+    <!-- Center asterism -->
+    <symbol id="asterism" viewBox="0 0 36 12">
+      <circle cx="6" cy="6" r="1.2" fill="currentColor"/>
+      <path d="M14 6 L22 6" stroke="currentColor" stroke-width="0.8"/>
+      <path d="M18 2 L18 10" stroke="currentColor" stroke-width="0.8"/>
+      <circle cx="30" cy="6" r="1.2" fill="currentColor"/>
+    </symbol>
+
+    <!-- ICONS — classical line-art for Olympians + Bestiary -->
+    <symbol id="ic-thunderbolt" viewBox="0 0 48 48"><path d="M24 4 L14 26 L22 26 L18 44 L34 22 L26 22 L30 4 Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></symbol>
+    <symbol id="ic-peacock" viewBox="0 0 48 48"><circle cx="24" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M24 16 Q14 26 14 38 Q24 42 34 38 Q34 26 24 16 Z" fill="none" stroke="currentColor" stroke-width="1.2"/><circle cx="20" cy="28" r="1.5" fill="currentColor"/><circle cx="28" cy="28" r="1.5" fill="currentColor"/><circle cx="24" cy="34" r="1.5" fill="currentColor"/></symbol>
+    <symbol id="ic-trident" viewBox="0 0 48 48"><path d="M10 8 L10 16 Q10 24 24 24 Q38 24 38 16 L38 8 M24 8 L24 24 M24 24 L24 44 M18 40 L30 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></symbol>
+    <symbol id="ic-wheat" viewBox="0 0 48 48"><path d="M24 6 L24 42" stroke="currentColor" stroke-width="1.2"/><g fill="none" stroke="currentColor" stroke-width="1.1"><path d="M24 12 Q16 14 18 22 Q22 20 24 18"/><path d="M24 12 Q32 14 30 22 Q26 20 24 18"/><path d="M24 22 Q16 24 18 32 Q22 30 24 28"/><path d="M24 22 Q32 24 30 32 Q26 30 24 28"/><path d="M24 32 Q16 34 18 42 Q22 40 24 38"/><path d="M24 32 Q32 34 30 42 Q26 40 24 38"/></g></symbol>
+    <symbol id="ic-owl" viewBox="0 0 48 48"><circle cx="24" cy="22" r="14" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="18" cy="20" r="4" fill="none" stroke="currentColor" stroke-width="1.2"/><circle cx="30" cy="20" r="4" fill="none" stroke="currentColor" stroke-width="1.2"/><circle cx="18" cy="20" r="1.2" fill="currentColor"/><circle cx="30" cy="20" r="1.2" fill="currentColor"/><path d="M22 26 L24 28 L26 26" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M14 12 L18 16 M34 12 L30 16" stroke="currentColor" stroke-width="1.2"/></symbol>
+    <symbol id="ic-lyre" viewBox="0 0 48 48"><path d="M14 6 Q10 14 12 28 M34 6 Q38 14 36 28 M14 6 L34 6 M12 28 Q16 32 24 32 Q32 32 36 28" fill="none" stroke="currentColor" stroke-width="1.3"/><g stroke="currentColor" stroke-width="0.9"><line x1="18" y1="10" x2="18" y2="30"/><line x1="22" y1="10" x2="22" y2="31"/><line x1="26" y1="10" x2="26" y2="31"/><line x1="30" y1="10" x2="30" y2="30"/></g><path d="M24 32 L24 42 M20 42 L28 42" stroke="currentColor" stroke-width="1.2"/></symbol>
+    <symbol id="ic-bow" viewBox="0 0 48 48"><path d="M10 6 Q42 24 10 42" fill="none" stroke="currentColor" stroke-width="1.4"/><line x1="10" y1="6" x2="10" y2="42" stroke="currentColor" stroke-width="0.9"/><path d="M10 24 L36 24 M32 22 L36 24 L32 26" fill="none" stroke="currentColor" stroke-width="1.2"/></symbol>
+    <symbol id="ic-spear" viewBox="0 0 48 48"><path d="M24 4 L18 14 L24 12 L30 14 Z" fill="none" stroke="currentColor" stroke-width="1.3"/><line x1="24" y1="14" x2="24" y2="44" stroke="currentColor" stroke-width="1.4"/><circle cx="24" cy="8" r="0.8" fill="currentColor"/></symbol>
+    <symbol id="ic-dove" viewBox="0 0 48 48"><path d="M10 28 Q14 18 26 18 Q34 18 36 22 L42 18 L40 26 L36 26 Q36 36 26 36 Q14 36 10 28 Z" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="32" cy="22" r="0.9" fill="currentColor"/></symbol>
+    <symbol id="ic-anvil" viewBox="0 0 48 48"><path d="M8 14 L40 14 L36 20 L30 20 L30 26 L38 26 L38 32 L10 32 L10 26 L18 26 L18 20 L12 20 Z" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M14 32 L14 42 L34 42 L34 32" fill="none" stroke="currentColor" stroke-width="1.1"/></symbol>
+    <symbol id="ic-caduceus" viewBox="0 0 48 48"><line x1="24" y1="6" x2="24" y2="42" stroke="currentColor" stroke-width="1.4"/><path d="M18 8 Q24 14 30 8 M18 10 Q14 18 24 22 Q34 26 30 34 M30 10 Q34 18 24 22 Q14 26 18 34" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M16 8 L24 4 L32 8" fill="none" stroke="currentColor" stroke-width="1.2"/></symbol>
+    <symbol id="ic-thyrsus" viewBox="0 0 48 48"><line x1="24" y1="10" x2="24" y2="42" stroke="currentColor" stroke-width="1.3"/><g fill="none" stroke="currentColor" stroke-width="1.1"><circle cx="24" cy="10" r="5"/><path d="M20 6 Q24 2 28 6"/><path d="M18 10 L14 8 M30 10 L34 8 M20 14 Q22 18 24 14 Q26 18 28 14"/></g><circle cx="22" cy="9" r="0.8" fill="currentColor"/><circle cx="26" cy="11" r="0.8" fill="currentColor"/></symbol>
+
+    <!-- Bestiary silhouettes — line, classical -->
+    <symbol id="bs-pegasus" viewBox="0 0 48 48"><path d="M6 32 Q10 22 18 22 L26 22 Q30 18 36 18 L42 14 L40 22 L42 26 L36 28 Q34 34 28 34 L22 34 Q18 38 14 36 L10 40 L8 36 Q4 36 6 32 Z" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M22 16 Q24 8 30 6 Q28 14 22 22" fill="none" stroke="currentColor" stroke-width="1"/><circle cx="38" cy="18" r="0.8" fill="currentColor"/></symbol>
+    <symbol id="bs-minotaur" viewBox="0 0 48 48"><path d="M18 4 Q24 0 30 4 L34 8 Q40 8 38 14 L34 14 L34 18 Q34 24 24 26 Q14 24 14 18 L14 14 L10 14 Q8 8 14 8 Z" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M24 26 L24 36 L20 44 M24 36 L28 44 M20 30 L16 36 M28 30 L32 36" fill="none" stroke="currentColor" stroke-width="1.1"/></symbol>
+    <symbol id="bs-hydra" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="1.2"><path d="M24 38 Q12 38 12 26 Q12 18 18 14 Q14 8 18 6 Q22 10 22 14"/><path d="M24 38 Q36 38 36 26 Q36 18 30 14 Q34 8 30 6 Q26 10 26 14"/><path d="M24 38 Q24 30 24 18 Q24 12 28 8"/><path d="M22 38 L20 44 M26 38 L28 44"/></g></symbol>
+    <symbol id="bs-chimera" viewBox="0 0 48 48"><path d="M6 30 Q10 22 18 22 L26 22 L32 20 Q38 18 40 24 L40 30 L36 32 Q34 36 28 34 L20 34 L12 36 Q6 36 6 30 Z" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M32 20 Q34 12 30 8 Q28 14 30 20" fill="none" stroke="currentColor" stroke-width="1"/><path d="M40 28 Q44 32 40 36" fill="none" stroke="currentColor" stroke-width="1"/><circle cx="34" cy="24" r="0.8" fill="currentColor"/></symbol>
+    <symbol id="bs-cerberus" viewBox="0 0 48 48"><path d="M8 32 Q8 22 16 22 L24 22 L32 22 Q40 22 40 32 L36 36 L12 36 Z" fill="none" stroke="currentColor" stroke-width="1.2"/><g fill="none" stroke="currentColor" stroke-width="1.1"><path d="M14 22 Q12 14 16 12 Q18 18 18 22"/><path d="M24 22 Q22 12 24 8 Q26 12 24 22"/><path d="M34 22 Q36 14 32 12 Q30 18 30 22"/></g><circle cx="16" cy="18" r="0.6" fill="currentColor"/><circle cx="24" cy="14" r="0.6" fill="currentColor"/><circle cx="32" cy="18" r="0.6" fill="currentColor"/></symbol>
+    <symbol id="bs-sphinx" viewBox="0 0 48 48"><path d="M8 34 Q8 24 16 24 L34 24 Q40 24 40 32 L36 38 L12 38 Z" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M16 24 Q14 14 20 10 Q26 8 30 12 Q30 20 28 24" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M18 18 L22 18 M24 18 L26 18 M22 22 L24 22" stroke="currentColor" stroke-width="1"/><path d="M34 24 Q40 18 42 24" fill="none" stroke="currentColor" stroke-width="1"/></symbol>
+    <symbol id="bs-medusa" viewBox="0 0 48 48"><circle cx="24" cy="24" r="10" fill="none" stroke="currentColor" stroke-width="1.2"/><g fill="none" stroke="currentColor" stroke-width="1"><path d="M14 14 Q8 8 10 4 Q14 8 18 12"/><path d="M24 12 Q22 4 26 2 Q28 6 28 12"/><path d="M34 14 Q40 8 38 4 Q34 8 30 12"/><path d="M38 24 Q44 24 46 28 Q40 28 36 28"/><path d="M10 24 Q4 24 2 28 Q8 28 12 28"/></g><circle cx="20" cy="22" r="1" fill="currentColor"/><circle cx="28" cy="22" r="1" fill="currentColor"/><path d="M20 28 Q24 30 28 28" fill="none" stroke="currentColor" stroke-width="1"/></symbol>
+    <symbol id="bs-cyclops" viewBox="0 0 48 48"><path d="M14 8 Q24 4 34 8 L36 18 Q36 30 28 32 L28 42 L20 42 L20 32 Q12 30 12 18 Z" fill="none" stroke="currentColor" stroke-width="1.2"/><circle cx="24" cy="18" r="4" fill="none" stroke="currentColor" stroke-width="1.2"/><circle cx="24" cy="18" r="1.4" fill="currentColor"/><path d="M20 26 Q24 28 28 26" fill="none" stroke="currentColor" stroke-width="1"/></symbol>
+    <symbol id="bs-centaur" viewBox="0 0 48 48"><path d="M8 32 Q8 24 14 22 L26 22 Q32 20 32 14 L32 8 L36 6" fill="none" stroke="currentColor" stroke-width="1.2"/><circle cx="34" cy="6" r="2.5" fill="none" stroke="currentColor" stroke-width="1.1"/><path d="M14 22 L14 40 M22 22 L22 40 M26 22 L26 38 M8 32 L4 40" fill="none" stroke="currentColor" stroke-width="1.1"/><path d="M34 10 L42 14" fill="none" stroke="currentColor" stroke-width="1"/></symbol>
+    <symbol id="bs-harpy" viewBox="0 0 48 48"><circle cx="24" cy="14" r="6" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M22 20 L20 32 L24 38 L28 32 L26 20" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M20 24 Q8 22 4 30 Q12 30 22 32 M28 24 Q40 22 44 30 Q36 30 26 32" fill="none" stroke="currentColor" stroke-width="1.1"/><path d="M22 38 L20 44 M26 38 L28 44" fill="none" stroke="currentColor" stroke-width="1.1"/></symbol>
+    <symbol id="bs-typhon" viewBox="0 0 48 48"><path d="M24 6 Q14 6 14 18 Q14 26 24 28 Q34 26 34 18 Q34 6 24 6 Z" fill="none" stroke="currentColor" stroke-width="1.2"/><g fill="none" stroke="currentColor" stroke-width="1.1"><path d="M20 28 Q14 34 14 42"/><path d="M24 28 Q24 36 24 44"/><path d="M28 28 Q34 34 34 42"/><path d="M16 28 Q8 32 6 42"/><path d="M32 28 Q40 32 42 42"/></g><circle cx="20" cy="16" r="0.8" fill="currentColor"/><circle cx="28" cy="16" r="0.8" fill="currentColor"/></symbol>
+    <symbol id="bs-echidna" viewBox="0 0 48 48"><circle cx="24" cy="14" r="6" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M22 20 Q14 24 14 32 Q14 38 20 40" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M26 20 Q34 24 36 32 Q38 40 32 42" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M14 32 Q6 34 4 42 M36 32 Q44 34 46 42" fill="none" stroke="currentColor" stroke-width="1"/><circle cx="22" cy="13" r="0.7" fill="currentColor"/><circle cx="26" cy="13" r="0.7" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<!-- Meander divider helper template -->
+<template id="t-meander">
+  <div class="meander" aria-hidden="true">
+    <svg viewBox="0 0 1200 28" preserveAspectRatio="none">
+      <g>
+        <use href="#laurel-l" x="0" y="2" width="120" height="24"/>
+        <use href="#asterism" x="540" y="8" width="120" height="12"/>
+        <use href="#laurel-r" x="1080" y="2" width="120" height="24"/>
+      </g>
+      <line x1="130" y1="14" x2="540" y2="14" stroke="currentColor" stroke-width="0.5"/>
+      <line x1="660" y1="14" x2="1070" y2="14" stroke="currentColor" stroke-width="0.5"/>
+    </svg>
+  </div>
+</template>
+
+<div class="app">
+  <!-- ============================== SIDEBAR ============================== -->
+  <aside class="sidebar" aria-label="Pantheon navigation">
+    <div class="brand">
+      <h2 class="brand-mark">ΠΑΝΘΕΩΝ</h2>
+      <div class="brand-sub">Volume I · Gods &amp; Concepts</div>
+      <div class="brand-rule"></div>
+    </div>
+
+    <div class="nav-section-label">Contents</div>
+    <ul class="nav" id="nav">
+      <li><a href="#pantheon"        data-target="pantheon"><span class="num">i.</span><span class="dot"></span>Foreword</a></li>
+      <li><a href="#primordials"     data-target="primordials"><span class="num">i.</span><span class="dot"></span>Primordial Gods</a></li>
+      <li><a href="#titans"          data-target="titans"><span class="num">ii.</span><span class="dot"></span>The Titans</a></li>
+      <li><a href="#olympians"       data-target="olympians"><span class="num">iii.</span><span class="dot"></span>The Olympians</a></li>
+      <li><a href="#personifications" data-target="personifications"><span class="num">iv.</span><span class="dot"></span>Personifications</a></li>
+      <li><a href="#bestiary"        data-target="bestiary"><span class="num">v.</span><span class="dot"></span>Bestiary</a></li>
+    </ul>
+
+    <div class="nav-section-label" style="margin-top:8px">Apparatus</div>
+    <ul class="nav">
+      <li><a href="#endplate"><span class="num">vi.</span><span class="dot"></span>Colophon</a></li>
+    </ul>
+
+    <div class="colophon">
+      <strong>Editio Tertia</strong>
+      A reference compiled from Hesiod's <em>Theogony</em>, the <em>Homeric Hymns</em>, Apollodorus, Pausanias, and the Orphic fragments. <span style="white-space:nowrap;">— Athens, MCMXXI.</span>
+    </div>
+  </aside>
+
+  <!-- ============================== MAIN ============================== -->
+  <main class="main" id="main">
+
+    <!-- ===== MASTHEAD ===== -->
+    <header class="masthead" id="pantheon">
+      <div class="ornament" aria-hidden="true">
+        <svg width="80" height="20"><use href="#laurel-l" width="80" height="20"/></svg>
+        <svg width="20" height="20"><use href="#lozenge" width="20" height="20"/></svg>
+        <svg width="80" height="20"><use href="#laurel-r" width="80" height="20"/></svg>
+      </div>
+      <div class="rule-double"></div>
+      <h1>ΠΑΝΘΕΩΝ</h1>
+      <div class="subtitle">The Greek Pantheon — Gods, Concepts &amp; Creatures</div>
+      <div class="rule-double bottom"></div>
+      <div class="edition">
+        <span>Compendious Reference</span><span class="sep">·</span>
+        <span>Sixty-Two Entries</span><span class="sep">·</span>
+        <span>Five Tiers of Divinity</span>
+      </div>
+    </header>
+
+    <!-- ===== FOREWORD ===== -->
+    <div class="foreword">
+      <p class="dropcap">The Greeks did not invent a religion so much as inherit a quarrel — between an older order of cosmic powers and a younger family of bright, willful gods who deposed them. What follows is a compendium of that quarrel and of its long aftermath: the lineages, the offices, and the strange middle-creatures bred at its margins. Each entry collects the figure's <span class="smallcaps">domain</span>, customary symbols, mythic kinships, and a brief description suitable for ready consultation.</p>
+      <p>The arrangement proceeds by age and stature, from the first Primordials born of Chaos, through the deposed Titans, to the twelve Olympians enthroned upon Mount Olympus, and at last to the lesser personifications and creatures of the bestiary. The reader is invited to wander as the eye is led.</p>
+    </div>
+
+    <!-- ===== TOOLBAR ===== -->
+    <div class="toolbar" role="search">
+      <div class="tb-label">Find</div>
+      <input id="filter" type="text" placeholder="Search by name, Roman equivalent, domain, or symbol…" aria-label="Filter entries"/>
+      <span class="kbd">/</span>
+      <div class="count"><strong id="count">62</strong> of <strong>62</strong> entries</div>
+    </div>
+
+    <!-- ============================== PRIMORDIALS ============================== -->
+    <section class="section" id="primordials" data-screen-label="01 Primordials">
+      <div class="section-head">
+        <div class="side-rule left"></div>
+        <div class="section-head-inner">
+          <div class="ornament"><svg width="48" height="14"><use href="#laurel-l" width="48" height="14"/></svg><svg width="14" height="14"><use href="#lozenge" width="14" height="14"/></svg><svg width="48" height="14"><use href="#laurel-r" width="48" height="14"/></svg></div>
+          <span class="number">Book I · Eight Entries</span>
+          <h2>Primordials</h2>
+          <div class="h2-en">The first powers, born of Chaos before the world was named</div>
+        </div>
+        <div class="side-rule right"></div>
+      </div>
+
+      <div class="section-intro">
+        <p class="dropcap">Before the order of the gods, before there was earth on which to set a temple or sky above to set a star, there was Chaos — a yawning, unshaped breach. From it the Primordials issued: not by birth, exactly, but by emergence, as fog rises out of marshland. They are less persons than principles. The world below was written in their hands before any other hand was raised against them.</p>
+      </div>
+
+      <div class="grid-primordials" data-grid>
+        <article class="deity" data-entry="chaos">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Primordial · Origin</div>
+          <h3 class="deity-name"><span class="gk">Χάος</span> · Chaos</h3>
+          <div class="deity-roman">— no Roman equivalent —</div>
+          <div class="deity-domain">the yawning void from which all came</div>
+          <p class="deity-desc">The first of all that exists, neither matter nor absence but the gap in which becoming is possible. From Chaos issued Gaia, Tartarus, Eros, Erebus, and Nyx without union.</p>
+          <div class="deity-symbols"><span class="label">Signs</span><span class="item">the abyss</span><span class="item">the open mouth</span><span class="item">unmeasured space</span></div>
+        </article>
+
+        <article class="deity" data-entry="gaia">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Primordial · Earth</div>
+          <h3 class="deity-name"><span class="gk">Γαῖα</span> · Gaia</h3>
+          <div class="deity-roman">Terra · Tellus Mater</div>
+          <div class="deity-domain">the broad-bosomed earth, mother of all</div>
+          <p class="deity-desc">Gaia bore Ouranos to cover her, the Mountains, and the Sea Pontus. From her union with Ouranos came the Titans, the Cyclopes, and the Hundred-handed.</p>
+          <div class="deity-symbols"><span class="label">Signs</span><span class="item">the soil</span><span class="item">grain</span><span class="item">the cornucopia</span><span class="item">the serpent</span></div>
+        </article>
+
+        <article class="deity" data-entry="ouranos">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Primordial · Sky</div>
+          <h3 class="deity-name"><span class="gk">Οὐρανός</span> · Ouranos</h3>
+          <div class="deity-roman">Caelus · Uranus</div>
+          <div class="deity-domain">the starry sky, husband to Earth</div>
+          <p class="deity-desc">Bred by Gaia to be her equal in extent, he lay upon her and fathered the Titans. Castrated by Cronus with a sickle of adamant; from his blood sprang the Furies, Giants, and Meliae.</p>
+          <div class="deity-symbols"><span class="label">Signs</span><span class="item">stars</span><span class="item">the night sky</span><span class="item">the sickle</span></div>
+        </article>
+
+        <article class="deity" data-entry="chronos">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Primordial · Time</div>
+          <h3 class="deity-name"><span class="gk">Χρόνος</span> · Chronos</h3>
+          <div class="deity-roman">Aevum · Tempus</div>
+          <div class="deity-domain">unageing time, the river that erodes</div>
+          <p class="deity-desc">In Orphic cosmogony, Chronos arose self-formed and from a great egg produced Phanes, who first brought light. Distinct from the Titan Cronus, though long confused with him.</p>
+          <div class="deity-symbols"><span class="label">Signs</span><span class="item">the serpent eating its tail</span><span class="item">the hourglass</span><span class="item">the wheel of ages</span></div>
+        </article>
+
+        <article class="deity" data-entry="eros">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Primordial · Desire</div>
+          <h3 class="deity-name"><span class="gk">Ἔρως</span> · Eros</h3>
+          <div class="deity-roman">Cupido · Amor</div>
+          <div class="deity-domain">the elemental power of generative love</div>
+          <p class="deity-desc">In Hesiod the fourth of the firstborn, the principle that draws all things together. The later, mischievous son of Aphrodite is a softened reflection of this older, world-shaping force.</p>
+          <div class="deity-symbols"><span class="label">Signs</span><span class="item">arrows</span><span class="item">the torch</span><span class="item">a pair of wings</span></div>
+        </article>
+
+        <article class="deity" data-entry="nyx">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Primordial · Night</div>
+          <h3 class="deity-name"><span class="gk">Νύξ</span> · Nyx</h3>
+          <div class="deity-roman">Nox</div>
+          <div class="deity-domain">night itself, dread to gods and men</div>
+          <p class="deity-desc">So old and so dark that Zeus alone among the gods feared to anger her. Mother by parthenogenesis of Sleep, Death, Strife, Doom, and the Fates.</p>
+          <div class="deity-symbols"><span class="label">Signs</span><span class="item">the dark veil</span><span class="item">the owl</span><span class="item">poppies</span></div>
+        </article>
+
+        <article class="deity" data-entry="erebus">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Primordial · Darkness</div>
+          <h3 class="deity-name"><span class="gk">Ἔρεβος</span> · Erebus</h3>
+          <div class="deity-roman">Scotus</div>
+          <div class="deity-domain">the deep darkness, the shaded road below</div>
+          <p class="deity-desc">Twin and consort of Nyx, the dark that lies between the earth's surface and the realm of the dead. Souls cross his shade as they descend.</p>
+          <div class="deity-symbols"><span class="label">Signs</span><span class="item">the lower mist</span><span class="item">the cypress</span><span class="item">the unlit lamp</span></div>
+        </article>
+
+        <article class="deity" data-entry="tartarus">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Primordial · Abyss</div>
+          <h3 class="deity-name"><span class="gk">Τάρταρος</span> · Tartarus</h3>
+          <div class="deity-roman">Tartarus</div>
+          <div class="deity-domain">the pit below the underworld; place of punishment</div>
+          <p class="deity-desc">As far beneath Hades as the earth is below the sky. Prison of the deposed Titans and, by Echidna, sire of the monstrous brood — Typhon, Cerberus, the Hydra.</p>
+          <div class="deity-symbols"><span class="label">Signs</span><span class="item">brazen gates</span><span class="item">the bottomless shaft</span><span class="item">eternal night</span></div>
+        </article>
+      </div>
+    </section>
+
+    <div class="meander" aria-hidden="true">
+      <svg viewBox="0 0 1200 28" preserveAspectRatio="none">
+        <use href="#laurel-l" x="0" y="2" width="120" height="24"/>
+        <use href="#asterism" x="540" y="8" width="120" height="12"/>
+        <use href="#laurel-r" x="1080" y="2" width="120" height="24"/>
+        <line x1="130" y1="14" x2="540" y2="14" stroke="currentColor" stroke-width="0.6"/>
+        <line x1="660" y1="14" x2="1070" y2="14" stroke="currentColor" stroke-width="0.6"/>
+      </svg>
+    </div>
+
+    <!-- ============================== TITANS ============================== -->
+    <section class="section" id="titans" data-screen-label="02 Titans">
+      <div class="section-head">
+        <div class="side-rule left"></div>
+        <div class="section-head-inner">
+          <div class="ornament"><svg width="48" height="14"><use href="#laurel-l" width="48" height="14"/></svg><svg width="14" height="14"><use href="#lozenge" width="14" height="14"/></svg><svg width="48" height="14"><use href="#laurel-r" width="48" height="14"/></svg></div>
+          <span class="number">Book II · Twelve Originals &amp; Five Notables</span>
+          <h2>The Titans</h2>
+          <div class="h2-en">The elder gods, deposed by their own children</div>
+        </div>
+        <div class="side-rule right"></div>
+      </div>
+
+      <div class="section-intro">
+        <p class="dropcap">Twelve children sprang from the union of Ouranos and Gaia — six sons and six daughters, called the Titans. They ruled in a golden age until the youngest, Cronus, struck down his father and took the sky for himself; and were in turn struck down by their own son Zeus in the Titanomachy, a war ten years in length. The defeated were chained in Tartarus. A few — Themis, Mnemosyne, and the second generation — were spared and walked among the new gods.</p>
+      </div>
+
+      <div class="grid-titans" data-grid>
+        <article class="deity" data-entry="cronus">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Titan · Sovereign</div>
+          <h3 class="deity-name"><span class="gk">Κρόνος</span> · Cronus</h3>
+          <div class="deity-roman">Saturn</div>
+          <div class="deity-domain">harvest, time as duration, the deposed king</div>
+          <p class="deity-desc">Youngest of the Titans, he overthrew Ouranos and ruled until Zeus, the son he sought to swallow, deposed him in turn. His age was remembered as the golden one.</p>
+          <div class="deity-symbols"><span class="label">Signs</span><span class="item">the sickle</span><span class="item">the scythe</span><span class="item">a swaddled stone</span></div>
+        </article>
+
+        <article class="deity" data-entry="rhea">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Titan · Mother</div>
+          <h3 class="deity-name"><span class="gk">Ῥέα</span> · Rhea</h3>
+          <div class="deity-roman">Ops · Magna Mater</div>
+          <div class="deity-domain">motherhood, generation, the flowing</div>
+          <p class="deity-desc">Sister-wife of Cronus and mother of the Olympians. She concealed the infant Zeus in a Cretan cave and gave her husband a stone to swallow in his stead.</p>
+          <div class="deity-symbols"><span class="label">Signs</span><span class="item">the lion-drawn chariot</span><span class="item">the drum</span><span class="item">the cypress</span></div>
+        </article>
+
+        <article class="deity" data-entry="oceanus">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Titan · Waters</div>
+          <h3 class="deity-name"><span class="gk">Ὠκεανός</span> · Oceanus</h3>
+          <div class="deity-roman">Oceanus</div>
+          <div class="deity-domain">the encircling river that rims the world</div>
+          <p class="deity-desc">Eldest Titan and great river that runs around the disc of the earth. He took no part in the Titanomachy and was therefore neither chained nor uncrowned.</p>
+          <div class="deity-symbols"><span class="label">Signs</span><span class="item">the serpent-tailed bull</span><span class="item">overturned urn</span><span class="item">flowing currents</span></div>
+        </article>
+
+        <article class="deity" data-entry="tethys">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Titan · Nursing waters</div>
+          <h3 class="deity-name"><span class="gk">Τηθύς</span> · Tethys</h3>
+          <div class="deity-roman">Tethys</div>
+          <div class="deity-domain">fresh-water springs, the nurses of rivers</div>
+          <p class="deity-desc">Sister-wife of Oceanus and mother of three thousand Oceanid daughters and as many Potamoi sons — every river that runs upon the earth.</p>
+          <div class="deity-symbols"><span class="label">Signs</span><span class="item">the winged brow</span><span class="item">the kētos</span><span class="item">a freshwater jar</span></div>
+        </article>
+
+        <article class="deity" data-entry="hyperion">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Titan · Light</div>
+          <h3 class="deity-name"><span class="gk">Ὑπερίων</span> · Hyperion</h3>
+          <div class="deity-roman">Hyperion</div>
+          <div class="deity-domain">heavenly light; the one who watches from above</div>
+          <p class="deity-desc">By his sister Theia he fathered Helios the Sun, Selene the Moon, and Eos the Dawn — the three measured lights by which mortal time is told.</p>
+          <div class="deity-symbols"><span class="label">Signs</span><span class="item">the rayed disc</span><span class="item">the watchtower</span><span class="item">the bright eye</span></div>
+        </article>
+
+        <article class="deity" data-entry="theia">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Titan · Sight</div>
+          <h3 class="deity-name"><span class="gk">Θεία</span> · Theia</h3>
+          <div class="deity-roman">Theia</div>
+          <div class="deity-domain">the shining one; the brightness that gives value to gold</div>
+          <p class="deity-desc">Wife of Hyperion and mother of the heavenly lights. Pindar invokes her as the goddess by whom gold is known to be precious and athletes win their crowns.</p>
+          <div class="deity-symbols"><span class="label">Signs</span><span class="item">gold</span><span class="item">silver</span><span class="item">the lit lamp</span></div>
+        </article>
+
+        <article class="deity" data-entry="coeus">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Titan · Intellect</div>
+          <h3 class="deity-name"><span class="gk">Κοῖος</span> · Coeus</h3>
+          <div class="deity-roman">Coeus · Polus</div>
+          <div class="deity-domain">the northern pole; the inquiring mind</div>
+          <p class="deity-desc">Axis of the celestial sphere and patron of resolute intellect. By Phoebe, father of Leto and Asteria — by which line Apollo and Artemis are descended from the cosmic axis.</p>
+          <div class="deity-symbols"><span class="label">Signs</span><span class="item">the celestial pole</span><span class="item">the questioning brow</span></div>
+        </article>
+
+        <article class="deity" data-entry="phoebe">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Titan · Oracular</div>
+          <h3 class="deity-name"><span class="gk">Φοίβη</span> · Phoebe</h3>
+          <div class="deity-roman">Phoebe</div>
+          <div class="deity-domain">bright moonlight; oracular utterance</div>
+          <p class="deity-desc">Third holder of the Delphic oracle, which she gave as a birthday gift to her grandson Apollo. From her his epithet <em>Phoebus</em> descends.</p>
+          <div class="deity-symbols"><span class="label">Signs</span><span class="item">the laurel</span><span class="item">the moon</span><span class="item">the tripod</span></div>
+        </article>
+
+        <article class="deity" data-entry="iapetus">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Titan · Mortality</div>
+          <h3 class="deity-name"><span class="gk">Ἰαπετός</span> · Iapetus</h3>
+          <div class="deity-roman">Iapetus</div>
+          <div class="deity-domain">the piercer; ancestor of mankind</div>
+          <p class="deity-desc">Father of Prometheus, Epimetheus, Atlas, and Menoetius — the line through which the human race received both fire and folly.</p>
+          <div class="deity-symbols"><span class="label">Signs</span><span class="item">the spear</span><span class="item">the mortal hand</span></div>
+        </article>
+
+        <article class="deity" data-entry="crius">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Titan · Constellations</div>
+          <h3 class="deity-name"><span class="gk">Κρεῖος</span> · Crius</h3>
+          <div class="deity-roman">Crius</div>
+          <div class="deity-domain">the ram; the heavenly constellations</div>
+          <p class="deity-desc">Least storied of the Titans, given to the southern sky as Hyperion was to the east. Father of Astraeus, Pallas, and Perses.</p>
+          <div class="deity-symbols"><span class="label">Signs</span><span class="item">the ram's horn</span><span class="item">the southern stars</span></div>
+        </article>
+
+        <article class="deity" data-entry="themis">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Titan · Divine Law</div>
+          <h3 class="deity-name"><span class="gk">Θέμις</span> · Themis</h3>
+          <div class="deity-roman">Themis · Justitia</div>
+          <div class="deity-domain">divine law, custom, and right order</div>
+          <p class="deity-desc">Of the few Titans honoured by the Olympians: counsellor to Zeus and second prophet at Delphi. Mother of the Horae (Seasons) and the Moirai (Fates).</p>
+          <div class="deity-symbols"><span class="label">Signs</span><span class="item">the balance</span><span class="item">the blindfold</span><span class="item">the sword</span></div>
+        </article>
+
+        <article class="deity" data-entry="mnemosyne">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Titan · Memory</div>
+          <h3 class="deity-name"><span class="gk">Μνημοσύνη</span> · Mnemosyne</h3>
+          <div class="deity-roman">Moneta</div>
+          <div class="deity-domain">memory, the well from which the Muses draw</div>
+          <p class="deity-desc">Lay with Zeus for nine successive nights and bore the nine Muses. Without her, the bard cannot remember and what was done is lost.</p>
+          <div class="deity-symbols"><span class="label">Signs</span><span class="item">the spring of memory</span><span class="item">a folded scroll</span></div>
+        </article>
+
+        <article class="deity" data-entry="prometheus">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Titan · 2nd gen</div>
+          <h3 class="deity-name"><span class="gk">Προμηθεύς</span> · Prometheus</h3>
+          <div class="deity-roman">Prometheus</div>
+          <div class="deity-domain">forethought; the giver of fire</div>
+          <p class="deity-desc">Stole fire from Olympus in a fennel-stalk and gave it to men; for which Zeus chained him to the Caucasus and set an eagle to feed daily on his liver.</p>
+          <div class="deity-symbols"><span class="label">Signs</span><span class="item">the fennel-stalk</span><span class="item">the eagle</span><span class="item">the broken chain</span></div>
+        </article>
+
+        <article class="deity" data-entry="atlas">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Titan · 2nd gen</div>
+          <h3 class="deity-name"><span class="gk">Ἄτλας</span> · Atlas</h3>
+          <div class="deity-roman">Atlas</div>
+          <div class="deity-domain">the bearer; he who holds up the heavens</div>
+          <p class="deity-desc">Brother of Prometheus and leader of the Titans in their war. Zeus condemned him to bear the vault of the sky on his shoulders at the western edge of the world.</p>
+          <div class="deity-symbols"><span class="label">Signs</span><span class="item">the celestial globe</span><span class="item">stooped shoulders</span></div>
+        </article>
+
+        <article class="deity" data-entry="helios">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Titan · Sun</div>
+          <h3 class="deity-name"><span class="gk">Ἥλιος</span> · Helios</h3>
+          <div class="deity-roman">Sol</div>
+          <div class="deity-domain">the Sun, drawn daily across the sky</div>
+          <p class="deity-desc">Son of Hyperion. Each morning he mounts his four-horse chariot at the eastern gate and at evening descends into the western Ocean to be borne home in a golden cup.</p>
+          <div class="deity-symbols"><span class="label">Signs</span><span class="item">the rayed crown</span><span class="item">the quadriga</span><span class="item">the golden cup</span></div>
+        </article>
+
+        <article class="deity" data-entry="selene">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Titan · Moon</div>
+          <h3 class="deity-name"><span class="gk">Σελήνη</span> · Selene</h3>
+          <div class="deity-roman">Luna</div>
+          <div class="deity-domain">the Moon, by turns full and crescent</div>
+          <p class="deity-desc">Sister of Helios. Loved the shepherd Endymion and asked Zeus to grant him endless sleep upon Mount Latmus, that she might visit him each night unageing.</p>
+          <div class="deity-symbols"><span class="label">Signs</span><span class="item">the crescent</span><span class="item">two white horses</span><span class="item">the torch</span></div>
+        </article>
+
+        <article class="deity" data-entry="leto">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Titan · 2nd gen</div>
+          <h3 class="deity-name"><span class="gk">Λητώ</span> · Leto</h3>
+          <div class="deity-roman">Latona</div>
+          <div class="deity-domain">modesty; gentle motherhood</div>
+          <p class="deity-desc">Daughter of Coeus and Phoebe, hounded by jealous Hera across the earth until floating Delos at last received her, and she there bore Apollo and Artemis.</p>
+          <div class="deity-symbols"><span class="label">Signs</span><span class="item">the palm of Delos</span><span class="item">the veil</span><span class="item">two children</span></div>
+        </article>
+      </div>
+    </section>
+
+    <div class="meander" aria-hidden="true">
+      <svg viewBox="0 0 1200 28" preserveAspectRatio="none">
+        <use href="#laurel-l" x="0" y="2" width="120" height="24"/>
+        <use href="#asterism" x="540" y="8" width="120" height="12"/>
+        <use href="#laurel-r" x="1080" y="2" width="120" height="24"/>
+        <line x1="130" y1="14" x2="540" y2="14" stroke="currentColor" stroke-width="0.6"/>
+        <line x1="660" y1="14" x2="1070" y2="14" stroke="currentColor" stroke-width="0.6"/>
+      </svg>
+    </div>
+
+    <!-- ============================== OLYMPIANS ============================== -->
+    <section class="section" id="olympians" data-screen-label="03 Olympians">
+      <div class="section-head">
+        <div class="side-rule left"></div>
+        <div class="section-head-inner">
+          <div class="ornament"><svg width="60" height="16"><use href="#laurel-l" width="60" height="16"/></svg><svg width="16" height="16"><use href="#lozenge" width="16" height="16"/></svg><svg width="60" height="16"><use href="#laurel-r" width="60" height="16"/></svg></div>
+          <span class="number">Book III · The Twelve</span>
+          <h2>The Olympians</h2>
+          <div class="h2-en">Enthroned upon Mount Olympus, the gods of the present age</div>
+        </div>
+        <div class="side-rule right"></div>
+      </div>
+
+      <div class="section-intro">
+        <p class="dropcap">After the Titanomachy the world was divided by lot among the three sons of Cronus: Zeus took the bright sky, Poseidon the salt sea, and Hades the world below. The earth and Olympus they held in common. About them gathered the company of twelve who feast on ambrosia in the cloud-girt halls — the gods to whom temples were raised in every Greek city and whose images are most familiar to us. They are bright, jealous, and often petty; their virtues and faults belong unmistakably to the people who imagined them.</p>
+      </div>
+
+      <div class="grid-olympians" data-grid>
+
+        <!-- ZEUS -->
+        <article class="olympian deity" data-entry="zeus">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="illus"><svg><use href="#ic-thunderbolt"/></svg></div>
+          <div class="body">
+            <div class="olympian-head">
+              <div>
+                <h3 class="olympian-name">Zeus<span class="gk">Ζεύς</span></h3>
+              </div>
+              <div class="olympian-roman">Jupiter<em>Iuppiter Optimus Maximus</em></div>
+            </div>
+            <div class="olympian-domain">King of the gods · god of the bright sky, thunder, hospitality, and oaths</div>
+            <p class="olympian-desc">Youngest son of Cronus and Rhea, hidden at birth and reared in the Cretan cave of Mount Ida by the nymph Amalthea. Having freed his swallowed brethren, he led the Olympians to victory in the ten-year war against the Titans, after which he was acknowledged king by lot of the sky. His justice is the justice of the storm — sudden, irreversible, and often partial.</p>
+            <dl class="olympian-meta">
+              <div><dt>Parents</dt><dd>Cronus &amp; Rhea</dd></div>
+              <div><dt>Consort</dt><dd><em>Hera</em>; many besides</dd></div>
+              <div><dt>Symbols</dt><dd>thunderbolt · eagle · oak · aegis</dd></div>
+              <div><dt>Sacred to</dt><dd>Olympia · Dodona · Mount Ida</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <!-- HERA -->
+        <article class="olympian deity" data-entry="hera">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="illus"><svg><use href="#ic-peacock"/></svg></div>
+          <div class="body">
+            <div class="olympian-head">
+              <div><h3 class="olympian-name">Hera<span class="gk">Ἥρα</span></h3></div>
+              <div class="olympian-roman">Juno<em>Iuno Regina</em></div>
+            </div>
+            <div class="olympian-domain">Queen of the gods · goddess of marriage, women, and the sworn household</div>
+            <p class="olympian-desc">Sister-wife of Zeus and mother of Ares, Hephaestus, Eileithyia, and Hebe. Her dignity, when wounded by her husband's wanderings, becomes the engine of long mythic vengeances — the labors of Heracles among them. The cuckoo is her courtship-bird; the peacock her watch-bird, its tail studded with the hundred eyes of Argus.</p>
+            <dl class="olympian-meta">
+              <div><dt>Parents</dt><dd>Cronus &amp; Rhea</dd></div>
+              <div><dt>Consort</dt><dd><em>Zeus</em></dd></div>
+              <div><dt>Symbols</dt><dd>peacock · cuckoo · diadem · pomegranate</dd></div>
+              <div><dt>Sacred to</dt><dd>Argos · Samos · the Heraion</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <!-- POSEIDON -->
+        <article class="olympian deity" data-entry="poseidon">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="illus"><svg><use href="#ic-trident"/></svg></div>
+          <div class="body">
+            <div class="olympian-head">
+              <div><h3 class="olympian-name">Poseidon<span class="gk">Ποσειδῶν</span></h3></div>
+              <div class="olympian-roman">Neptune<em>Neptunus</em></div>
+            </div>
+            <div class="olympian-domain">God of the salt sea, of horses, and of the shaking earth</div>
+            <p class="olympian-desc">Brother of Zeus and elder by lot of the sea. He raised the storm against Odysseus for ten further years and contended with Athena for the patronage of Athens by striking the Acropolis rock with his trident, from which the salt spring flowed. His moods are the moods of deep water — slow to gather, sudden in their breaking.</p>
+            <dl class="olympian-meta">
+              <div><dt>Parents</dt><dd>Cronus &amp; Rhea</dd></div>
+              <div><dt>Consort</dt><dd><em>Amphitrite</em></dd></div>
+              <div><dt>Symbols</dt><dd>trident · horse · bull · dolphin</dd></div>
+              <div><dt>Sacred to</dt><dd>Isthmia · Cape Sounion · Helike</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <!-- DEMETER -->
+        <article class="olympian deity" data-entry="demeter">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="illus"><svg><use href="#ic-wheat"/></svg></div>
+          <div class="body">
+            <div class="olympian-head">
+              <div><h3 class="olympian-name">Demeter<span class="gk">Δημήτηρ</span></h3></div>
+              <div class="olympian-roman">Ceres<em>Ceres Mater</em></div>
+            </div>
+            <div class="olympian-domain">Goddess of the grain, of agriculture, and of the cycle of seasons</div>
+            <p class="olympian-desc">When her daughter Persephone was taken by Hades into the world below, Demeter searched the earth in mourning and forbade any grain to grow. The famine of those months is the winter we still keep. Her Eleusinian Mysteries, the most august of Greek initiations, promised the initiate a kinder lot among the dead.</p>
+            <dl class="olympian-meta">
+              <div><dt>Parents</dt><dd>Cronus &amp; Rhea</dd></div>
+              <div><dt>Daughter</dt><dd><em>Persephone</em>, by Zeus</dd></div>
+              <div><dt>Symbols</dt><dd>sheaf of wheat · torch · poppy · piglet</dd></div>
+              <div><dt>Sacred to</dt><dd>Eleusis · Enna · Demeter's threshing-floor</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <!-- ATHENA -->
+        <article class="olympian deity" data-entry="athena">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="illus"><svg><use href="#ic-owl"/></svg></div>
+          <div class="body">
+            <div class="olympian-head">
+              <div><h3 class="olympian-name">Athena<span class="gk">Ἀθηνᾶ</span></h3></div>
+              <div class="olympian-roman">Minerva<em>Minerva Pallas</em></div>
+            </div>
+            <div class="olympian-domain">Goddess of wisdom, strategic war, weaving, and the chosen city</div>
+            <p class="olympian-desc">Sprang fully armed from the head of Zeus, having been carried first by Metis whom he swallowed. She gave the olive to her city; her city was therefore Athens. Of all the gods she is the steadiest counsellor to mortals — Odysseus's patron through every shipwreck — and the only one of the Olympians never to marry.</p>
+            <dl class="olympian-meta">
+              <div><dt>Parents</dt><dd>Zeus &amp; Metis</dd></div>
+              <div><dt>Status</dt><dd><em>Parthenos</em> — the unwed</dd></div>
+              <div><dt>Symbols</dt><dd>owl · olive · aegis · spear · helm</dd></div>
+              <div><dt>Sacred to</dt><dd>Athens · the Parthenon · Sounion</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <!-- APOLLO -->
+        <article class="olympian deity" data-entry="apollo">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="illus"><svg><use href="#ic-lyre"/></svg></div>
+          <div class="body">
+            <div class="olympian-head">
+              <div><h3 class="olympian-name">Apollo<span class="gk">Ἀπόλλων</span></h3></div>
+              <div class="olympian-roman">Apollo<em>Phoebus Apollo</em></div>
+            </div>
+            <div class="olympian-domain">God of music, prophecy, healing, light, archery, and the herds</div>
+            <p class="olympian-desc">Son of Zeus and Leto, twin to Artemis, born on the floating island of Delos. At Delphi he slew the great serpent Python and made the oracle his own. He is the Greek god the Greeks most resembled — orderly, beautiful, and capable of sudden plague.</p>
+            <dl class="olympian-meta">
+              <div><dt>Parents</dt><dd>Zeus &amp; Leto</dd></div>
+              <div><dt>Twin</dt><dd><em>Artemis</em></dd></div>
+              <div><dt>Symbols</dt><dd>lyre · laurel · bow · raven · tripod</dd></div>
+              <div><dt>Sacred to</dt><dd>Delphi · Delos · Didyma</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <!-- ARTEMIS -->
+        <article class="olympian deity" data-entry="artemis">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="illus"><svg><use href="#ic-bow"/></svg></div>
+          <div class="body">
+            <div class="olympian-head">
+              <div><h3 class="olympian-name">Artemis<span class="gk">Ἄρτεμις</span></h3></div>
+              <div class="olympian-roman">Diana<em>Diana Venatrix</em></div>
+            </div>
+            <div class="olympian-domain">Goddess of the hunt, the wild places, the moon, and unmarried girls</div>
+            <p class="olympian-desc">Twin sister of Apollo, born first, and at her birth she assisted at his. She asked her father for a bow, a quiver, sixty Oceanid attendants, eternal virginity, and a city of her own. She received all of these. To see her bathing is to die — as Actaeon discovered, torn by his own hounds.</p>
+            <dl class="olympian-meta">
+              <div><dt>Parents</dt><dd>Zeus &amp; Leto</dd></div>
+              <div><dt>Status</dt><dd><em>Parthenos</em> — the unwed</dd></div>
+              <div><dt>Symbols</dt><dd>bow · stag · hound · crescent moon</dd></div>
+              <div><dt>Sacred to</dt><dd>Ephesus · Brauron · Sparta</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <!-- ARES -->
+        <article class="olympian deity" data-entry="ares">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="illus"><svg><use href="#ic-spear"/></svg></div>
+          <div class="body">
+            <div class="olympian-head">
+              <div><h3 class="olympian-name">Ares<span class="gk">Ἄρης</span></h3></div>
+              <div class="olympian-roman">Mars<em>Mars Gradivus</em></div>
+            </div>
+            <div class="olympian-domain">God of war in its slaughter, of carnage, and of courage that goes too far</div>
+            <p class="olympian-desc">Son of Zeus and Hera, and disliked by both. Where Athena is strategy, Ares is the smell of the battlefield. He took Aphrodite as his lover, was caught by her husband Hephaestus in an unbreakable net, and was exposed to the laughter of the gathered gods.</p>
+            <dl class="olympian-meta">
+              <div><dt>Parents</dt><dd>Zeus &amp; Hera</dd></div>
+              <div><dt>Consort</dt><dd><em>Aphrodite</em>, adulterous</dd></div>
+              <div><dt>Symbols</dt><dd>spear · shield · vulture · dog</dd></div>
+              <div><dt>Sacred to</dt><dd>Sparta · Thrace · the Areopagus</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <!-- APHRODITE -->
+        <article class="olympian deity" data-entry="aphrodite">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="illus"><svg><use href="#ic-dove"/></svg></div>
+          <div class="body">
+            <div class="olympian-head">
+              <div><h3 class="olympian-name">Aphrodite<span class="gk">Ἀφροδίτη</span></h3></div>
+              <div class="olympian-roman">Venus<em>Venus Genetrix</em></div>
+            </div>
+            <div class="olympian-domain">Goddess of beauty, desire, sexual love, and unbidden longing</div>
+            <p class="olympian-desc">Sprung from the foam where the severed parts of Ouranos fell into the sea — though Homer makes her a daughter of Zeus by the Titaness Dione. Married against her will to Hephaestus and unfaithful with Ares. Her gift to Paris of the most beautiful woman in the world began the Trojan War.</p>
+            <dl class="olympian-meta">
+              <div><dt>Birth</dt><dd>from the sea, near Cythera and Paphos</dd></div>
+              <div><dt>Consort</dt><dd>Hephaestus; lover of <em>Ares</em>, <em>Adonis</em></dd></div>
+              <div><dt>Symbols</dt><dd>dove · myrtle · rose · scallop shell</dd></div>
+              <div><dt>Sacred to</dt><dd>Paphos · Cythera · Mount Eryx</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <!-- HEPHAESTUS -->
+        <article class="olympian deity" data-entry="hephaestus">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="illus"><svg><use href="#ic-anvil"/></svg></div>
+          <div class="body">
+            <div class="olympian-head">
+              <div><h3 class="olympian-name">Hephaestus<span class="gk">Ἥφαιστος</span></h3></div>
+              <div class="olympian-roman">Vulcan<em>Vulcanus</em></div>
+            </div>
+            <div class="olympian-domain">God of fire, the forge, and the patient craft of bronze and iron</div>
+            <p class="olympian-desc">Cast from Olympus by Hera (or by Zeus) and lamed by the fall; he made his home in the volcanoes of Lemnos, where the Cyclopes worked his bellows. He fashioned the thunderbolts of Zeus, the shield of Achilles, the chariot of Helios, and Pandora — the first woman.</p>
+            <dl class="olympian-meta">
+              <div><dt>Parents</dt><dd>Hera (alone, in some tellings)</dd></div>
+              <div><dt>Consort</dt><dd><em>Aphrodite</em></dd></div>
+              <div><dt>Symbols</dt><dd>hammer · anvil · tongs · volcano</dd></div>
+              <div><dt>Sacred to</dt><dd>Lemnos · the Athenian Hephaisteion</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <!-- HERMES -->
+        <article class="olympian deity" data-entry="hermes">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="illus"><svg><use href="#ic-caduceus"/></svg></div>
+          <div class="body">
+            <div class="olympian-head">
+              <div><h3 class="olympian-name">Hermes<span class="gk">Ἑρμῆς</span></h3></div>
+              <div class="olympian-roman">Mercury<em>Mercurius</em></div>
+            </div>
+            <div class="olympian-domain">Messenger; god of travellers, merchants, thieves, and the souls of the dead</div>
+            <p class="olympian-desc">Son of Zeus and the nymph Maia. On the day of his birth he stole Apollo's cattle, invented the lyre from a tortoise shell, and made peace with his brother by giving him the instrument. Alone of the Olympians, he passes freely between the living and the dead.</p>
+            <dl class="olympian-meta">
+              <div><dt>Parents</dt><dd>Zeus &amp; Maia</dd></div>
+              <div><dt>Office</dt><dd><em>Psychopomp</em>; conductor of souls</dd></div>
+              <div><dt>Symbols</dt><dd>caduceus · winged sandals · petasos · tortoise</dd></div>
+              <div><dt>Sacred to</dt><dd>Mount Cyllene · crossroads · the agora</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <!-- DIONYSUS -->
+        <article class="olympian deity" data-entry="dionysus">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="illus"><svg><use href="#ic-thyrsus"/></svg></div>
+          <div class="body">
+            <div class="olympian-head">
+              <div><h3 class="olympian-name">Dionysus<span class="gk">Διόνυσος</span></h3></div>
+              <div class="olympian-roman">Bacchus<em>Bacchus Liber</em></div>
+            </div>
+            <div class="olympian-domain">God of wine, of vegetation, of ecstatic possession, and of theatre</div>
+            <p class="olympian-desc">Twice-born: of Semele, whose mortal body could not bear the sight of Zeus, and from the thigh of Zeus himself. He came late to Olympus and his rites came late to Greece, bringing with them the ivy, the satyrs and maenads, the dithyramb, and at last the stage.</p>
+            <dl class="olympian-meta">
+              <div><dt>Parents</dt><dd>Zeus &amp; Semele</dd></div>
+              <div><dt>Retinue</dt><dd>satyrs, maenads, <em>Silenus</em></dd></div>
+              <div><dt>Symbols</dt><dd>thyrsus · grapevine · ivy · panther · drinking-cup</dd></div>
+              <div><dt>Sacred to</dt><dd>Thebes · Naxos · the Theatre of Dionysus</dd></div>
+            </dl>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <div class="meander" aria-hidden="true">
+      <svg viewBox="0 0 1200 28" preserveAspectRatio="none">
+        <use href="#laurel-l" x="0" y="2" width="120" height="24"/>
+        <use href="#asterism" x="540" y="8" width="120" height="12"/>
+        <use href="#laurel-r" x="1080" y="2" width="120" height="24"/>
+        <line x1="130" y1="14" x2="540" y2="14" stroke="currentColor" stroke-width="0.6"/>
+        <line x1="660" y1="14" x2="1070" y2="14" stroke="currentColor" stroke-width="0.6"/>
+      </svg>
+    </div>
+
+    <!-- ============================== PERSONIFICATIONS ============================== -->
+    <section class="section" id="personifications" data-screen-label="04 Personifications">
+      <div class="section-head">
+        <div class="side-rule left"></div>
+        <div class="section-head-inner">
+          <div class="ornament"><svg width="48" height="14"><use href="#laurel-l" width="48" height="14"/></svg><svg width="14" height="14"><use href="#lozenge" width="14" height="14"/></svg><svg width="48" height="14"><use href="#laurel-r" width="48" height="14"/></svg></div>
+          <span class="number">Book IV · Sixteen Entries</span>
+          <h2>Personifications</h2>
+          <div class="h2-en">The minor powers — concepts walked into the form of gods</div>
+        </div>
+        <div class="side-rule right"></div>
+      </div>
+
+      <div class="section-intro">
+        <p class="dropcap">Beyond the great gods stand a host of lesser figures whose names are also the names of nouns. They are the personifications: Victory, Sleep, Death, Strife, Rumour. The Greeks made gods of all of these and built no temples to most. Where the Olympians have a domain, the personifications <em>are</em> their domain — Nike does not preside over victory, she <em>is</em> victory, with wings.</p>
+      </div>
+
+      <div class="grid-personif" data-grid>
+
+        <article class="deity" data-entry="nike">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Personification</div>
+          <h3 class="deity-name"><span class="gk">Νίκη</span> · Nike</h3>
+          <div class="deity-roman">Victoria</div>
+          <div class="deity-domain">winged victory in any contest</div>
+          <p class="deity-desc">Daughter of the Titan Pallas and the Styx; constant attendant of Athena and Zeus. She crowns the victor with a wreath of olive or laurel.</p>
+        </article>
+
+        <article class="deity" data-entry="thanatos">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Personification</div>
+          <h3 class="deity-name"><span class="gk">Θάνατος</span> · Thanatos</h3>
+          <div class="deity-roman">Mors</div>
+          <div class="deity-domain">gentle, inevitable death</div>
+          <p class="deity-desc">Son of Nyx, twin of Hypnos. Not violent (that is Keres' work) but soft and final — the one who comes for the appointed soul at the appointed hour.</p>
+        </article>
+
+        <article class="deity" data-entry="hypnos">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Personification</div>
+          <h3 class="deity-name"><span class="gk">Ὕπνος</span> · Hypnos</h3>
+          <div class="deity-roman">Somnus</div>
+          <div class="deity-domain">sleep, that gentlest of brothers</div>
+          <p class="deity-desc">Twin of Thanatos, dwelling in a cave on Lemnos through which Lethe flows. Father of the Oneiroi, the dreams that climb each night into mortal heads.</p>
+        </article>
+
+        <article class="deity" data-entry="nemesis">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Personification</div>
+          <h3 class="deity-name"><span class="gk">Νέμεσις</span> · Nemesis</h3>
+          <div class="deity-roman">Invidia · Rivalitas</div>
+          <div class="deity-domain">divine retribution against overweening pride</div>
+          <p class="deity-desc">She of Rhamnous, who measures undeserved fortune and exacts the balance. The check on every too-easy victory and every too-confident king.</p>
+        </article>
+
+        <article class="deity" data-entry="eris">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Personification</div>
+          <h3 class="deity-name"><span class="gk">Ἔρις</span> · Eris</h3>
+          <div class="deity-roman">Discordia</div>
+          <div class="deity-domain">strife, quarrel, contention</div>
+          <p class="deity-desc">Uninvited to the wedding of Peleus and Thetis, she threw among the gathered goddesses a golden apple inscribed <em>for the fairest</em>. From that quarrel came the war at Troy.</p>
+        </article>
+
+        <article class="deity" data-entry="tyche">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Personification</div>
+          <h3 class="deity-name"><span class="gk">Τύχη</span> · Tyche</h3>
+          <div class="deity-roman">Fortuna</div>
+          <div class="deity-domain">fortune, the city's luck</div>
+          <p class="deity-desc">She bears the cornucopia in one hand and the rudder of the world in the other; sometimes blind, sometimes wheeled. Every Hellenistic city had its own Tyche, crowned with its walls.</p>
+        </article>
+
+        <article class="deity" data-entry="iris">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Personification</div>
+          <h3 class="deity-name"><span class="gk">Ἶρις</span> · Iris</h3>
+          <div class="deity-roman">Iris</div>
+          <div class="deity-domain">the rainbow; messenger of the gods to mortals</div>
+          <p class="deity-desc">Where Hermes carries Zeus's word among gods, Iris bears it from gods to men. Her path across the sky is the bow that follows rain.</p>
+        </article>
+
+        <article class="deity" data-entry="hebe">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Personification</div>
+          <h3 class="deity-name"><span class="gk">Ἥβη</span> · Hebe</h3>
+          <div class="deity-roman">Iuventas</div>
+          <div class="deity-domain">youth in full bloom; cupbearer on Olympus</div>
+          <p class="deity-desc">Daughter of Zeus and Hera. She poured the nectar of the gods until Ganymede took the office. Wife at last to the deified Heracles.</p>
+        </article>
+
+        <article class="deity" data-entry="hecate">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Goddess · Liminal</div>
+          <h3 class="deity-name"><span class="gk">Ἑκάτη</span> · Hecate</h3>
+          <div class="deity-roman">Trivia</div>
+          <div class="deity-domain">witchcraft, the crossroads, ghosts, the moon by night</div>
+          <p class="deity-desc">Three-formed and triple-faced. She holds two torches at the place where three roads meet, and the dead come at her call. The only daughter of Titans honoured by Zeus among the new gods.</p>
+        </article>
+
+        <article class="deity" data-entry="pan">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">God · Pastoral</div>
+          <h3 class="deity-name"><span class="gk">Πάν</span> · Pan</h3>
+          <div class="deity-roman">Faunus · Sylvanus</div>
+          <div class="deity-domain">shepherds, mountain pastures, midday sleep, wild panic</div>
+          <p class="deity-desc">Goat-legged son of Hermes, born so unsightly his nurse fled. The panic that empties an army at dusk is his — sudden, contagious, and reasonless.</p>
+        </article>
+
+        <article class="deity" data-entry="hades">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">God · Chthonic</div>
+          <h3 class="deity-name"><span class="gk">Ἅιδης</span> · Hades</h3>
+          <div class="deity-roman">Pluto · Dis Pater</div>
+          <div class="deity-domain">the world below; lord of the dead and of buried wealth</div>
+          <p class="deity-desc">Brother of Zeus and Poseidon, drawer of the third lot. He took Persephone by force; his realm is grave and just. The Greeks scarcely spoke his name and called him instead the Rich One.</p>
+        </article>
+
+        <article class="deity" data-entry="persephone">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Goddess · Chthonic</div>
+          <h3 class="deity-name"><span class="gk">Περσεφόνη</span> · Persephone</h3>
+          <div class="deity-roman">Proserpina · Kore</div>
+          <div class="deity-domain">the queen of the underworld; spring's return</div>
+          <p class="deity-desc">Daughter of Demeter, abducted while gathering narcissi. By eating six pomegranate seeds she bound herself to the world below for six months each year — and so the seasons turn.</p>
+        </article>
+
+        <article class="deity" data-entry="eos">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Personification</div>
+          <h3 class="deity-name"><span class="gk">Ἠώς</span> · Eos</h3>
+          <div class="deity-roman">Aurora</div>
+          <div class="deity-domain">the rosy-fingered dawn</div>
+          <p class="deity-desc">Each morning she rises from her bed in Ocean and ascends to the sky to announce the coming of her brother Helios. She loved Tithonus and asked for his immortality, forgetting to ask for his youth.</p>
+        </article>
+
+        <article class="deity" data-entry="moirai">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Personification</div>
+          <h3 class="deity-name"><span class="gk">Μοῖραι</span> · The Moirai</h3>
+          <div class="deity-roman">Parcae · Fata</div>
+          <div class="deity-domain">the three Fates; spinners of mortal lots</div>
+          <p class="deity-desc">Clotho spins the thread, Lachesis measures it, Atropos cuts. To them even Zeus must defer; their judgments are the deepest in the order of things.</p>
+        </article>
+
+        <article class="deity" data-entry="ananke">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Personification</div>
+          <h3 class="deity-name"><span class="gk">Ἀνάγκη</span> · Ananke</h3>
+          <div class="deity-roman">Necessitas</div>
+          <div class="deity-domain">inevitability; the compulsion that admits no plea</div>
+          <p class="deity-desc">In Orphic teaching, she encircles the cosmos with her consort Chronos. Her arms are the iron bands by which what must happen happens.</p>
+        </article>
+
+        <article class="deity" data-entry="phobos-deimos">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="deity-cat">Personification</div>
+          <h3 class="deity-name"><span class="gk">Φόβος &amp; Δεῖμος</span></h3>
+          <div class="deity-roman">Pavor · Metus</div>
+          <div class="deity-domain">terror and dread; charioteers of Ares</div>
+          <p class="deity-desc">Twin sons of Ares and Aphrodite who go before their father into battle and clear the field of resolve. Their faces are emblazoned upon the shields of war.</p>
+        </article>
+
+      </div>
+    </section>
+
+    <div class="meander" aria-hidden="true">
+      <svg viewBox="0 0 1200 28" preserveAspectRatio="none">
+        <use href="#laurel-l" x="0" y="2" width="120" height="24"/>
+        <use href="#asterism" x="540" y="8" width="120" height="12"/>
+        <use href="#laurel-r" x="1080" y="2" width="120" height="24"/>
+        <line x1="130" y1="14" x2="540" y2="14" stroke="currentColor" stroke-width="0.6"/>
+        <line x1="660" y1="14" x2="1070" y2="14" stroke="currentColor" stroke-width="0.6"/>
+      </svg>
+    </div>
+
+    <!-- ============================== BESTIARY ============================== -->
+    <section class="section" id="bestiary" data-screen-label="05 Bestiary">
+      <div class="section-head">
+        <div class="side-rule left"></div>
+        <div class="section-head-inner">
+          <div class="ornament"><svg width="48" height="14"><use href="#laurel-l" width="48" height="14"/></svg><svg width="14" height="14"><use href="#lozenge" width="14" height="14"/></svg><svg width="48" height="14"><use href="#laurel-r" width="48" height="14"/></svg></div>
+          <span class="number">Book V · Twelve Creatures</span>
+          <h2>Bestiary</h2>
+          <div class="h2-en">Monstrous offspring of the gods, and the heroes who slew them</div>
+        </div>
+        <div class="side-rule right"></div>
+      </div>
+
+      <div class="section-intro">
+        <p class="dropcap">From the union of Echidna and Typhon — and from such other marriages as the world's margins permitted — came a brood of creatures unlike either gods or men. The heroes of the great age made their names by setting these creatures down: Heracles, Theseus, Bellerophon, Perseus. The bestiary that follows collects the most familiar, with a note on their lineage and on the fate that, in the end, found them.</p>
+      </div>
+
+      <div class="grid-bestiary" data-grid>
+
+        <article class="beast deity" data-entry="pegasus">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="silh"><svg><use href="#bs-pegasus"/></svg></div>
+          <div>
+            <h4>Pegasus</h4>
+            <div class="domain">the winged horse; bearer of the thunderbolt</div>
+            <p class="desc">Sprung from the severed neck of Medusa. Tamed by Bellerophon with Athena's golden bridle; carried him against the Chimera and at last carried him too high.</p>
+          </div>
+        </article>
+
+        <article class="beast deity" data-entry="minotaur">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="silh"><svg><use href="#bs-minotaur"/></svg></div>
+          <div>
+            <h4>Minotaur</h4>
+            <div class="domain">bull-headed son of Pasiphaë; eater of tribute</div>
+            <p class="desc">Hidden by Minos in the Labyrinth of Daedalus and fed each ninth year on seven Athenian youths and seven maidens, until Theseus slew him and found his way out by Ariadne's thread.</p>
+          </div>
+        </article>
+
+        <article class="beast deity" data-entry="hydra">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="silh"><svg><use href="#bs-hydra"/></svg></div>
+          <div>
+            <h4>Lernaean Hydra</h4>
+            <div class="domain">nine-headed marsh-serpent of Lerna</div>
+            <p class="desc">For each head Heracles severed two regrew, until Iolaus brought a torch and seared each wound. The middle head was immortal; he buried it under a rock.</p>
+          </div>
+        </article>
+
+        <article class="beast deity" data-entry="chimera">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="silh"><svg><use href="#bs-chimera"/></svg></div>
+          <div>
+            <h4>Chimera</h4>
+            <div class="domain">lion before, goat upon, serpent behind; breather of fire</div>
+            <p class="desc">Ravaged Lycia until Bellerophon, mounted on Pegasus, thrust a lead-tipped spear into its throat. The lead melted in its breath and choked it.</p>
+          </div>
+        </article>
+
+        <article class="beast deity" data-entry="cerberus">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="silh"><svg><use href="#bs-cerberus"/></svg></div>
+          <div>
+            <h4>Cerberus</h4>
+            <div class="domain">three-headed hound at the gates of Hades</div>
+            <p class="desc">He fawns on those entering and devours those who would leave. Heracles, in his twelfth labor, hauled him out into the daylight; Cerberus's spittle, falling, gave birth to aconite.</p>
+          </div>
+        </article>
+
+        <article class="beast deity" data-entry="sphinx">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="silh"><svg><use href="#bs-sphinx"/></svg></div>
+          <div>
+            <h4>Sphinx</h4>
+            <div class="domain">lion-bodied, woman-faced, winged; setter of riddles</div>
+            <p class="desc">Posted by Hera at the road to Thebes. She devoured those who could not answer her until Oedipus said <em>man</em>, and she threw herself from her rock.</p>
+          </div>
+        </article>
+
+        <article class="beast deity" data-entry="medusa">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="silh"><svg><use href="#bs-medusa"/></svg></div>
+          <div>
+            <h4>Medusa</h4>
+            <div class="domain">the mortal Gorgon; petrifier of those who meet her gaze</div>
+            <p class="desc">Once a priestess of Athena, transformed for her hubris into a serpent-haired terror. Perseus, looking only at her reflection in his shield, took her head; from her neck sprang Pegasus and Chrysaor.</p>
+          </div>
+        </article>
+
+        <article class="beast deity" data-entry="cyclops">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="silh"><svg><use href="#bs-cyclops"/></svg></div>
+          <div>
+            <h4>Cyclopes</h4>
+            <div class="domain">one-eyed giants; first smiths of the thunderbolt</div>
+            <p class="desc">Brontes, Steropes, and Arges — three brothers who forged for Zeus his bolts and for Poseidon his trident. A younger, savage kind dwelt on Sicilian shores; one of these was Polyphemus, blinded by Odysseus.</p>
+          </div>
+        </article>
+
+        <article class="beast deity" data-entry="centaur">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="silh"><svg><use href="#bs-centaur"/></svg></div>
+          <div>
+            <h4>Centaurs</h4>
+            <div class="domain">half-man, half-horse; the wild riders of Thessaly</div>
+            <p class="desc">Born of Ixion's lust upon a cloud. Most were drunken and violent — as their fight with the Lapiths attests — but Chiron, son of Cronus, was the wisest teacher in the world and tutor to Achilles.</p>
+          </div>
+        </article>
+
+        <article class="beast deity" data-entry="harpy">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="silh"><svg><use href="#bs-harpy"/></svg></div>
+          <div>
+            <h4>Harpies</h4>
+            <div class="domain">winged spirits of sudden storm and snatching wind</div>
+            <p class="desc">Daughters of Thaumas; sisters of Iris. They snatch food from the tables of the cursed (as they did from blind Phineus) and bear the souls of the lost to the Erinyes.</p>
+          </div>
+        </article>
+
+        <article class="beast deity" data-entry="typhon">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="silh"><svg><use href="#bs-typhon"/></svg></div>
+          <div>
+            <h4>Typhon</h4>
+            <div class="domain">hundred-headed serpent-storm; father of monsters</div>
+            <p class="desc">Last and worst child of Gaia, conceived in her rage at the fall of the Titans. He almost overthrew Zeus, who pinned him at last beneath Mount Etna, whose tremors are his.</p>
+          </div>
+        </article>
+
+        <article class="beast deity" data-entry="echidna">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <div class="silh"><svg><use href="#bs-echidna"/></svg></div>
+          <div>
+            <h4>Echidna</h4>
+            <div class="domain">half-woman, half-serpent; mother of monsters</div>
+            <p class="desc">Bride of Typhon and dam to the Hydra, Cerberus, Chimera, Sphinx, and the Nemean Lion. Hesiod calls her <em>the unwearying</em>; she dwells in a cave below the earth.</p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ===== ENDPLATE ===== -->
+    <footer class="endplate" id="endplate">
+      <div class="ornament" aria-hidden="true">
+        <svg width="80" height="20"><use href="#laurel-l" width="80" height="20"/></svg>
+        <svg width="20" height="20"><use href="#lozenge" width="20" height="20"/></svg>
+        <svg width="80" height="20"><use href="#laurel-r" width="80" height="20"/></svg>
+      </div>
+      <p><em>Finis Voluminis Primi</em></p>
+      <p>Sixty-two entries · five tiers of divinity · one running quarrel.</p>
+      <p class="sig">Set in Spectral &amp; Spectral SC · Pressed at the desk · MMXXVI</p>
+    </footer>
+  </main>
+</div>
+
+<!-- ============================== ENTRY OVERLAY ============================== -->
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="entry-name">
+  <div class="overlay-card" role="document">
+    <button class="overlay-close" id="overlay-close" aria-label="Close">✕</button>
+    <div class="entry-cat" id="entry-cat"></div>
+    <h2 class="entry-name" id="entry-name"></h2>
+    <div class="entry-gk" id="entry-gk"></div>
+    <div class="entry-roman" id="entry-roman"></div>
+    <div class="entry-rule"></div>
+    <div class="entry-body first" id="entry-body"></div>
+    <dl class="entry-meta" id="entry-meta"></dl>
+  </div>
+</div>
+
+<!-- Tweaks defaults — JSON between markers, edited in place when the user toggles -->
+<script>
+const PANTHEON_TWEAKS = /*EDITMODE-BEGIN*/{
+  "tone": "ivory",
+  "accent": "gold",
+  "showCorners": true
+}/*EDITMODE-END*/;
+// Apply defaults on load
+document.body.dataset.tone = PANTHEON_TWEAKS.tone;
+document.body.dataset.accent = PANTHEON_TWEAKS.accent;
+if (!PANTHEON_TWEAKS.showCorners) document.body.classList.add('no-corners');
+</script>
+
+<script src="entries.js"></script>
+<script src="script.js"></script>
+
+<!-- Tweaks panel (React/Babel) -->
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="tweaks-app.jsx"></script>
+
+</body>
+</html>

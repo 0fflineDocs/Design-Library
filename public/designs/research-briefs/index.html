@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hermes Research Briefs — Design System</title>
+<meta name="description" content="Editorial reading-room design system for Hermes Research Briefs — Cormorant Garamond, antique gold, dark palette." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --obsidian:  #0A0A0A;
+    --surface:   #121210;
+    --elevated:  #1A1A16;
+    --border:    rgba(212,175,55,0.09);
+    --border-hi: rgba(212,175,55,0.22);
+    --fg:        #E5DFD0;
+    --fg-2:      #8A8578;
+    --fg-3:      #5A5248;
+    --gold:      #D4AF37;
+    --copper:    #B67333;
+    --moss:      #172B22;
+    --ease:      cubic-bezier(0.4,0,0.2,1);
+    --display:   "Cormorant Garamond", Georgia, serif;
+    --ui:        "Manrope", -apple-system, sans-serif;
+    --mono:      "JetBrains Mono", monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    min-height: 100%;
+    background: var(--obsidian);
+    color: var(--fg);
+    font-family: var(--ui);
+    -webkit-font-smoothing: antialiased;
+    font-weight: 300;
+  }
+  body::before {
+    content: "";
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background: radial-gradient(ellipse 1100px 600px at 50% -10%, rgba(212,175,55,0.05), transparent 55%);
+  }
+
+  .shell {
+    position: relative; z-index: 1;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 48px 100px;
+  }
+
+  /* ── top bar ── */
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .topbar-brand {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none; color: inherit;
+  }
+  .hermes-mark {
+    width: 28px; height: 28px;
+    display: grid; place-items: center;
+    border: 1px solid rgba(212,175,55,0.22);
+    background: rgba(212,175,55,0.06);
+  }
+  .hermes-mark img { width: 16px; height: 16px; }
+  .topbar-title {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--fg-3);
+  }
+  .topbar-back {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--fg-3); text-decoration: none;
+    transition: color 200ms;
+  }
+  .topbar-back:hover { color: var(--gold); }
+
+  /* ── header ── */
+  header {
+    padding: 72px 0 56px;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: end;
+  }
+  .header-diamond {
+    color: var(--gold); font-size: 14px; margin-bottom: 16px; opacity: 0.7;
+  }
+  h1 {
+    font-family: var(--display);
+    font-size: clamp(40px, 5.5vw, 70px);
+    font-weight: 400; line-height: 0.95; letter-spacing: -0.01em;
+    color: var(--fg); margin-bottom: 18px;
+  }
+  .header-sub {
+    font-size: 14.5px; color: var(--fg-2); max-width: 480px; line-height: 1.6;
+  }
+  .header-stat {
+    display: flex; flex-direction: column; gap: 6px; align-items: flex-end;
+    flex-shrink: 0;
+  }
+  .stat-num {
+    font-family: var(--display); font-size: 52px; line-height: 1; color: var(--fg);
+  }
+  .stat-label {
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-3);
+  }
+
+  /* ── section ── */
+  .section-head {
+    display: flex; align-items: center; gap: 20px;
+    padding: 52px 0 22px;
+  }
+  .section-rule-left { width: 40px; height: 1px; background: var(--gold); opacity: 0.4; flex-shrink: 0; }
+  .section-label {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.26em; text-transform: uppercase; color: var(--fg-3);
+    flex-shrink: 0;
+  }
+  .section-rule { flex: 1; height: 1px; background: var(--border); }
+
+  /* ── grid ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    margin-top: 1px;
+  }
+
+  /* ── card ── */
+  .card {
+    background: var(--obsidian);
+    text-decoration: none; color: inherit;
+    display: flex; flex-direction: column;
+    transition: background 200ms var(--ease);
+    position: relative; overflow: hidden;
+  }
+  .card::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--gold); opacity: 0;
+    transition: opacity 200ms var(--ease);
+  }
+  .card:hover { background: var(--elevated); }
+  .card:hover::before { opacity: 1; }
+
+  .thumb {
+    width: 100%; aspect-ratio: 16 / 9;
+    overflow: hidden; background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .thumb img {
+    width: 100%; height: 100%; object-fit: cover; object-position: top;
+    display: block; transition: transform 400ms var(--ease);
+  }
+  .card:hover .thumb img { transform: scale(1.04); }
+  .thumb-placeholder {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-3);
+  }
+  .thumb-gold {
+    background: linear-gradient(160deg, rgba(212,175,55,0.06), transparent);
+  }
+
+  .card-body { padding: 22px 22px 14px; flex: 1; display: flex; flex-direction: column; gap: 7px; }
+  .card-diamond { color: var(--gold); font-size: 10px; opacity: 0.7; }
+  .card-eyebrow {
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--fg-3);
+  }
+  .card-title {
+    font-family: var(--display); font-size: 21px; font-weight: 400; line-height: 1.1;
+    color: var(--fg);
+  }
+  .card-desc { font-size: 13px; color: var(--fg-2); line-height: 1.55; flex: 1; }
+
+  .card-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 22px; border-top: 1px solid var(--border);
+  }
+  .card-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+  .tag {
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--fg-3); border: 1px solid var(--border); padding: 3px 6px; border-radius: 2px;
+    transition: border-color 200ms, color 200ms;
+  }
+  .card:hover .tag { border-color: rgba(212,175,55,0.2); color: var(--fg-2); }
+  .arrow { color: var(--fg-3); font-size: 14px; transition: color 200ms, transform 200ms; }
+  .card:hover .arrow { color: var(--gold); transform: translateX(3px); }
+
+  /* featured card (wider) */
+  .card-feature {
+    grid-column: span 2;
+    flex-direction: row;
+  }
+  .card-feature .thumb {
+    width: 340px; flex-shrink: 0; aspect-ratio: auto;
+    border-bottom: none; border-right: 1px solid var(--border);
+  }
+  .card-feature > div { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+  .card-feature::before { background: var(--gold); }
+
+  /* ── screenshots ── */
+  .img-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px; margin-top: 4px;
+  }
+  .img-card {
+    background: var(--surface); border: 1px solid var(--border);
+    overflow: hidden; text-decoration: none; color: inherit;
+    transition: border-color 200ms;
+  }
+  .img-card:hover { border-color: rgba(212,175,55,0.22); }
+  .img-card img { display: block; width: 100%; transition: transform 300ms var(--ease); }
+  .img-card:hover img { transform: scale(1.04); }
+  .img-card-label {
+    padding: 9px 12px; border-top: 1px solid var(--border);
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-3);
+  }
+
+  footer {
+    margin-top: 72px; padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  footer p { font-family: var(--mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.1em; }
+
+  @media (max-width: 900px) {
+    .shell { padding: 0 20px 80px; }
+    header { grid-template-columns: 1fr; }
+    .header-stat { align-items: flex-start; }
+    .card-feature { grid-column: span 1; flex-direction: column; }
+    .card-feature .thumb { width: 100%; aspect-ratio: 16/9; border-right: none; border-bottom: 1px solid var(--border); }
+    .grid { grid-template-columns: 1fr; }
+    .img-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <div class="topbar">
+    <a class="topbar-brand" href="../index.html">
+      <div class="hermes-mark">
+        <img src="assets/hermes-mark.svg" alt="Hermes mark" onerror="this.parentElement.innerHTML='◆'" />
+      </div>
+      <span class="topbar-title">Hermes Research Briefs · Design System</span>
+    </a>
+    <a class="topbar-back" href="../index.html">← Design Library</a>
+  </div>
+
+  <header>
+    <div>
+      <div class="header-diamond">◆</div>
+      <h1>Research<br/>Briefs</h1>
+      <p class="header-sub">The editorial reading room of the Hermes Labs vault. A library-at-night aesthetic — Cormorant Garamond, antique gold, near-monochrome darkness.</p>
+    </div>
+    <div class="header-stat">
+      <span class="stat-num">17</span>
+      <span class="stat-label">Spec cards</span>
+    </div>
+  </header>
+
+  <!-- UI Kit -->
+  <div class="section-head">
+    <div class="section-rule-left"></div>
+    <span class="section-label">01 — Research Briefs UI Kit</span>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="grid">
+    <a class="card card-feature" href="ui_kits/research-briefs/index.html" id="card-rb-uikit">
+      <div class="thumb thumb-gold">
+        <img src="scraps/landing-full.png" alt="Research Briefs UI" loading="lazy" />
+      </div>
+      <div>
+        <div class="card-body">
+          <span class="card-diamond">◆</span>
+          <span class="card-eyebrow">Interactive Reading Room</span>
+          <h2 class="card-title">Research Briefs Landing Page</h2>
+          <p class="card-desc">The full editorial reading-room UI — hero, filter pills, featured spotlight card, brief grid, archive list, and footer. 11 hard-coded research briefs spanning AI, neuroscience, and pharmacology.</p>
+        </div>
+        <div class="card-footer">
+          <div class="card-tags"><span class="tag">React</span><span class="tag">Editorial</span><span class="tag">11 Briefs</span></div>
+          <span class="arrow">→</span>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Design Specs -->
+  <div class="section-head">
+    <div class="section-rule-left"></div>
+    <span class="section-label">02 — Design Spec Cards</span>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="grid">
+    <a class="card" href="preview/colors-surfaces.html" id="spec-colors-surfaces">
+      <div class="thumb thumb-gold"><div class="thumb-placeholder">Colors — Surfaces</div></div>
+      <div class="card-body">
+        <span class="card-diamond">◆</span>
+        <span class="card-eyebrow">Color</span>
+        <h2 class="card-title">Surface Colors</h2>
+        <p class="card-desc">Obsidian #0A0A0A, Surface #121210, Elevated #1A1A16 — layered warmth without sterile gray.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Tokens</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/colors-accents.html" id="spec-colors-accents">
+      <div class="thumb thumb-gold"><div class="thumb-placeholder">Colors — Accents</div></div>
+      <div class="card-body">
+        <span class="card-diamond">◆</span>
+        <span class="card-eyebrow">Color</span>
+        <h2 class="card-title">Accent Colors</h2>
+        <p class="card-desc">Antique Gold #D4AF37 · Copper Ember #B67333 · Deep Moss #172B22 — the lamp-light trio.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Tokens</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/colors-text.html" id="spec-colors-text">
+      <div class="thumb thumb-gold"><div class="thumb-placeholder">Colors — Text</div></div>
+      <div class="card-body">
+        <span class="card-diamond">◆</span>
+        <span class="card-eyebrow">Color</span>
+        <h2 class="card-title">Text Colors</h2>
+        <p class="card-desc">Parchment white #E5DFD0 · Muted gray #8A8578 · Dark-gray #5A5248 — warm not cold.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Tokens</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/colors-tints.html" id="spec-colors-tints">
+      <div class="thumb thumb-gold"><div class="thumb-placeholder">Colors — Tints</div></div>
+      <div class="card-body">
+        <span class="card-diamond">◆</span>
+        <span class="card-eyebrow">Color</span>
+        <h2 class="card-title">Tints &amp; Transparency</h2>
+        <p class="card-desc">Gold tints at 8%, 12%, 22% opacity — borders, washes, and watermarks in restrained doses.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Tokens</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/type-display.html" id="spec-type-display">
+      <div class="thumb thumb-gold"><div class="thumb-placeholder">Type — Display</div></div>
+      <div class="card-body">
+        <span class="card-diamond">◆</span>
+        <span class="card-eyebrow">Typography</span>
+        <h2 class="card-title">Display Type</h2>
+        <p class="card-desc">Cormorant Garamond — the editorial serif for all display headings and pull-quotes. Weights 300–600 + italic.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Serif</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/type-body.html" id="spec-type-body">
+      <div class="thumb thumb-gold"><div class="thumb-placeholder">Type — Body</div></div>
+      <div class="card-body">
+        <span class="card-diamond">◆</span>
+        <span class="card-eyebrow">Typography</span>
+        <h2 class="card-title">Body Type</h2>
+        <p class="card-desc">Manrope (weights 350–600) — all body copy, excerpts, subtitles, and UI labels.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Sans</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/type-mono.html" id="spec-type-mono">
+      <div class="thumb thumb-gold"><div class="thumb-placeholder">Type — Mono</div></div>
+      <div class="card-body">
+        <span class="card-diamond">◆</span>
+        <span class="card-eyebrow">Typography</span>
+        <h2 class="card-title">Mono Type</h2>
+        <p class="card-desc">JetBrains Mono — dates, reading times, tags, and stats. All metadata is mono.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Mono</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/type-scale.html" id="spec-type-scale">
+      <div class="thumb thumb-gold"><div class="thumb-placeholder">Type — Scale</div></div>
+      <div class="card-body">
+        <span class="card-diamond">◆</span>
+        <span class="card-eyebrow">Typography</span>
+        <h2 class="card-title">Type Scale</h2>
+        <p class="card-desc">Display 4rem → H1 3rem → Section 2rem → Featured 1.5rem → Card 1.1rem → Body 0.95rem → Meta 0.75rem.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Scale</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/spacing-scale.html" id="spec-spacing">
+      <div class="thumb thumb-gold"><div class="thumb-placeholder">Spacing</div></div>
+      <div class="card-body">
+        <span class="card-diamond">◆</span>
+        <span class="card-eyebrow">Foundation</span>
+        <h2 class="card-title">Spacing Scale</h2>
+        <p class="card-desc">0.25 / 0.5 / 0.75 / 1 / 1.5 / 2 / 3 / 4 / 6 / 8rem — whitespace as primary material.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Foundation</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/spacing-radii.html" id="spec-radii">
+      <div class="thumb thumb-gold"><div class="thumb-placeholder">Radii &amp; Borders</div></div>
+      <div class="card-body">
+        <span class="card-diamond">◆</span>
+        <span class="card-eyebrow">Foundation</span>
+        <h2 class="card-title">Radii &amp; Borders</h2>
+        <p class="card-desc">2px on pills/tags, 3px on cards. 1px hairline borders everywhere. No drop shadows. No glassmorphism.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Foundation</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/components-buttons.html" id="spec-buttons">
+      <div class="thumb thumb-gold"><div class="thumb-placeholder">Buttons</div></div>
+      <div class="card-body">
+        <span class="card-diamond">◆</span>
+        <span class="card-eyebrow">Component</span>
+        <h2 class="card-title">Buttons</h2>
+        <p class="card-desc">Primary (gold bg), secondary (ghost), and disabled variants. No glow, no scale — just surface shift.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Component</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/components-card.html" id="spec-cards">
+      <div class="thumb thumb-gold"><div class="thumb-placeholder">Cards</div></div>
+      <div class="card-body">
+        <span class="card-diamond">◆</span>
+        <span class="card-eyebrow">Component</span>
+        <h2 class="card-title">Cards</h2>
+        <p class="card-desc">Brief cards — Surface fill, gold-tint border, 3px gold left-border on hover. No shadow at rest.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Component</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/components-pills.html" id="spec-pills">
+      <div class="thumb thumb-gold"><div class="thumb-placeholder">Pills</div></div>
+      <div class="card-body">
+        <span class="card-diamond">◆</span>
+        <span class="card-eyebrow">Component</span>
+        <h2 class="card-title">Filter Pills</h2>
+        <p class="card-desc">Category filter pills — active state has gold border and ◆ diamond prefix. Hover lifts surface.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Component</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/components-tags.html" id="spec-tags">
+      <div class="thumb thumb-gold"><div class="thumb-placeholder">Tags</div></div>
+      <div class="card-body">
+        <span class="card-diamond">◆</span>
+        <span class="card-eyebrow">Component</span>
+        <h2 class="card-title">Tags</h2>
+        <p class="card-desc">Category tags in JetBrains Mono, uppercase with 0.15em tracking. 2px radius, gold-tint border.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Component</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/components-archive.html" id="spec-archive">
+      <div class="thumb thumb-gold"><div class="thumb-placeholder">Archive</div></div>
+      <div class="card-body">
+        <span class="card-diamond">◆</span>
+        <span class="card-eyebrow">Component</span>
+        <h2 class="card-title">Archive List</h2>
+        <p class="card-desc">Dense archive rows with diamond bullet, title, category tag, reading time, and date in mono.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Component</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/components-featured.html" id="spec-featured">
+      <div class="thumb thumb-gold"><div class="thumb-placeholder">Featured</div></div>
+      <div class="card-body">
+        <span class="card-diamond">◆</span>
+        <span class="card-eyebrow">Component</span>
+        <h2 class="card-title">Featured Brief</h2>
+        <p class="card-desc">Spotlight card — permanent 3px gold left-border, Deep Moss background wash, lead excerpt in Manrope.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Component</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/brand-logo.html" id="spec-brand">
+      <div class="thumb thumb-gold"><div class="thumb-placeholder">Brand</div></div>
+      <div class="card-body">
+        <span class="card-diamond">◆</span>
+        <span class="card-eyebrow">Brand</span>
+        <h2 class="card-title">Brand Mark</h2>
+        <p class="card-desc">The Hermes diamond-chevron monogram — gold on near-black. Usage in topbar and hero watermark.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Brand</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- Scraps -->
+  <div class="section-head">
+    <div class="section-rule-left"></div>
+    <span class="section-label">03 — Design Previews</span>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="img-grid">
+    <a class="img-card" href="scraps/landing-full.png" target="_blank" id="sc-landing">
+      <img src="scraps/landing-full.png" alt="Landing page" loading="lazy" />
+      <div class="img-card-label">Landing — Full</div>
+    </a>
+    <a class="img-card" href="scraps/landing-grid.png" target="_blank" id="sc-grid">
+      <img src="scraps/landing-grid.png" alt="Brief grid" loading="lazy" />
+      <div class="img-card-label">Brief Grid</div>
+    </a>
+    <a class="img-card" href="scraps/prev-featured.png" target="_blank" id="sc-featured">
+      <img src="scraps/prev-featured.png" alt="Featured brief" loading="lazy" />
+      <div class="img-card-label">Featured Brief</div>
+    </a>
+  </div>
+
+  <footer>
+    <p>Hermes Research Briefs · Design System · 17 spec cards · 1 UI kit</p>
+    <span style="color:var(--gold);font-size:14px;">◆</span>
+  </footer>
+
+</div>
+</body>
+</html>

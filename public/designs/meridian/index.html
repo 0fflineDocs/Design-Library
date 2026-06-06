@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Evolution — Meridian Design System</title>
+<meta name="description" content="Brutalist-editorial design system for Evolution — A History of Artificial Intelligence." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg:       #0E0D0B;
+    --surface:  #16140F;
+    --surface-2:#1F1C16;
+    --border:   #2A2620;
+    --border-hi:#3D372E;
+    --fg:       #E8E2D5;
+    --fg-2:     #9A9285;
+    --fg-3:     #605A4F;
+    --acid:     #C7F23C;
+    --rust:     #D9603B;
+    --ease:     cubic-bezier(0.2,0,0,1);
+    --serif:    "Instrument Serif", Georgia, serif;
+    --sans:     "Space Grotesk", -apple-system, sans-serif;
+    --mono:     "JetBrains Mono", monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .shell {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 48px 100px;
+  }
+
+  /* ── nav ── */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-mark {
+    font-family: var(--serif); font-size: 20px; color: var(--fg);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .nav-mark-e {
+    width: 30px; height: 30px; border: 1px solid var(--border-hi);
+    background: var(--surface);
+    display: grid; place-items: center;
+    font-size: 17px; color: var(--acid);
+  }
+  .nav-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-3); }
+  .nav-back {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--fg-3); text-decoration: none;
+    transition: color 180ms;
+  }
+  .nav-back:hover { color: var(--acid); }
+
+  /* ── header ── */
+  header {
+    padding: 64px 0 52px;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-eyebrow {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--acid); margin-bottom: 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .header-eyebrow::before {
+    content: ""; width: 40px; height: 1px; background: var(--acid); opacity: 0.5;
+  }
+  h1 {
+    font-family: var(--serif); font-size: clamp(44px, 6vw, 80px);
+    font-weight: 400; line-height: 0.92; letter-spacing: -0.01em;
+    color: var(--fg); margin-bottom: 20px;
+  }
+  .header-sub {
+    font-size: 15px; color: var(--fg-2); max-width: 520px; line-height: 1.55;
+  }
+
+  /* ── section ── */
+  .section-head {
+    display: flex; align-items: center; gap: 20px;
+    padding: 56px 0 24px;
+  }
+  .section-num {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid);
+    flex-shrink: 0;
+  }
+  .section-label {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-3);
+    flex-shrink: 0;
+  }
+  .section-rule { flex: 1; height: 1px; background: var(--border); }
+
+  /* ── grid ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    margin-top: 1px;
+  }
+
+  /* ── card ── */
+  .card {
+    background: var(--bg);
+    text-decoration: none; color: inherit;
+    display: flex; flex-direction: column;
+    transition: background 180ms var(--ease);
+    position: relative; overflow: hidden;
+  }
+  .card::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+    background: var(--acid); opacity: 0;
+    transition: opacity 180ms var(--ease);
+  }
+  .card:hover { background: var(--surface-2); }
+  .card:hover::before { opacity: 1; }
+
+  .thumb {
+    width: 100%; aspect-ratio: 16 / 9;
+    overflow: hidden; background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .thumb img {
+    width: 100%; height: 100%; object-fit: cover; object-position: top;
+    display: block; transition: transform 400ms var(--ease);
+  }
+  .card:hover .thumb img { transform: scale(1.04); }
+  .thumb-placeholder {
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-3);
+  }
+
+  .card-body { padding: 22px 22px 14px; flex: 1; display: flex; flex-direction: column; gap: 6px; }
+  .card-eyebrow {
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--acid);
+    opacity: 0.7;
+  }
+  .card-title {
+    font-family: var(--serif); font-size: 20px; font-weight: 400; line-height: 1.1;
+  }
+  .card-desc { font-size: 13px; color: var(--fg-2); line-height: 1.5; flex: 1; }
+
+  .card-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 22px; border-top: 1px solid var(--border);
+    background: rgba(0,0,0,0.15);
+  }
+  .card-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+  .tag {
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--fg-3); border: 1px solid var(--border); padding: 3px 6px;
+    transition: border-color 180ms, color 180ms;
+  }
+  .card:hover .tag { border-color: var(--border-hi); color: var(--fg-2); }
+  .arrow { color: var(--fg-3); font-size: 15px; transition: color 180ms, transform 180ms; }
+  .card:hover .arrow { color: var(--acid); transform: translateX(3px); }
+
+  /* ── wide card (for UI kit) ── */
+  .card-wide { grid-column: 1 / -1; flex-direction: row; max-height: 260px; }
+  .card-wide .thumb { width: 380px; flex-shrink: 0; aspect-ratio: auto; border-bottom: none; border-right: 1px solid var(--border); }
+  .card-wide .thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* ── screenshots ── */
+  .img-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px; margin-top: 4px;
+  }
+  .img-card {
+    background: var(--surface); border: 1px solid var(--border);
+    overflow: hidden; text-decoration: none; color: inherit;
+    transition: border-color 180ms;
+  }
+  .img-card:hover { border-color: var(--border-hi); }
+  .img-card img { display: block; width: 100%; transition: transform 300ms var(--ease); }
+  .img-card:hover img { transform: scale(1.04); }
+  .img-card-label {
+    padding: 9px 12px; border-top: 1px solid var(--border);
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-3);
+  }
+
+  footer {
+    margin-top: 72px; padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  footer p { font-family: var(--mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.1em; }
+
+  @media (max-width: 800px) {
+    .shell { padding: 0 20px 80px; }
+    .grid { grid-template-columns: 1fr; }
+    .card-wide { flex-direction: column; max-height: none; }
+    .card-wide .thumb { width: 100%; aspect-ratio: 16/9; border-right: none; border-bottom: 1px solid var(--border); }
+    .img-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <nav>
+    <div class="nav-mark">
+      <div class="nav-mark-e">E</div>
+      <div>
+        <div style="font-size:15px;">Evolution</div>
+        <div class="nav-label">Meridian Design System</div>
+      </div>
+    </div>
+    <a class="nav-back" href="../index.html">← Design Library</a>
+  </nav>
+
+  <header>
+    <div class="header-eyebrow">Meridian · Design System</div>
+    <h1>Evolution</h1>
+    <p class="header-sub">A brutalist-editorial design system for <em>A History of Artificial Intelligence</em> — dark off-black, acid-green accent, Instrument Serif × Space Grotesk.</p>
+  </header>
+
+  <!-- UI Kit -->
+  <div class="section-head">
+    <span class="section-num">01</span>
+    <span class="section-label">— Evolution UI Kit</span>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="grid">
+    <a class="card card-wide" href="ui_kits/evolution/index.html" id="card-evo-uikit">
+      <div class="thumb">
+        <div class="thumb-placeholder" style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;padding:24px;width:100%;height:100%;background:var(--surface);">
+          <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--acid);">Timeline · Labs · People</span>
+          <span style="font-family:var(--serif);font-size:36px;line-height:1;color:var(--fg);">A History of<br/>Artificial<br/>Intelligence</span>
+        </div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;justify-content:space-between;">
+        <div class="card-body">
+          <span class="card-eyebrow">Interactive UI Kit</span>
+          <h2 class="card-title">Evolution Website</h2>
+          <p class="card-desc">Full-fidelity editorial website — Timeline, Labs, People, Breakthroughs, Models, Movements, and Investments sections. Seven dimensions of AI history rendered in brutalist-minimalist design.</p>
+        </div>
+        <div class="card-footer">
+          <div class="card-tags"><span class="tag">React</span><span class="tag">Editorial</span><span class="tag">7 Sections</span></div>
+          <span class="arrow">→</span>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Design Specs -->
+  <div class="section-head">
+    <span class="section-num">02</span>
+    <span class="section-label">— Design Spec Cards</span>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="grid">
+    <a class="card" href="preview/colors-core.html" id="spec-colors-core">
+      <div class="thumb"><div class="thumb-placeholder">Colors — Core</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Color</span>
+        <h2 class="card-title">Core Colors</h2>
+        <p class="card-desc">Background, surface, border, and text tokens — the warm off-black base palette.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Tokens</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/colors-accents.html" id="spec-colors-accents">
+      <div class="thumb"><div class="thumb-placeholder">Colors — Accents</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Color</span>
+        <h2 class="card-title">Accent Colors</h2>
+        <p class="card-desc">Acid green #C7F23C (primary), rust #D9603B (secondary) — the signature accent duo.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Tokens</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/colors-surfaces.html" id="spec-colors-surfaces">
+      <div class="thumb"><div class="thumb-placeholder">Colors — Surfaces</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Color</span>
+        <h2 class="card-title">Surface Colors</h2>
+        <p class="card-desc">Layered surface tints for cards, panels, and hover states — elevation through color.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Tokens</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/colors-tints.html" id="spec-colors-tints">
+      <div class="thumb"><div class="thumb-placeholder">Colors — Tints</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Color</span>
+        <h2 class="card-title">Color Tints</h2>
+        <p class="card-desc">Data series tints — bone, acid, rust, slate, and ochre for charts and visualisations.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Data</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/colors-text.html" id="spec-colors-text">
+      <div class="thumb"><div class="thumb-placeholder">Colors — Text</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Color</span>
+        <h2 class="card-title">Text Colors</h2>
+        <p class="card-desc">Three-tier text hierarchy — bone primary, warm-gray secondary, dark-gray tertiary.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Tokens</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/type-scale.html" id="spec-type-scale">
+      <div class="thumb"><div class="thumb-placeholder">Type — Scale</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Typography</span>
+        <h2 class="card-title">Type Scale</h2>
+        <p class="card-desc">Display-1 (clamp 96–240px) down to caption (12px) — the full editorial typographic stack.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Type</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/type-display.html" id="spec-type-display">
+      <div class="thumb"><div class="thumb-placeholder">Type — Display</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Typography</span>
+        <h2 class="card-title">Display Type</h2>
+        <p class="card-desc">Instrument Serif — the signature editorial serif used for all display and major headings.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Serif</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/type-body.html" id="spec-type-body">
+      <div class="thumb"><div class="thumb-placeholder">Type — Body</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Typography</span>
+        <h2 class="card-title">Body Type</h2>
+        <p class="card-desc">Space Grotesk — UI, nav, and all body text. Weights 400, 500, and 700.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Sans</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/type-mono.html" id="spec-type-mono">
+      <div class="thumb"><div class="thumb-placeholder">Type — Mono</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Typography</span>
+        <h2 class="card-title">Mono Type</h2>
+        <p class="card-desc">JetBrains Mono — dates, investment figures, metadata labels, and data values.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Mono</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/spacing-scale.html" id="spec-spacing">
+      <div class="thumb"><div class="thumb-placeholder">Spacing</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Foundation</span>
+        <h2 class="card-title">Spacing Scale</h2>
+        <p class="card-desc">4px base unit scale — 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 96 / 128 / 192.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Foundation</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/spacing-radii.html" id="spec-radii">
+      <div class="thumb"><div class="thumb-placeholder">Borders &amp; Radii</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Foundation</span>
+        <h2 class="card-title">Borders &amp; Radii</h2>
+        <p class="card-desc">Default radius: 0. Allowed: 2px for inputs and small buttons. Architectural borders everywhere.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Foundation</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/components-buttons.html" id="spec-buttons">
+      <div class="thumb"><div class="thumb-placeholder">Buttons</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Component</span>
+        <h2 class="card-title">Buttons</h2>
+        <p class="card-desc">Primary (acid green), ghost, and disabled states — hover shifts bg to acid, text to bg.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Component</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/components-card.html" id="spec-cards">
+      <div class="thumb"><div class="thumb-placeholder">Cards</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Component</span>
+        <h2 class="card-title">Cards</h2>
+        <p class="card-desc">Editorial cards — solid surface, 1px border, no radius, gold left-border on hover.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Component</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/components-pills.html" id="spec-pills">
+      <div class="thumb"><div class="thumb-placeholder">Pills</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Component</span>
+        <h2 class="card-title">Pills</h2>
+        <p class="card-desc">Filter pills for section navigation — active state with acid-green border and diamond prefix.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Component</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/components-tags.html" id="spec-tags">
+      <div class="thumb"><div class="thumb-placeholder">Tags</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Component</span>
+        <h2 class="card-title">Tags</h2>
+        <p class="card-desc">Category and metadata tags — mono uppercase with hairline borders, 2px radius.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Component</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/components-archive.html" id="spec-archive">
+      <div class="thumb"><div class="thumb-placeholder">Archive</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Component</span>
+        <h2 class="card-title">Archive List</h2>
+        <p class="card-desc">Dense tabular archive rows with diamond bullets, hover gold left-border, and mono metadata.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Component</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/components-featured.html" id="spec-featured">
+      <div class="thumb"><div class="thumb-placeholder">Featured</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Component</span>
+        <h2 class="card-title">Featured Card</h2>
+        <p class="card-desc">Spotlight card with permanent gold left-border, Deep Moss wash, and editorial typography.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Component</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card" href="preview/brand-logo.html" id="spec-brand">
+      <div class="thumb"><div class="thumb-placeholder">Brand Logo</div></div>
+      <div class="card-body">
+        <span class="card-eyebrow">Brand</span>
+        <h2 class="card-title">Brand Logo</h2>
+        <p class="card-desc">The Evolution wordmark and 'E' mark — typeset in Instrument Serif with acid-green accent.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-tags"><span class="tag">Brand</span></div>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- Screenshots -->
+  <div class="section-head">
+    <span class="section-num">03</span>
+    <span class="section-label">— Design Iterations</span>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="img-grid">
+    <a class="img-card" href="preview/01-01-top.png" target="_blank"><img src="preview/01-01-top.png" alt="v1 top" loading="lazy" /><div class="img-card-label">v1 — Top</div></a>
+    <a class="img-card" href="preview/01-v4.png" target="_blank"><img src="preview/01-v4.png" alt="v4" loading="lazy" /><div class="img-card-label">v4</div></a>
+    <a class="img-card" href="preview/02-01-top.png" target="_blank"><img src="preview/02-01-top.png" alt="v2 top" loading="lazy" /><div class="img-card-label">v2 — Top</div></a>
+    <a class="img-card" href="preview/03-01-top.png" target="_blank"><img src="preview/03-01-top.png" alt="v3 top" loading="lazy" /><div class="img-card-label">v3 — Top</div></a>
+    <a class="img-card" href="preview/04-01-top.png" target="_blank"><img src="preview/04-01-top.png" alt="v4 top" loading="lazy" /><div class="img-card-label">v4 — Top</div></a>
+    <a class="img-card" href="preview/05-01-top.png" target="_blank"><img src="preview/05-01-top.png" alt="v5 primordials" loading="lazy" /><div class="img-card-label">v5 — Primordials</div></a>
+    <a class="img-card" href="preview/olympians.png" target="_blank"><img src="preview/olympians.png" alt="Olympians" loading="lazy" /><div class="img-card-label">Olympians</div></a>
+    <a class="img-card" href="preview/r-olympians.png" target="_blank"><img src="preview/r-olympians.png" alt="Revised Olympians" loading="lazy" /><div class="img-card-label">Revised Olympians</div></a>
+  </div>
+
+  <footer>
+    <p>Evolution · Meridian Design System · 17 spec cards · 1 UI kit</p>
+    <span style="font-family:var(--serif);font-size:16px;color:var(--acid);">◆</span>
+  </footer>
+
+</div>
+</body>
+</html>

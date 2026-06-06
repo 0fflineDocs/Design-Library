@@ -1,0 +1,1328 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Philosophae — Encyclopedia of Philosophical History</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     PHILOSOPHAE — Study Green palette, EB Garamond throughout
+     ============================================================ */
+  :root{
+    --bg:#0d150d;
+    --bg-2:#141e14;
+    --surface:#1c2a1c;
+    --surface-2:#233323;
+    --ink:#e3ded3;
+    --ink-dim:#c8c1b1;
+    --gold:#c9a84c;
+    --gold-deep:#b8860b;
+    --gold-pale:#d8bf68;
+    --silver:#b0b4b8;
+    --silver-dim:#7a7e82;
+    --wine:#4a1515;
+    --rule:#3a4a3a;
+    --rule-faint:#26342612;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;border-radius:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:'EB Garamond',Garamond,'Adobe Caslon Pro',Georgia,serif;font-size:17px;line-height:1.65;font-feature-settings:"liga","dlig","onum","kern";text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+  body{
+    background:
+      radial-gradient(1200px 600px at 70% -200px, rgba(201,168,76,0.045), transparent 60%),
+      radial-gradient(900px 700px at -100px 30%, rgba(20,30,20,0.6), transparent 70%),
+      var(--bg);
+    min-height:100vh;
+    position:relative;
+    overflow-x:hidden;
+  }
+  /* Paper grain overlay */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.035;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.9 0 0 0 0 0.85 0 0 0 0 0.7 0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  /* Faint vignette */
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;
+    box-shadow:inset 0 0 240px rgba(0,0,0,.55);
+  }
+  ::selection{background:rgba(201,168,76,.28);color:var(--ink)}
+
+  a{color:inherit;text-decoration:none}
+
+  /* ============================================================
+     Page layout
+     ============================================================ */
+  .page{
+    display:grid;
+    grid-template-columns:260px minmax(0,1fr);
+    max-width:1400px;
+    margin:0 auto;
+    position:relative;
+    z-index:2;
+  }
+
+  /* ----------------------- Masthead bar ------------------------ */
+  .masthead{
+    grid-column:1/-1;
+    display:grid;
+    grid-template-columns:260px 1fr auto;
+    align-items:end;
+    padding:34px 56px 22px 36px;
+    border-bottom:1px solid var(--rule);
+    position:relative;
+  }
+  .masthead::after{
+    content:"";position:absolute;left:36px;right:56px;bottom:-3px;height:1px;background:var(--gold);opacity:.55;
+  }
+  .mast-brand{
+    display:flex;flex-direction:column;gap:2px;letter-spacing:.04em;
+  }
+  .mast-brand .mark{
+    font-family:'EB Garamond',serif;font-style:italic;font-weight:500;font-size:13px;color:var(--silver);letter-spacing:.18em;text-transform:uppercase;
+  }
+  .mast-brand .title{
+    font-family:'EB Garamond',serif;font-weight:700;font-size:30px;color:var(--gold);letter-spacing:.02em;line-height:1;
+  }
+  .mast-tagline{
+    text-align:center;font-style:italic;font-size:15px;color:var(--ink-dim);letter-spacing:.02em;align-self:end;padding-bottom:4px;
+  }
+  .mast-tagline .fleuron{color:var(--gold);font-style:normal;margin:0 .7em;opacity:.8}
+  .mast-meta{
+    display:flex;flex-direction:column;align-items:flex-end;gap:4px;font-variant:small-caps;letter-spacing:.18em;font-size:11px;color:var(--silver);
+  }
+  .mast-meta .vol{color:var(--gold);font-weight:600}
+
+  /* ----------------------- Sidebar nav ------------------------- */
+  aside.toc{
+    position:sticky;top:0;align-self:start;
+    padding:28px 22px 60px 36px;
+    border-right:1px solid var(--rule);
+    height:100vh;overflow-y:auto;
+    background:linear-gradient(180deg, rgba(13,21,13,1), rgba(13,21,13,.92));
+  }
+  aside.toc::-webkit-scrollbar{width:6px}
+  aside.toc::-webkit-scrollbar-thumb{background:#2a3a2a}
+  .toc-label{
+    font-variant:small-caps;letter-spacing:.22em;font-size:11px;color:var(--silver);
+    padding-bottom:8px;border-bottom:1px solid var(--rule);margin-bottom:14px;display:flex;justify-content:space-between;align-items:baseline;
+  }
+  .toc-label .sym{color:var(--gold);font-variant:normal;letter-spacing:0}
+  .toc-section{margin-bottom:22px}
+  .toc-section h3{
+    font-family:'EB Garamond',serif;font-weight:600;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);
+    display:flex;align-items:baseline;gap:10px;margin-bottom:8px;
+  }
+  .toc-section h3 .roman{color:var(--silver);font-weight:500;font-size:11px;letter-spacing:.18em;font-variant:small-caps;text-transform:none;font-style:italic}
+  .toc-section ul{list-style:none}
+  .toc-section li{position:relative;padding:3px 0 3px 14px;font-size:15px;color:var(--ink-dim)}
+  .toc-section li::before{content:"·";position:absolute;left:0;top:1px;color:var(--gold);font-weight:700}
+  .toc-section li a{display:inline-block;border-bottom:1px solid transparent;transition:color .15s, border-color .15s}
+  .toc-section li a:hover{color:var(--gold-pale);border-bottom-color:var(--gold)}
+  .toc-section li.is-active > a{color:var(--gold);border-bottom-color:var(--gold)}
+  .toc-section li.is-active::before{content:"◆";font-size:10px;top:5px}
+
+  .toc-foot{
+    margin-top:34px;padding-top:18px;border-top:1px solid var(--rule);
+    font-size:12px;color:var(--silver-dim);font-style:italic;line-height:1.5;
+  }
+  .toc-foot .colophon{font-variant:small-caps;letter-spacing:.18em;color:var(--silver);font-style:normal;display:block;margin-bottom:6px}
+
+  /* ----------------------- Main content ------------------------ */
+  main{
+    padding:48px 56px 120px;
+    max-width:1020px;
+    margin:0 auto;
+    width:100%;
+  }
+  .frontispiece{
+    margin:8px 0 64px;
+    padding:0 12px;
+    text-align:center;
+  }
+  .frontispiece .super{
+    font-variant:small-caps;letter-spacing:.32em;font-size:12px;color:var(--silver);margin-bottom:18px;
+  }
+  .frontispiece h1{
+    font-family:'EB Garamond',serif;font-weight:500;font-size:64px;line-height:1.05;color:var(--gold);letter-spacing:.005em;margin-bottom:14px;
+    font-feature-settings:"liga","dlig";
+  }
+  .frontispiece h1 em{font-style:italic;font-weight:500;color:var(--gold-pale)}
+  .frontispiece .sub{
+    font-style:italic;font-size:19px;color:var(--ink-dim);max-width:60ch;margin:0 auto 28px;line-height:1.55;
+  }
+  .frontispiece .ornament{
+    color:var(--gold);font-size:18px;letter-spacing:1.2em;padding-left:1.2em;opacity:.7;
+  }
+  .frontispiece .epigraph{
+    margin-top:36px;font-style:italic;color:var(--ink-dim);font-size:16px;max-width:54ch;margin-left:auto;margin-right:auto;
+  }
+  .frontispiece .epigraph .attrib{
+    display:block;margin-top:8px;font-style:normal;font-variant:small-caps;letter-spacing:.18em;font-size:11px;color:var(--silver);
+  }
+
+  /* Era section */
+  .era{margin-top:72px;scroll-margin-top:24px}
+  .era:first-of-type{margin-top:32px}
+  .era-head{
+    display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px;
+    padding-bottom:14px;margin-bottom:34px;border-bottom:1px solid var(--gold);
+  }
+  .era-head .num{
+    font-variant:small-caps;letter-spacing:.22em;font-size:12px;color:var(--silver);
+    padding-right:14px;border-right:1px solid var(--rule);
+  }
+  .era-head h2{
+    font-family:'EB Garamond',serif;font-weight:500;font-size:30px;color:var(--gold);letter-spacing:.02em;
+    display:flex;align-items:baseline;gap:14px;
+  }
+  .era-head h2 .sect{color:var(--gold-pale);font-weight:400;font-size:22px;opacity:.85}
+  .era-head .span{
+    font-variant:small-caps;letter-spacing:.2em;font-size:12px;color:var(--silver);font-feature-settings:"onum";
+  }
+
+  /* ---- Major figure entry (full-width) ---- */
+  .figure-entry{
+    padding:28px 0 36px;
+    border-top:1px solid var(--gold);
+    margin-bottom:36px;
+    display:grid;grid-template-columns:140px 1fr;gap:36px;
+  }
+  .figure-entry .portrait{
+    width:140px;height:170px;
+    border:1px solid var(--rule);
+    background:var(--surface);
+    position:relative;overflow:hidden;
+  }
+  .figure-entry .portrait svg{width:100%;height:100%;display:block}
+  .figure-entry .portrait .caption{
+    position:absolute;left:0;right:0;bottom:0;
+    text-align:center;font-variant:small-caps;letter-spacing:.18em;font-size:9px;color:var(--silver-dim);
+    padding:4px 0;background:linear-gradient(180deg,transparent,rgba(13,21,13,.85));
+  }
+  .figure-entry .body{min-width:0}
+  .figure-entry .name{
+    font-family:'EB Garamond',serif;font-weight:500;font-size:38px;color:var(--gold);line-height:1.05;letter-spacing:.005em;margin-bottom:4px;
+  }
+  .figure-entry .name .epithet{font-style:italic;color:var(--gold-pale);font-size:.6em;font-weight:400;margin-left:.4em}
+  .figure-entry .meta{
+    display:flex;gap:18px;flex-wrap:wrap;align-items:baseline;
+    font-variant:small-caps;letter-spacing:.18em;font-size:11px;color:var(--silver);margin-bottom:4px;font-feature-settings:"onum";
+  }
+  .figure-entry .meta .dot{color:var(--gold);opacity:.6}
+  .figure-entry .school{
+    font-style:italic;color:var(--ink-dim);font-size:15px;margin-bottom:14px;
+  }
+  .figure-entry .lede{
+    font-size:17.5px;line-height:1.65;color:var(--ink);max-width:62ch;
+  }
+  .figure-entry .lede p + p{margin-top:10px}
+  .figure-entry .lede .term{font-style:italic;color:var(--gold-pale)}
+  .figure-entry .lede .sc{font-variant:small-caps;letter-spacing:.12em;color:var(--silver)}
+  .dropcap::first-letter{
+    font-family:'EB Garamond',serif;font-weight:500;
+    float:left;font-size:5.2em;line-height:.86;
+    color:var(--gold);
+    padding:6px 12px 0 0;margin-top:4px;
+  }
+  .figure-foot{
+    margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:24px;padding-top:14px;border-top:1px solid var(--rule);
+  }
+  .figure-foot .label{
+    font-variant:small-caps;letter-spacing:.22em;font-size:10.5px;color:var(--silver);margin-bottom:6px;
+  }
+  .figure-foot .works{font-style:italic;color:var(--ink-dim);font-size:15px;line-height:1.5}
+  .figure-foot .works .sep{color:var(--gold);font-style:normal;margin:0 .35em;opacity:.55}
+  .figure-foot .influence{color:var(--ink-dim);font-size:15px;line-height:1.5}
+  .figure-foot .influence .who{color:var(--ink)}
+
+  /* ---- Movements (2-col grid) ---- */
+  .movements{
+    display:grid;grid-template-columns:1fr 1fr;column-gap:48px;row-gap:0;
+    margin-bottom:32px;
+  }
+  .movement{
+    padding:20px 0 22px;border-top:1px solid var(--gold);
+  }
+  .movement h4{
+    font-family:'EB Garamond',serif;font-weight:500;font-size:23px;color:var(--gold);letter-spacing:.01em;margin-bottom:2px;
+  }
+  .movement .when{
+    font-variant:small-caps;letter-spacing:.2em;font-size:11px;color:var(--silver);margin-bottom:8px;font-feature-settings:"onum";
+  }
+  .movement p{color:var(--ink);font-size:15.5px;line-height:1.55;margin-bottom:8px}
+  .movement .figures{font-size:14px;color:var(--ink-dim);font-style:italic}
+  .movement .figures .lab{font-style:normal;font-variant:small-caps;letter-spacing:.18em;color:var(--silver);margin-right:6px;font-size:10.5px}
+
+  /* ---- Concepts (3-col dense) ---- */
+  .concepts{
+    display:grid;grid-template-columns:repeat(3,1fr);column-gap:36px;row-gap:0;
+    margin-bottom:16px;
+  }
+  .concept{
+    padding:16px 0;border-top:1px solid var(--gold);
+  }
+  .concept .name{
+    font-family:'EB Garamond',serif;font-variant:small-caps;letter-spacing:.16em;font-weight:600;font-size:14px;color:var(--gold);margin-bottom:4px;
+  }
+  .concept .latin{font-style:italic;color:var(--gold-pale);font-size:14px;margin-bottom:6px;letter-spacing:0}
+  .concept p{color:var(--ink-dim);font-size:14.5px;line-height:1.5}
+
+  /* Wine accent — used once, on a single highlighted pull quote */
+  .pullquote{
+    background:var(--wine);
+    color:#f0e8d8;
+    padding:22px 28px;
+    margin:34px 0 8px;
+    font-style:italic;font-size:20px;line-height:1.45;
+    border-left:2px solid var(--gold);
+    position:relative;
+    max-width:60ch;
+  }
+  .pullquote .attrib{
+    display:block;margin-top:10px;font-style:normal;font-variant:small-caps;letter-spacing:.2em;font-size:11px;color:#d4c9a8;
+  }
+
+  /* Era preface paragraph */
+  .era-preface{
+    font-style:italic;color:var(--ink-dim);font-size:17px;line-height:1.6;max-width:62ch;margin-bottom:24px;
+  }
+  .era-preface .open{
+    font-variant:small-caps;letter-spacing:.22em;font-style:normal;color:var(--silver);font-size:11.5px;display:block;margin-bottom:6px;
+  }
+
+  /* Section label between groupings */
+  .subhead{
+    display:flex;align-items:center;gap:14px;margin:32px 0 18px;
+    font-variant:small-caps;letter-spacing:.28em;font-size:11.5px;color:var(--silver);
+  }
+  .subhead::before, .subhead::after{
+    content:"";flex:1;height:1px;background:var(--rule);
+  }
+  .subhead .mark{color:var(--gold);letter-spacing:0;font-variant:normal}
+
+  /* Footer colophon */
+  .colophon-end{
+    margin-top:96px;padding-top:24px;border-top:1px solid var(--gold);
+    text-align:center;font-style:italic;color:var(--silver-dim);font-size:13.5px;line-height:1.7;
+  }
+  .colophon-end .row{font-variant:small-caps;letter-spacing:.22em;font-style:normal;color:var(--silver);font-size:11px;margin-bottom:8px}
+  .colophon-end .ornament{color:var(--gold);letter-spacing:1em;padding-left:1em;opacity:.6;margin-bottom:8px}
+
+  /* Hover affordance on figure name */
+  .figure-entry .name{cursor:pointer;display:inline-block;border-bottom:1px solid transparent;transition:border-color .15s}
+  .figure-entry .name:hover{border-bottom-color:var(--gold)}
+  .figure-entry .name .see{
+    margin-left:.4em;font-size:.32em;font-variant:small-caps;letter-spacing:.22em;color:var(--silver);font-weight:400;vertical-align:middle;font-style:normal;
+  }
+
+  /* Expandable detail panel */
+  .figure-detail{
+    margin-top:18px;padding-top:18px;border-top:1px solid var(--rule);
+    display:none;
+    grid-column:1/-1;
+  }
+  .figure-entry.is-open .figure-detail{display:block}
+  .figure-detail h5{
+    font-variant:small-caps;letter-spacing:.22em;font-size:11px;color:var(--silver);margin-bottom:10px;
+  }
+  .figure-detail .grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:32px;
+  }
+  .figure-detail p{font-size:15.5px;line-height:1.6;color:var(--ink-dim);margin-bottom:10px;max-width:60ch}
+  .figure-detail p .term{font-style:italic;color:var(--gold-pale)}
+  .figure-detail dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:14.5px}
+  .figure-detail dt{font-variant:small-caps;letter-spacing:.16em;font-size:10.5px;color:var(--silver);padding-top:3px}
+  .figure-detail dd{color:var(--ink);font-style:italic}
+
+  /* Responsive */
+  @media (max-width:1100px){
+    main{padding:36px 36px 100px}
+    .figure-entry{grid-template-columns:120px 1fr;gap:24px}
+    .figure-entry .portrait{width:120px;height:148px}
+    .figure-entry .name{font-size:32px}
+    .concepts{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:900px){
+    .page{grid-template-columns:1fr}
+    aside.toc{position:relative;height:auto;width:100%;border-right:none;border-bottom:1px solid var(--rule);padding:24px}
+    .masthead{grid-template-columns:1fr;gap:8px;text-align:center;padding:24px}
+    .masthead .mast-meta{align-items:center}
+    .frontispiece h1{font-size:44px}
+    .figure-entry{grid-template-columns:1fr}
+    .figure-entry .portrait{width:100%;max-width:180px;margin:0 auto}
+    .movements,.concepts,.figure-foot,.figure-detail .grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ============================================================
+       MASTHEAD
+       ============================================================ -->
+  <header class="masthead">
+    <div class="mast-brand">
+      <span class="mark">Encyclopædia</span>
+      <span class="title">Philosophæ</span>
+    </div>
+    <div class="mast-tagline">
+      A Reference Compendium of Western Thought <span class="fleuron">§</span> from Miletus to the Present Day
+    </div>
+    <div class="mast-meta">
+      <span class="vol">Vol. I &mdash; The Compendium</span>
+      <span>Edition MMXXVI</span>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       SIDEBAR — Table of Contents
+       ============================================================ -->
+  <aside class="toc" id="toc">
+    <div class="toc-label"><span>Table of Contents</span><span class="sym">§</span></div>
+
+    <nav class="toc-section">
+      <h3><span class="roman">I.</span> Ancient</h3>
+      <ul>
+        <li><a href="#ancient">Overview &amp; Frontispiece</a></li>
+        <li><a href="#plato">Plato</a></li>
+        <li><a href="#ancient-movements">Schools of the Polis</a></li>
+        <li><a href="#ancient-concepts">Key Concepts</a></li>
+      </ul>
+    </nav>
+
+    <nav class="toc-section">
+      <h3><span class="roman">II.</span> Medieval</h3>
+      <ul>
+        <li><a href="#medieval">Overview</a></li>
+        <li><a href="#aquinas">Thomas Aquinas</a></li>
+        <li><a href="#medieval-movements">Scholastic &amp; Falsafa</a></li>
+        <li><a href="#medieval-concepts">Key Concepts</a></li>
+      </ul>
+    </nav>
+
+    <nav class="toc-section">
+      <h3><span class="roman">III.</span> Early Modern</h3>
+      <ul>
+        <li><a href="#early-modern">Overview</a></li>
+        <li><a href="#kant">Immanuel Kant</a></li>
+        <li><a href="#em-movements">Rationalism &amp; Empiricism</a></li>
+        <li><a href="#em-concepts">Key Concepts</a></li>
+      </ul>
+    </nav>
+
+    <nav class="toc-section">
+      <h3><span class="roman">IV.</span> Nineteenth Century</h3>
+      <ul>
+        <li><a href="#c19">Overview</a></li>
+        <li><a href="#nietzsche">Friedrich Nietzsche</a></li>
+        <li><a href="#c19-movements">Idealism &amp; Critique</a></li>
+        <li><a href="#c19-concepts">Key Concepts</a></li>
+      </ul>
+    </nav>
+
+    <nav class="toc-section">
+      <h3><span class="roman">V.</span> Twentieth &amp; Contemporary</h3>
+      <ul>
+        <li><a href="#c20">Overview</a></li>
+        <li><a href="#heidegger">Martin Heidegger</a></li>
+        <li><a href="#c20-movements">Phenomenology &amp; Analytic</a></li>
+        <li><a href="#c20-concepts">Key Concepts</a></li>
+      </ul>
+    </nav>
+
+    <div class="toc-foot">
+      <span class="colophon">Editorial</span>
+      Cross-references appear in italics throughout. Dates given <span style="font-feature-settings:'onum';font-variant:small-caps;letter-spacing:.1em">bce</span> &amp; <span style="font-feature-settings:'onum';font-variant:small-caps;letter-spacing:.1em">ce</span>. Greek and Latin terms preserved.
+    </div>
+  </aside>
+
+  <!-- ============================================================
+       MAIN
+       ============================================================ -->
+  <main>
+
+    <!-- Frontispiece -->
+    <section class="frontispiece">
+      <div class="super">Volume the First &mdash; A Compendium</div>
+      <h1>The History of <em>Philosophy</em>,<br/>From Thales to the Present</h1>
+      <div class="sub">Comprising the lives, doctrines, and disputations of the major figures, schools, and concepts of the Western tradition — arranged in five eras, with their Eastern interlocutors noted where they bear upon the principal lineage.</div>
+      <div class="ornament">❦ § ❦</div>
+      <div class="epigraph">
+        &ldquo;The unexamined life is not worth living.&rdquo;
+        <span class="attrib">Socrates &mdash; <em>Apology</em>, 38a</span>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         I. ANCIENT
+         ============================================================ -->
+    <section class="era" id="ancient">
+      <div class="era-head">
+        <div class="num">Book I</div>
+        <h2><span class="sect">§</span> Ancient Philosophy</h2>
+        <div class="span">c. 600 bce &mdash; 529 ce</div>
+      </div>
+
+      <p class="era-preface">
+        <span class="open">Argument of the Book</span>
+        The era opens at Miletus, where Thales is said to have held that all things are water, and closes with Justinian's edict shuttering the Academy at Athens after nine centuries of operation. Between these two dates the Greeks invent, almost from nothing, the disciplines of metaphysics, ethics, politics, logic, natural philosophy, and aesthetics — and the Romans translate the inheritance into Latin, where it will wait out the long medieval custody of the Church.
+      </p>
+
+      <!-- Major figure: PLATO -->
+      <article class="figure-entry" id="plato">
+        <div class="portrait">
+          <!-- line-art bust placeholder -->
+          <svg viewBox="0 0 140 170" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="140" height="170" fill="#1c2a1c"/>
+            <g fill="none" stroke="#c9a84c" stroke-width="0.7" opacity=".85">
+              <path d="M70 30 C 90 30, 100 50, 100 72 C 100 88, 92 100, 80 106 L 80 118 L 60 118 L 60 106 C 48 100, 40 88, 40 72 C 40 50, 50 30, 70 30 Z"/>
+              <path d="M40 72 C 35 72, 32 76, 33 82 C 34 86, 38 88, 42 86"/>
+              <path d="M55 70 q 5 -4 10 0"/>
+              <path d="M75 70 q 5 -4 10 0"/>
+              <path d="M58 75 q 4 6 10 6 q 6 0 10 -6"/>
+              <path d="M62 88 q 8 4 16 0"/>
+              <path d="M50 40 q 10 -6 20 -2 q 10 -4 20 2"/>
+              <path d="M48 50 q 22 -10 44 0"/>
+              <path d="M52 118 L 30 170 L 110 170 L 88 118"/>
+            </g>
+            <text x="70" y="160" text-anchor="middle" font-family="EB Garamond" font-style="italic" font-size="8" fill="#7a7e82" letter-spacing="1.5">after a Roman herm</text>
+          </svg>
+          <div class="caption">Plate I</div>
+        </div>
+        <div class="body">
+          <div class="name">Plato <span class="epithet">of Athens</span> <span class="see">&mdash; open entry</span></div>
+          <div class="meta">
+            <span>c. 428 &mdash; 348 bce</span>
+            <span class="dot">·</span>
+            <span>Athens</span>
+            <span class="dot">·</span>
+            <span>Founder of the Academy</span>
+          </div>
+          <div class="school">Pupil of Socrates · Teacher of Aristotle · Foundational figure of Platonism</div>
+          <div class="lede dropcap">
+            <p>Born into the Athenian aristocracy in the generation following the Periclean age, Plato turned from a political career to the philosophical life under the influence of <span class="term">Socrates</span>, whose trial and execution in 399 <span class="sc">bce</span> furnished the perpetual subject of his early dialogues. He founded the <span class="term">Academy</span> outside Athens around 387 <span class="sc">bce</span> — the first sustained institution of higher learning in the Western world, where it would operate, with interruptions, until 529 <span class="sc">ce</span>.</p>
+            <p>The mature metaphysics holds that the visible world is a deficient copy of an intelligible realm of <span class="term">Forms</span> (εἴδη) — eternal, unchanging archetypes of which particular things are imperfect instances. The <em>Republic</em> uses this doctrine to construct a tripartite soul (reason, spirit, appetite) and a just city ruled by philosopher-kings; the late dialogues — <em>Parmenides</em>, <em>Sophist</em>, <em>Theaetetus</em>, <em>Timaeus</em> — interrogate the Forms doctrine and pursue questions of being, knowledge, and cosmology with progressively more austere argument.</p>
+          </div>
+          <div class="figure-foot">
+            <div>
+              <div class="label">Principal Works</div>
+              <div class="works"><em>Apology</em><span class="sep">·</span><em>Phaedo</em><span class="sep">·</span><em>Symposium</em><span class="sep">·</span><em>Republic</em><span class="sep">·</span><em>Phaedrus</em><span class="sep">·</span><em>Theaetetus</em><span class="sep">·</span><em>Parmenides</em><span class="sep">·</span><em>Timaeus</em><span class="sep">·</span><em>Sophist</em><span class="sep">·</span><em>Laws</em></div>
+            </div>
+            <div>
+              <div class="label">Lineage</div>
+              <div class="influence">Inherits the elenctic method from <span class="who">Socrates</span>; engages with <span class="who">Parmenides</span> and the Pythagoreans; bequeaths the school to <span class="who">Speusippus</span>, then through the Middle and Neo-Platonists to <span class="who">Plotinus</span> and, by long inheritance, to <span class="who">Augustine</span>.</div>
+            </div>
+          </div>
+          <div class="figure-detail">
+            <h5>§ Further Reading</h5>
+            <div class="grid">
+              <div>
+                <p>The Platonic corpus survives nearly intact — an exceptional fortune in classical letters — in thirty-six works traditionally arranged into nine tetralogies by Thrasyllus of Alexandria in the first century. Authenticity of several minor dialogues (<span class="term">Alcibiades I</span>, <span class="term">Hippias Major</span>, <span class="term">Theages</span>) remains disputed by modern scholarship.</p>
+                <p>The so-called <span class="term">Tübingen School</span> argues that Plato's deepest doctrine was reserved for oral teaching within the Academy and only obliquely indicated in the dialogues — the &ldquo;unwritten doctrines&rdquo; reported by Aristotle in <em>Metaphysics</em> A.6.</p>
+              </div>
+              <div>
+                <dl>
+                  <dt>Born</dt><dd>c. 428 bce, Athens or Aegina</dd>
+                  <dt>Died</dt><dd>c. 348 bce, Athens</dd>
+                  <dt>Given Name</dt><dd>Aristocles, son of Ariston</dd>
+                  <dt>Travels</dt><dd>Megara · Egypt · Cyrene · Italy · Syracuse (thrice)</dd>
+                  <dt>Successor</dt><dd>Speusippus, his nephew</dd>
+                  <dt>Modern Edition</dt><dd>Burnet, OCT, 5 vols., 1900&ndash;07</dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Pullquote (wine accent — used ONCE on the page) -->
+      <blockquote class="pullquote">
+        &ldquo;Wonder is the only beginning of philosophy.&rdquo;
+        <span class="attrib">Plato &mdash; <em>Theaetetus</em>, 155d</span>
+      </blockquote>
+
+      <!-- Movements -->
+      <div class="subhead" id="ancient-movements"><span class="mark">§</span> Schools of the Polis</div>
+      <div class="movements">
+        <article class="movement">
+          <h4>Stoicism</h4>
+          <div class="when">3rd c. bce &mdash; 3rd c. ce</div>
+          <p>Founded by Zeno of Citium in the Stoa Poikilē at Athens. The Stoics held that virtue is the sole good, that the cosmos is governed by a rational <em>logos</em> with which the wise man aligns his will, and that destructive passions arise from false judgments about value.</p>
+          <div class="figures"><span class="lab">Figures</span> Zeno · Cleanthes · Chrysippus · Seneca · Epictetus · Marcus Aurelius</div>
+        </article>
+        <article class="movement">
+          <h4>Epicureanism</h4>
+          <div class="when">307 bce &mdash; 4th c. ce</div>
+          <p>Epicurus taught from a walled garden outside Athens that pleasure (<em>hēdonē</em>) — properly understood as the absence of bodily pain (<em>aponia</em>) and mental disturbance (<em>ataraxia</em>) — is the end of life, and that the gods, though they exist, take no interest in human affairs.</p>
+          <div class="figures"><span class="lab">Figures</span> Epicurus · Metrodorus · Philodemus · Lucretius</div>
+        </article>
+        <article class="movement">
+          <h4>Aristotelianism &amp; the Peripatos</h4>
+          <div class="when">335 bce &mdash; 6th c. ce</div>
+          <p>Aristotle's school at the Lyceum advanced a systematic philosophy uniting logic, biology, ethics, politics, and metaphysics. Where Plato sought reality in transcendent Forms, Aristotle located it in the immanent <em>ousia</em> of concrete substances — form and matter inseparable.</p>
+          <div class="figures"><span class="lab">Figures</span> Aristotle · Theophrastus · Strato · Alexander of Aphrodisias</div>
+        </article>
+        <article class="movement">
+          <h4>Pyrrhonian Skepticism</h4>
+          <div class="when">3rd c. bce &mdash; 3rd c. ce</div>
+          <p>Pyrrho of Elis returned from Alexander's Indian campaign teaching the suspension of judgment (<em>epochē</em>) on all matters of speculative belief — for every argument an opposing argument of equal force can be produced, and from this equipollence follows tranquility (<em>ataraxia</em>).</p>
+          <div class="figures"><span class="lab">Figures</span> Pyrrho · Timon · Aenesidemus · Sextus Empiricus</div>
+        </article>
+        <article class="movement">
+          <h4>Neoplatonism</h4>
+          <div class="when">3rd c. &mdash; 6th c. ce</div>
+          <p>Plotinus reconstructed Plato into a hierarchical metaphysics descending from the ineffable <em>One</em>, through Intellect (<em>Nous</em>) and Soul, to the material world. The system would shape Christian, Jewish, and Islamic mysticism for a thousand years.</p>
+          <div class="figures"><span class="lab">Figures</span> Plotinus · Porphyry · Iamblichus · Proclus</div>
+        </article>
+        <article class="movement">
+          <h4>The Pre-Socratics</h4>
+          <div class="when">6th &mdash; 5th c. bce</div>
+          <p>The Milesians (Thales, Anaximander, Anaximenes) sought a single <em>archē</em> underlying nature; Heraclitus countered with universal flux and the <em>logos</em>; Parmenides denied change altogether; Democritus reduced everything to atoms in the void.</p>
+          <div class="figures"><span class="lab">Figures</span> Thales · Heraclitus · Parmenides · Empedocles · Anaxagoras · Democritus</div>
+        </article>
+      </div>
+
+      <!-- Concepts -->
+      <div class="subhead" id="ancient-concepts"><span class="mark">§</span> Key Concepts</div>
+      <div class="concepts">
+        <div class="concept">
+          <div class="name">The Forms</div>
+          <div class="latin">εἴδη · ideai</div>
+          <p>Eternal, unchanging archetypes of which sensible particulars are imperfect copies; the proper objects of true knowledge.</p>
+        </div>
+        <div class="concept">
+          <div class="name">Eudaimonia</div>
+          <div class="latin">εὐδαιμονία</div>
+          <p>Human flourishing — the active life lived in accordance with virtue, identified by Aristotle as the highest good (<em>telos</em>).</p>
+        </div>
+        <div class="concept">
+          <div class="name">Logos</div>
+          <div class="latin">λόγος</div>
+          <p>Reasoned account, ratio, the rational principle ordering the cosmos. Heraclitean in origin, central to Stoicism and later Christian theology.</p>
+        </div>
+        <div class="concept">
+          <div class="name">Aporia</div>
+          <div class="latin">ἀπορία · puzzlement</div>
+          <p>The state of impasse the Socratic interlocutor arrives at when his confident definitions have been dismantled — the necessary opening of inquiry.</p>
+        </div>
+        <div class="concept">
+          <div class="name">Phronēsis</div>
+          <div class="latin">φρόνησις</div>
+          <p>Practical wisdom — the deliberative virtue by which one perceives what right action consists in for the particular case at hand.</p>
+        </div>
+        <div class="concept">
+          <div class="name">Ataraxia</div>
+          <div class="latin">ἀταραξία</div>
+          <p>Tranquility of mind, the goal both of the Epicurean (through right desire) and the Pyrrhonist (through suspension of judgment).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         II. MEDIEVAL
+         ============================================================ -->
+    <section class="era" id="medieval">
+      <div class="era-head">
+        <div class="num">Book II</div>
+        <h2><span class="sect">§</span> Medieval Philosophy</h2>
+        <div class="span">c. 400 &mdash; 1500 ce</div>
+      </div>
+
+      <p class="era-preface">
+        <span class="open">Argument of the Book</span>
+        For a millennium, philosophy serves theology — first in the Latin West through Augustine's Christian Platonism, then through the Islamic recovery of Aristotle in tenth-century Baghdad, Cordoba and Cairo, and at last in the great thirteenth-century synthesis of Paris, where Aquinas reconciles the Stagirite with revelation. The age closes with the nominalist solvent of Ockham and the humanist return ad fontes.
+      </p>
+
+      <article class="figure-entry" id="aquinas">
+        <div class="portrait">
+          <svg viewBox="0 0 140 170" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="140" height="170" fill="#1c2a1c"/>
+            <g fill="none" stroke="#c9a84c" stroke-width="0.7" opacity=".85">
+              <path d="M70 32 C 92 32, 102 56, 100 78 C 99 92, 92 102, 82 108 L 82 118 L 58 118 L 58 108 C 48 102, 41 92, 40 78 C 38 56, 48 32, 70 32 Z"/>
+              <path d="M42 76 q 8 -6 18 -2"/>
+              <path d="M80 74 q 8 -6 18 -2"/>
+              <path d="M58 78 q 4 4 10 4 q 6 0 10 -4"/>
+              <path d="M64 92 q 6 4 12 0"/>
+              <path d="M40 50 q 30 -16 60 0"/>
+              <path d="M42 60 q 28 -8 56 0"/>
+              <!-- tonsure cap -->
+              <path d="M48 44 q 22 -10 44 0" stroke-dasharray="2 2"/>
+              <!-- robe -->
+              <path d="M50 118 L 24 170 L 116 170 L 90 118"/>
+              <path d="M70 118 L 70 170"/>
+            </g>
+            <text x="70" y="160" text-anchor="middle" font-family="EB Garamond" font-style="italic" font-size="8" fill="#7a7e82" letter-spacing="1.5">in Dominican habit</text>
+          </svg>
+          <div class="caption">Plate II</div>
+        </div>
+        <div class="body">
+          <div class="name">Thomas Aquinas <span class="see">&mdash; open entry</span></div>
+          <div class="meta">
+            <span>1225 &mdash; 1274</span>
+            <span class="dot">·</span>
+            <span>Roccasecca · Paris · Naples</span>
+            <span class="dot">·</span>
+            <span>Doctor Angelicus</span>
+          </div>
+          <div class="school">Dominican friar · Pupil of Albertus Magnus · Master of Theology, University of Paris</div>
+          <div class="lede dropcap">
+            <p>Born in the kingdom of Sicily to a family of minor nobility, Aquinas entered the Dominican order against his family's wishes — they imprisoned him for a year in an effort to dissuade him — and studied under <span class="term">Albertus Magnus</span> at Cologne. His vocation was the integration of the newly recovered corpus of <span class="term">Aristotle</span>, transmitted to Latin Christendom through Arabic commentary, with the doctrine of the Church.</p>
+            <p>The <em>Summa Theologiae</em>, composed between 1265 and his death, organises Christian doctrine as a single deductive system in three Parts and over five hundred questions. Each question is debated in the disputational form of the schools — objections, a settled response (<em>respondeo</em>), and replies. The five proofs of God's existence (the <span class="term">Quinque Viae</span>) of <span class="sc">i.q.2.a.3</span> remain the most-discussed pages of medieval thought.</p>
+          </div>
+          <div class="figure-foot">
+            <div>
+              <div class="label">Principal Works</div>
+              <div class="works"><em>Summa contra Gentiles</em><span class="sep">·</span><em>Summa Theologiae</em><span class="sep">·</span><em>De Ente et Essentia</em><span class="sep">·</span><em>Quaestiones Disputatae de Veritate</em><span class="sep">·</span> Commentaries on Aristotle &amp; the Sentences</div>
+            </div>
+            <div>
+              <div class="label">Lineage</div>
+              <div class="influence">Reads Aristotle through <span class="who">Averroes</span> and <span class="who">Avicenna</span>; opposes the Latin Averroists at Paris; canonised 1323; declared <em>Doctor of the Church</em> 1567. Thomism remains the official philosophy of Catholic teaching.</div>
+            </div>
+          </div>
+          <div class="figure-detail">
+            <h5>§ Further Reading</h5>
+            <div class="grid">
+              <div>
+                <p>Aquinas distinguishes — against Averroes — between essence (<span class="term">essentia</span>) and existence (<span class="term">esse</span>) in all creatures, a distinction that becomes the metaphysical signature of his system. Only in God do essence and existence coincide; this is what it means for God to be <span class="term">ipsum esse subsistens</span>, subsistent being itself.</p>
+                <p>The mystical experience of December 1273 — after which he abandoned the unfinished <em>Summa</em>, calling all he had written &ldquo;straw&rdquo; — has been a perennial subject for biographers.</p>
+              </div>
+              <div>
+                <dl>
+                  <dt>Born</dt><dd>1225, Roccasecca, Kingdom of Sicily</dd>
+                  <dt>Died</dt><dd>7 March 1274, Fossanova</dd>
+                  <dt>Order</dt><dd>Order of Preachers (Dominican), 1244</dd>
+                  <dt>Teacher</dt><dd>Albertus Magnus</dd>
+                  <dt>Canonised</dt><dd>18 July 1323, by John XXII</dd>
+                  <dt>Modern Edition</dt><dd>Leonine, Rome, 1882&ndash; (ongoing)</dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Movements -->
+      <div class="subhead" id="medieval-movements"><span class="mark">§</span> Scholastic and Falsafa Traditions</div>
+      <div class="movements">
+        <article class="movement">
+          <h4>Augustinianism</h4>
+          <div class="when">5th &mdash; 13th c.</div>
+          <p>Augustine of Hippo synthesized Pauline Christianity with Neoplatonism, producing a theology of grace, original sin, and the inwardness of the soul that would govern Western piety and self-examination from the <em>Confessions</em> onward.</p>
+          <div class="figures"><span class="lab">Figures</span> Augustine · Boethius · Anselm · Bonaventure</div>
+        </article>
+        <article class="movement">
+          <h4>Falsafa &mdash; Islamic Aristotelianism</h4>
+          <div class="when">9th &mdash; 12th c.</div>
+          <p>From Baghdad to Cordoba, philosophers in the Arabic tradition preserved, commented upon, and extended Aristotle and the Neoplatonists — the channel through which the corpus returned to Latin Europe in the twelfth century.</p>
+          <div class="figures"><span class="lab">Figures</span> al-Kindī · al-Fārābī · Ibn Sīnā (Avicenna) · al-Ghazālī · Ibn Rushd (Averroes)</div>
+        </article>
+        <article class="movement">
+          <h4>The High Scholastics</h4>
+          <div class="when">13th c.</div>
+          <p>At Paris and Oxford the universities institutionalised the disputational method — the <em>quaestio</em>, the <em>lectio</em>, the commentary on the <em>Sentences</em> of Peter Lombard — producing the most systematic philosophical writing of the Christian Middle Ages.</p>
+          <div class="figures"><span class="lab">Figures</span> Albertus Magnus · Aquinas · Bonaventure · Duns Scotus · Roger Bacon</div>
+        </article>
+        <article class="movement">
+          <h4>Nominalism</h4>
+          <div class="when">14th c.</div>
+          <p>William of Ockham denied that universals possess any reality outside the mind — they are mere names (<em>nomina</em>) for collections of particulars. The methodological consequence is the celebrated razor: entities are not to be multiplied without necessity.</p>
+          <div class="figures"><span class="lab">Figures</span> William of Ockham · Jean Buridan · Nicholas of Autrecourt</div>
+        </article>
+      </div>
+
+      <!-- Concepts -->
+      <div class="subhead" id="medieval-concepts"><span class="mark">§</span> Key Concepts</div>
+      <div class="concepts">
+        <div class="concept">
+          <div class="name">Quinque Viae</div>
+          <div class="latin">five ways</div>
+          <p>Aquinas's five demonstrations of God's existence — from motion, causation, contingency, gradation, and final cause.</p>
+        </div>
+        <div class="concept">
+          <div class="name">Aseity</div>
+          <div class="latin">aseitas · self-from</div>
+          <p>The divine property of existing of and from oneself, owing existence to nothing external — predicated of God alone.</p>
+        </div>
+        <div class="concept">
+          <div class="name">Haecceitas</div>
+          <div class="latin">thisness</div>
+          <p>Duns Scotus's principle of individuation: that by which an entity is <em>this</em> one rather than any other, irreducible to its general nature.</p>
+        </div>
+        <div class="concept">
+          <div class="name">Analogia Entis</div>
+          <div class="latin">analogy of being</div>
+          <p>The Thomist doctrine that &ldquo;being&rdquo; is predicated of God and creatures neither univocally nor equivocally, but by proportional analogy.</p>
+        </div>
+        <div class="concept">
+          <div class="name">Ockham's Razor</div>
+          <div class="latin">novacula Occami</div>
+          <p>Entia non sunt multiplicanda praeter necessitatem — a methodological preference for the explanation with the fewest entities.</p>
+        </div>
+        <div class="concept">
+          <div class="name">Universals</div>
+          <div class="latin">universalia</div>
+          <p>Whether <em>humanity</em>, <em>redness</em>, <em>justice</em> exist in themselves (realism), only in things (moderate realism), or only as names (nominalism) &mdash; the central medieval dispute.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         III. EARLY MODERN
+         ============================================================ -->
+    <section class="era" id="early-modern">
+      <div class="era-head">
+        <div class="num">Book III</div>
+        <h2><span class="sect">§</span> Early Modern Philosophy</h2>
+        <div class="span">1600 &mdash; 1800</div>
+      </div>
+
+      <p class="era-preface">
+        <span class="open">Argument of the Book</span>
+        With Descartes the medieval scaffolding falls away. Philosophy now begins not with the world or with God but with the thinking subject; the problem of the era becomes the problem of knowledge — what the mind can be certain of, and on what basis. The Continental rationalists place reason at the foundation, the British empiricists experience; Kant, at the close, proposes a critical synthesis that organises the question for a century to come.
+      </p>
+
+      <article class="figure-entry" id="kant">
+        <div class="portrait">
+          <svg viewBox="0 0 140 170" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="140" height="170" fill="#1c2a1c"/>
+            <g fill="none" stroke="#c9a84c" stroke-width="0.7" opacity=".85">
+              <!-- wigged profile -->
+              <path d="M68 30 C 96 30, 108 60, 102 86 C 100 96, 92 104, 84 108 L 84 120 L 56 120 L 56 108 C 46 102, 38 90, 38 74 C 38 50, 46 30, 68 30 Z"/>
+              <!-- wig curls -->
+              <path d="M38 70 q -4 6 0 12 q 6 4 8 -2"/>
+              <path d="M100 70 q 4 6 0 12 q -6 4 -8 -2"/>
+              <path d="M44 56 q 6 -4 10 0"/>
+              <path d="M86 56 q 6 -4 10 0"/>
+              <!-- features -->
+              <path d="M58 76 q 3 3 8 3 q 5 0 8 -3"/>
+              <path d="M62 88 q 6 3 12 0"/>
+              <!-- collar / cravat -->
+              <path d="M52 120 L 30 170 L 110 170 L 88 120"/>
+              <path d="M62 120 q 8 8 16 0"/>
+              <path d="M66 128 q 4 4 8 0"/>
+            </g>
+            <text x="70" y="160" text-anchor="middle" font-family="EB Garamond" font-style="italic" font-size="8" fill="#7a7e82" letter-spacing="1.5">after Döbler, 1791</text>
+          </svg>
+          <div class="caption">Plate III</div>
+        </div>
+        <div class="body">
+          <div class="name">Immanuel Kant <span class="see">&mdash; open entry</span></div>
+          <div class="meta">
+            <span>1724 &mdash; 1804</span>
+            <span class="dot">·</span>
+            <span>Königsberg</span>
+            <span class="dot">·</span>
+            <span>Professor of Logic and Metaphysics</span>
+          </div>
+          <div class="school">Critical philosophy · Transcendental idealism · Initiator of German Idealism</div>
+          <div class="lede dropcap">
+            <p>Kant passed the whole of his life in the Prussian city of Königsberg, where his daily walk past the houses of his neighbours was said to be punctual enough for them to set their clocks by. The intellectual life, by contrast, was anything but settled: read by <span class="term">Hume</span> in middle age, Kant claimed to have been awakened from his &ldquo;dogmatic slumber&rdquo; — the slumber, that is, of Wolffian rationalism.</p>
+            <p>The <em>Critique of Pure Reason</em> (1781, second edition 1787) executes a &ldquo;Copernican revolution&rdquo; in philosophy: knowledge does not conform to objects, but objects to the conditions of knowledge supplied by the mind. Space and time are the <span class="term">a priori</span> forms of sensible intuition; the categories (substance, causation, &amp;c.) are the forms of the understanding. We can know <span class="term">phenomena</span> — appearances thus structured — but not <span class="term">noumena</span>, things in themselves.</p>
+          </div>
+          <div class="figure-foot">
+            <div>
+              <div class="label">Principal Works</div>
+              <div class="works"><em>Critique of Pure Reason</em><span class="sep">·</span><em>Prolegomena</em><span class="sep">·</span><em>Groundwork of the Metaphysics of Morals</em><span class="sep">·</span><em>Critique of Practical Reason</em><span class="sep">·</span><em>Critique of the Power of Judgment</em><span class="sep">·</span><em>Religion within the Bounds of Mere Reason</em><span class="sep">·</span><em>Perpetual Peace</em></div>
+            </div>
+            <div>
+              <div class="label">Lineage</div>
+              <div class="influence">Awakened by <span class="who">Hume</span>; inheritor of <span class="who">Leibniz</span> and <span class="who">Wolff</span>; teacher (by reading) of <span class="who">Fichte</span>, <span class="who">Schelling</span>, <span class="who">Hegel</span>, <span class="who">Schopenhauer</span>; the unavoidable interlocutor of every subsequent metaphysician.</div>
+            </div>
+          </div>
+          <div class="figure-detail">
+            <h5>§ Further Reading</h5>
+            <div class="grid">
+              <div>
+                <p>The second Critique grounds morality in the <span class="term">categorical imperative</span>: act only on that maxim by which you can at the same time will that it should become a universal law. Ethics is thus made independent of consequence, inclination, and divine command — bound only to the rational will of the autonomous agent.</p>
+                <p>The third Critique unites theoretical and practical reason through the faculty of judgment, treating the beautiful, the sublime, and natural teleology — and quietly inaugurating modern aesthetics as a philosophical discipline.</p>
+              </div>
+              <div>
+                <dl>
+                  <dt>Born</dt><dd>22 April 1724, Königsberg, Prussia</dd>
+                  <dt>Died</dt><dd>12 February 1804, Königsberg</dd>
+                  <dt>Education</dt><dd>Collegium Fridericianum; Univ. of Königsberg</dd>
+                  <dt>Position</dt><dd>Professor of Logic &amp; Metaphysics, 1770</dd>
+                  <dt>Daily walk</dt><dd>after midday meal, eight times round the city</dd>
+                  <dt>Modern Edition</dt><dd>Akademie-Ausgabe, Berlin, 1900&ndash;</dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Movements -->
+      <div class="subhead" id="em-movements"><span class="mark">§</span> Rationalism, Empiricism &amp; the Enlightenment</div>
+      <div class="movements">
+        <article class="movement">
+          <h4>Continental Rationalism</h4>
+          <div class="when">17th c.</div>
+          <p>Descartes, Spinoza, and Leibniz held that reason, working from clear and distinct ideas innate to the mind, can attain substantive truth about reality without dependence upon the senses. The geometric method of demonstration furnished the model.</p>
+          <div class="figures"><span class="lab">Figures</span> Descartes · Spinoza · Leibniz · Malebranche</div>
+        </article>
+        <article class="movement">
+          <h4>British Empiricism</h4>
+          <div class="when">17th &mdash; 18th c.</div>
+          <p>Locke, Berkeley, and Hume held that the mind is at birth a <em>tabula rasa</em>, and that all the materials of thought are furnished by experience. Hume's critique of causation pressed the principle to its skeptical conclusion.</p>
+          <div class="figures"><span class="lab">Figures</span> Locke · Berkeley · Hume · Reid</div>
+        </article>
+        <article class="movement">
+          <h4>Political Contractarianism</h4>
+          <div class="when">17th &mdash; 18th c.</div>
+          <p>Hobbes, Locke, and Rousseau derived legitimate political authority from the consent of the governed — a hypothetical contract among individuals in a pre-political &ldquo;state of nature&rdquo; whose terms each gave very differently.</p>
+          <div class="figures"><span class="lab">Figures</span> Hobbes · Locke · Rousseau · Montesquieu</div>
+        </article>
+        <article class="movement">
+          <h4>Scottish Enlightenment</h4>
+          <div class="when">18th c.</div>
+          <p>Edinburgh and Glasgow produced, in a single generation, a science of human nature, a moral philosophy of sympathy, and the first systematic account of commercial society as a moral order.</p>
+          <div class="figures"><span class="lab">Figures</span> Hume · Adam Smith · Thomas Reid · Adam Ferguson</div>
+        </article>
+      </div>
+
+      <!-- Concepts -->
+      <div class="subhead" id="em-concepts"><span class="mark">§</span> Key Concepts</div>
+      <div class="concepts">
+        <div class="concept">
+          <div class="name">Cogito</div>
+          <div class="latin">cogito, ergo sum</div>
+          <p>Descartes's indubitable starting point: even the most radical doubt presupposes a doubter, hence a thinking thing.</p>
+        </div>
+        <div class="concept">
+          <div class="name">Tabula Rasa</div>
+          <div class="latin">blank slate</div>
+          <p>Locke's image of the mind at birth — devoid of innate ideas, written upon by experience alone.</p>
+        </div>
+        <div class="concept">
+          <div class="name">Monad</div>
+          <div class="latin">monas · unity</div>
+          <p>Leibniz's elementary substance: simple, unextended, windowless, each mirroring the entire universe from its own point of view.</p>
+        </div>
+        <div class="concept">
+          <div class="name">Categorical Imperative</div>
+          <div class="latin">kategorischer Imperativ</div>
+          <p>Kant's supreme moral law: act only on that maxim by which you can at the same time will it to become a universal law.</p>
+        </div>
+        <div class="concept">
+          <div class="name">A Priori / A Posteriori</div>
+          <div class="latin">before · after experience</div>
+          <p>The distinction between what may be known independently of experience and what depends upon it — fundamental to all post-Kantian epistemology.</p>
+        </div>
+        <div class="concept">
+          <div class="name">Sub Specie Aeternitatis</div>
+          <div class="latin">under the aspect of eternity</div>
+          <p>Spinoza's standpoint of philosophical contemplation: viewing things as the rational order of nature requires, not as the passions disclose them.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IV. NINETEENTH CENTURY
+         ============================================================ -->
+    <section class="era" id="c19">
+      <div class="era-head">
+        <div class="num">Book IV</div>
+        <h2><span class="sect">§</span> The Nineteenth Century</h2>
+        <div class="span">1800 &mdash; 1900</div>
+      </div>
+
+      <p class="era-preface">
+        <span class="open">Argument of the Book</span>
+        The century begins with Hegel completing the Kantian project on the largest possible scale — Spirit unfolding itself dialectically through history — and ends with Nietzsche announcing the death of God and the exhaustion of every system the German universities had built. Between these poles: Marx inverts Hegel into materialism; Kierkegaard rejects the system for the existing individual; Schopenhauer relocates reality in blind Will; the utilitarians remake ethics on the basis of consequence.
+      </p>
+
+      <article class="figure-entry" id="nietzsche">
+        <div class="portrait">
+          <svg viewBox="0 0 140 170" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="140" height="170" fill="#1c2a1c"/>
+            <g fill="none" stroke="#c9a84c" stroke-width="0.7" opacity=".85">
+              <!-- head -->
+              <path d="M68 30 C 92 30, 104 56, 100 80 C 98 92, 92 102, 84 108 L 84 120 L 56 120 L 56 108 C 46 100, 40 88, 40 74 C 40 50, 48 30, 68 30 Z"/>
+              <!-- hair -->
+              <path d="M44 44 q 24 -16 50 0"/>
+              <path d="M44 52 q 24 -10 50 0"/>
+              <!-- brow -->
+              <path d="M52 70 q 10 -4 16 0"/>
+              <path d="M72 70 q 10 -4 16 0"/>
+              <!-- eyes -->
+              <path d="M58 78 q 4 2 8 0"/>
+              <path d="M76 78 q 4 2 8 0"/>
+              <!-- moustache: signature -->
+              <path d="M52 96 q 6 -2 14 -1 q 6 1 6 5 q 0 -4 6 -5 q 8 -1 14 1"/>
+              <path d="M58 100 q 12 4 24 0"/>
+              <!-- collar -->
+              <path d="M50 120 L 26 170 L 114 170 L 90 120"/>
+            </g>
+            <text x="70" y="160" text-anchor="middle" font-family="EB Garamond" font-style="italic" font-size="8" fill="#7a7e82" letter-spacing="1.5">after photograph, 1882</text>
+          </svg>
+          <div class="caption">Plate IV</div>
+        </div>
+        <div class="body">
+          <div class="name">Friedrich Nietzsche <span class="see">&mdash; open entry</span></div>
+          <div class="meta">
+            <span>1844 &mdash; 1900</span>
+            <span class="dot">·</span>
+            <span>Röcken · Basel · Sils-Maria · Weimar</span>
+            <span class="dot">·</span>
+            <span>Philologist · Philosopher</span>
+          </div>
+          <div class="school">Post-Schopenhauer · Critic of morality and metaphysics · Forerunner of existentialism &amp; postmodernism</div>
+          <div class="lede dropcap">
+            <p>Appointed Professor of Classical Philology at Basel at the age of twenty-four, Nietzsche resigned the chair a decade later in ill health and spent the productive remainder of his life as a wandering writer, summering at Sils-Maria in the Engadin and wintering in Genoa, Nice, and Turin. In January 1889 he suffered a mental collapse in the streets of Turin from which he never recovered.</p>
+            <p>Across <em>The Genealogy of Morals</em>, <em>Beyond Good and Evil</em>, and the prophetic <em>Thus Spoke Zarathustra</em>, Nietzsche prosecutes Christian and Platonic morality as the historical product of <span class="term">ressentiment</span> — the slave revolt by which the weak inverted the noble values of the strong. The doctrines of the <span class="term">Übermensch</span>, the <span class="term">eternal recurrence</span>, and the <span class="term">will to power</span> sketch the affirmative project that the critique was meant to clear ground for.</p>
+          </div>
+          <div class="figure-foot">
+            <div>
+              <div class="label">Principal Works</div>
+              <div class="works"><em>The Birth of Tragedy</em><span class="sep">·</span><em>Untimely Meditations</em><span class="sep">·</span><em>Human, All Too Human</em><span class="sep">·</span><em>The Gay Science</em><span class="sep">·</span><em>Thus Spoke Zarathustra</em><span class="sep">·</span><em>Beyond Good and Evil</em><span class="sep">·</span><em>On the Genealogy of Morals</em><span class="sep">·</span><em>Twilight of the Idols</em><span class="sep">·</span><em>Ecce Homo</em></div>
+            </div>
+            <div>
+              <div class="label">Lineage</div>
+              <div class="influence">Awakened by <span class="who">Schopenhauer</span>; close engagement and break with <span class="who">Wagner</span>; ancestor of <span class="who">Heidegger</span>, <span class="who">Foucault</span>, <span class="who">Deleuze</span>; misappropriated by his sister and the Nazi regime, rehabilitated by Walter Kaufmann in the post-war reception.</div>
+            </div>
+          </div>
+          <div class="figure-detail">
+            <h5>§ Further Reading</h5>
+            <div class="grid">
+              <div>
+                <p>The <span class="term">eternal recurrence</span> is presented in <em>The Gay Science</em> §341 as a thought-experiment: imagine that every detail of your life, in its full uneventfulness, must repeat itself eternally. Would you curse the demon who announced it, or would you find him divine? The question, for Nietzsche, is the touchstone of affirmation.</p>
+                <p>The unfinished &ldquo;magnum opus,&rdquo; <em>The Will to Power</em>, was assembled posthumously from Nachlass by his sister Elisabeth Förster-Nietzsche and is now regarded as an editorial artefact rather than a Nietzschean work.</p>
+              </div>
+              <div>
+                <dl>
+                  <dt>Born</dt><dd>15 October 1844, Röcken, Saxony</dd>
+                  <dt>Died</dt><dd>25 August 1900, Weimar</dd>
+                  <dt>Chair</dt><dd>Classical Philology, Basel, 1869&ndash;79</dd>
+                  <dt>Languages</dt><dd>German, Greek, Latin, French, some Italian</dd>
+                  <dt>Final lucid years</dt><dd>1889&ndash;1900 (under care)</dd>
+                  <dt>Modern Edition</dt><dd>KGW, Colli &amp; Montinari, Berlin, 1967&ndash;</dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Movements -->
+      <div class="subhead" id="c19-movements"><span class="mark">§</span> Idealism, Critique &amp; Reaction</div>
+      <div class="movements">
+        <article class="movement">
+          <h4>German Idealism</h4>
+          <div class="when">1781 &mdash; 1831</div>
+          <p>Fichte, Schelling, and Hegel pressed Kant's critical philosophy beyond its self-imposed limits toward a single absolute Idea that develops itself dialectically through nature, history, and Spirit (<em>Geist</em>) — culminating in Hegel's encyclopaedic system.</p>
+          <div class="figures"><span class="lab">Figures</span> Fichte · Schelling · Hegel · Schleiermacher</div>
+        </article>
+        <article class="movement">
+          <h4>Utilitarianism</h4>
+          <div class="when">late 18th &mdash; 19th c.</div>
+          <p>Bentham and Mill held that the morality of an action is determined by its consequences for the aggregate happiness — &ldquo;the greatest happiness of the greatest number&rdquo; — providing the philosophical foundation of nineteenth-century reform.</p>
+          <div class="figures"><span class="lab">Figures</span> Bentham · J. S. Mill · Henry Sidgwick · Harriet Taylor Mill</div>
+        </article>
+        <article class="movement">
+          <h4>Marxism</h4>
+          <div class="when">from 1848</div>
+          <p>Marx inverts Hegel's idealist dialectic into a materialist one: the engine of history is class struggle, the structure of consciousness is conditioned by the mode of production, and philosophy's task is no longer to interpret the world but to change it.</p>
+          <div class="figures"><span class="lab">Figures</span> Marx · Engels · later — Lenin, Lukács, Gramsci</div>
+        </article>
+        <article class="movement">
+          <h4>Proto-Existentialism</h4>
+          <div class="when">mid 19th c.</div>
+          <p>Kierkegaard, writing under a battery of pseudonyms in Copenhagen, opposed the Hegelian system in the name of the existing individual, the leap of faith, and the irreducibility of subjective truth — themes the twentieth century would take up in earnest.</p>
+          <div class="figures"><span class="lab">Figures</span> Kierkegaard · Schopenhauer · Dostoevsky · the late Nietzsche</div>
+        </article>
+      </div>
+
+      <!-- Concepts -->
+      <div class="subhead" id="c19-concepts"><span class="mark">§</span> Key Concepts</div>
+      <div class="concepts">
+        <div class="concept">
+          <div class="name">Dialectic</div>
+          <div class="latin">Dialektik</div>
+          <p>Hegel's pattern of conceptual development: a thesis generates its negation, the two are taken up (<em>aufgehoben</em>) in a higher unity.</p>
+        </div>
+        <div class="concept">
+          <div class="name">Geist</div>
+          <div class="latin">spirit · mind</div>
+          <p>The Hegelian subject of history: self-consciousness coming to know itself through its own objectifications in art, religion, and philosophy.</p>
+        </div>
+        <div class="concept">
+          <div class="name">Übermensch</div>
+          <div class="latin">overman</div>
+          <p>The future human Nietzsche prophesies in <em>Zarathustra</em>: one who creates values out of the resources of life itself, beyond good and evil.</p>
+        </div>
+        <div class="concept">
+          <div class="name">Will to Power</div>
+          <div class="latin">Wille zur Macht</div>
+          <p>For the later Nietzsche, the fundamental drive of all life — not for self-preservation but for the discharge and expansion of force.</p>
+        </div>
+        <div class="concept">
+          <div class="name">Alienation</div>
+          <div class="latin">Entfremdung</div>
+          <p>For Marx, the estrangement of the worker from the product of labour, the act of labour, the species-being, and from other workers under capitalism.</p>
+        </div>
+        <div class="concept">
+          <div class="name">Leap of Faith</div>
+          <div class="latin">Troens spring</div>
+          <p>Kierkegaard's name for the movement by which the existing individual relates absolutely to the absolute — undertaken in the absence of objective certainty.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         V. TWENTIETH & CONTEMPORARY
+         ============================================================ -->
+    <section class="era" id="c20">
+      <div class="era-head">
+        <div class="num">Book V</div>
+        <h2><span class="sect">§</span> Twentieth Century &amp; Contemporary</h2>
+        <div class="span">1900 &mdash; the Present</div>
+      </div>
+
+      <p class="era-preface">
+        <span class="open">Argument of the Book</span>
+        Philosophy in the twentieth century divides into two great rivers that for a long time would not acknowledge one another. On the continent, Husserl's phenomenology gives rise to Heidegger, Sartre, and Merleau-Ponty, then to structuralism and its successors. In the Anglosphere, Russell and Moore turn from idealism to analysis; the logical positivists attempt to put metaphysics out of business; Wittgenstein appears on both sides of the question, and changes his mind.
+      </p>
+
+      <article class="figure-entry" id="heidegger">
+        <div class="portrait">
+          <svg viewBox="0 0 140 170" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="140" height="170" fill="#1c2a1c"/>
+            <g fill="none" stroke="#c9a84c" stroke-width="0.7" opacity=".85">
+              <path d="M70 32 C 92 32, 102 56, 100 80 C 98 92, 90 102, 82 108 L 82 120 L 58 120 L 58 108 C 50 102, 42 92, 40 78 C 38 56, 48 32, 70 32 Z"/>
+              <!-- close-cropped hair -->
+              <path d="M44 50 q 24 -14 52 0"/>
+              <path d="M44 56 l 4 -4 M52 52 l 4 -4 M60 50 l 4 -4 M68 48 l 4 -4 M76 48 l 4 -4 M84 50 l 4 -4 M92 52 l 4 -4"/>
+              <!-- brows -->
+              <path d="M54 72 q 8 -2 14 0"/>
+              <path d="M72 72 q 8 -2 14 0"/>
+              <!-- eyes -->
+              <path d="M58 80 q 4 2 8 0"/>
+              <path d="M76 80 q 4 2 8 0"/>
+              <!-- moustache (brush) -->
+              <path d="M58 96 q 12 2 24 0"/>
+              <!-- mouth -->
+              <path d="M62 102 q 8 2 16 0"/>
+              <path d="M52 120 L 28 170 L 112 170 L 88 120"/>
+              <path d="M70 120 L 70 170"/>
+            </g>
+            <text x="70" y="160" text-anchor="middle" font-family="EB Garamond" font-style="italic" font-size="8" fill="#7a7e82" letter-spacing="1.5">in the Schwarzwald</text>
+          </svg>
+          <div class="caption">Plate V</div>
+        </div>
+        <div class="body">
+          <div class="name">Martin Heidegger <span class="see">&mdash; open entry</span></div>
+          <div class="meta">
+            <span>1889 &mdash; 1976</span>
+            <span class="dot">·</span>
+            <span>Meßkirch · Freiburg · Todtnauberg</span>
+            <span class="dot">·</span>
+            <span>Rector of Freiburg, 1933</span>
+          </div>
+          <div class="school">Phenomenology (after Husserl) · Existential analytic · The history of Being</div>
+          <div class="lede dropcap">
+            <p>Trained for the priesthood and turned by his reading of Brentano and the Greeks toward philosophy, Heidegger became Husserl's assistant at Freiburg and his successor in the chair of phenomenology. He passed almost his entire teaching life in the Black Forest of his upbringing, where he kept a hut at Todtnauberg in which much of his later writing was composed.</p>
+            <p><em>Sein und Zeit</em> (1927) proposes to renew the question of the meaning of <span class="term">Being</span> (<em>Sein</em>) — a question, Heidegger argues, that has been forgotten since the Greeks. The route to it lies through an analytic of the kind of being that <em>can</em> raise the question of being: human existence, named <span class="term">Dasein</span> (&ldquo;being-there&rdquo;). The book's twin themes are <span class="term">being-in-the-world</span> and <span class="term">being-toward-death</span>.</p>
+          </div>
+          <div class="figure-foot">
+            <div>
+              <div class="label">Principal Works</div>
+              <div class="works"><em>Being and Time</em><span class="sep">·</span><em>What is Metaphysics?</em><span class="sep">·</span><em>The Origin of the Work of Art</em><span class="sep">·</span><em>Letter on Humanism</em><span class="sep">·</span><em>Contributions to Philosophy</em><span class="sep">·</span><em>The Question Concerning Technology</em><span class="sep">·</span><em>On the Way to Language</em></div>
+            </div>
+            <div>
+              <div class="label">Lineage</div>
+              <div class="influence">Pupil of <span class="who">Husserl</span>; teacher of <span class="who">Arendt</span>, <span class="who">Gadamer</span>, <span class="who">Marcuse</span>, <span class="who">Levinas</span>; an inescapable presence for <span class="who">Sartre</span>, <span class="who">Merleau-Ponty</span>, <span class="who">Derrida</span>. His rectorship under National Socialism in 1933&ndash;34, and the postwar silence about it, remain matters of intense biographical and philosophical reckoning.</div>
+            </div>
+          </div>
+          <div class="figure-detail">
+            <h5>§ Further Reading</h5>
+            <div class="grid">
+              <div>
+                <p>The later Heidegger — after the &ldquo;turn&rdquo; (<em>die Kehre</em>) — moves from the existential analytic toward what he calls the &ldquo;history of being,&rdquo; reading the Western philosophical tradition from Plato to Nietzsche as the progressive forgetting of Being and the rise of <span class="term">technology</span> as its consummation.</p>
+                <p>The publication of the <span class="term">Schwarze Hefte</span> (Black Notebooks) beginning in 2014 has reopened the question of antisemitic strains in Heidegger's thinking, and the relation between his philosophy and his politics is now an active subject of scholarship rather than a closed one.</p>
+              </div>
+              <div>
+                <dl>
+                  <dt>Born</dt><dd>26 September 1889, Meßkirch, Baden</dd>
+                  <dt>Died</dt><dd>26 May 1976, Freiburg</dd>
+                  <dt>Doctorate</dt><dd>Freiburg, 1913 (on psychologism)</dd>
+                  <dt>Habilitation</dt><dd>Freiburg, 1915 (on Duns Scotus)</dd>
+                  <dt>Sein und Zeit</dt><dd>1927 — published unfinished</dd>
+                  <dt>Modern Edition</dt><dd>Gesamtausgabe, Klostermann, 1975&ndash;</dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Movements -->
+      <div class="subhead" id="c20-movements"><span class="mark">§</span> Phenomenology, Analytic Philosophy &amp; their Heirs</div>
+      <div class="movements">
+        <article class="movement">
+          <h4>Phenomenology</h4>
+          <div class="when">from 1900</div>
+          <p>Husserl turned philosophy toward the descriptive analysis of consciousness as it presents itself — &ldquo;to the things themselves&rdquo; — by bracketing (<em>epochē</em>) the natural attitude. The method became the common starting point of continental thought.</p>
+          <div class="figures"><span class="lab">Figures</span> Husserl · Heidegger · Merleau-Ponty · Stein · Levinas</div>
+        </article>
+        <article class="movement">
+          <h4>Existentialism</h4>
+          <div class="when">1930s &mdash; 1960s</div>
+          <p>Sartre, Beauvoir, and Camus held that &ldquo;existence precedes essence&rdquo;: the human being is whatever it makes of itself in a world without prescribed meaning, and is condemned to the freedom and responsibility of that making.</p>
+          <div class="figures"><span class="lab">Figures</span> Sartre · Simone de Beauvoir · Camus · Jaspers · Marcel</div>
+        </article>
+        <article class="movement">
+          <h4>Analytic Philosophy</h4>
+          <div class="when">from 1900</div>
+          <p>Russell, Moore, the early Wittgenstein, and the Vienna Circle turned philosophy toward the logical analysis of language and the rigorous treatment of its traditional problems on the model of mathematics and the natural sciences.</p>
+          <div class="figures"><span class="lab">Figures</span> Russell · Moore · Wittgenstein · Carnap · Quine · Kripke</div>
+        </article>
+        <article class="movement">
+          <h4>The Frankfurt School</h4>
+          <div class="when">from 1923</div>
+          <p>A program of &ldquo;Critical Theory&rdquo; combining Marx, Freud, and Hegel, devoted to diagnosing the pathologies of late-capitalist reason — most famously in <em>Dialectic of Enlightenment</em>'s account of instrumental rationality consuming its own emancipatory promise.</p>
+          <div class="figures"><span class="lab">Figures</span> Horkheimer · Adorno · Marcuse · Benjamin · Habermas</div>
+        </article>
+        <article class="movement">
+          <h4>Structuralism &amp; After</h4>
+          <div class="when">1950s &mdash; 1980s</div>
+          <p>Saussure's linguistics opened onto a generation that read culture, kinship, the unconscious, and the history of thought as systems of differential signs — then, with Derrida and Foucault, into a sustained interrogation of the categories of the Western tradition itself.</p>
+          <div class="figures"><span class="lab">Figures</span> Lévi-Strauss · Lacan · Barthes · Foucault · Derrida · Deleuze</div>
+        </article>
+        <article class="movement">
+          <h4>Anglophone Political Philosophy</h4>
+          <div class="when">from 1971</div>
+          <p>Rawls's <em>A Theory of Justice</em> revived the social-contract tradition for the post-war liberal democracies; Nozick replied from the libertarian right, MacIntyre and Sandel from a communitarian and virtue-ethical position.</p>
+          <div class="figures"><span class="lab">Figures</span> Rawls · Nozick · MacIntyre · Sandel · Walzer · Nussbaum</div>
+        </article>
+      </div>
+
+      <!-- Concepts -->
+      <div class="subhead" id="c20-concepts"><span class="mark">§</span> Key Concepts</div>
+      <div class="concepts">
+        <div class="concept">
+          <div class="name">Dasein</div>
+          <div class="latin">being-there</div>
+          <p>Heidegger's term for the kind of being that we ourselves are — the being for whom its own being is in question.</p>
+        </div>
+        <div class="concept">
+          <div class="name">Bad Faith</div>
+          <div class="latin">mauvaise foi</div>
+          <p>Sartre's term for the lie one tells oneself in order to evade the anxiety of one's own radical freedom — pretending to be a fixed essence.</p>
+        </div>
+        <div class="concept">
+          <div class="name">Language-Game</div>
+          <div class="latin">Sprachspiel</div>
+          <p>Late Wittgenstein's figure for the embedded, rule-governed practices in which language acquires its meanings — meaning as use.</p>
+        </div>
+        <div class="concept">
+          <div class="name">Différance</div>
+          <div class="latin">deferral · difference</div>
+          <p>Derrida's neologism: meaning is never present in the sign but is endlessly deferred along chains of differential reference.</p>
+        </div>
+        <div class="concept">
+          <div class="name">Veil of Ignorance</div>
+          <div class="latin">Rawls, 1971</div>
+          <p>The hypothetical device of choosing principles of justice without knowing what position one will occupy in the resulting society.</p>
+        </div>
+        <div class="concept">
+          <div class="name">Biopower</div>
+          <div class="latin">biopouvoir</div>
+          <p>Foucault's name for the modern regime of power that takes life itself — populations, bodies, health, sexuality — as its object.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Colophon -->
+    <div class="colophon-end">
+      <div class="ornament">❦ § ❦</div>
+      <div class="row">Colophon</div>
+      Set in EB Garamond by Georg Duffner, after the type cut by Claude Garamont, c. 1560.<br/>
+      Printed digitally for the present edition. Cross-references and dates verified against the standard editions cited above.<br/>
+      <em>Volume I of V. Anno Domini MMXXVI.</em>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  // ----------------------------------------------------------------
+  // Scroll-spy: highlight the sidebar item whose section is in view
+  // ----------------------------------------------------------------
+  (function(){
+    var sections = Array.prototype.slice.call(document.querySelectorAll('main [id]'));
+    var links = Array.prototype.slice.call(document.querySelectorAll('aside.toc a[href^="#"]'));
+    var linkMap = {};
+    links.forEach(function(a){
+      var id = a.getAttribute('href').slice(1);
+      linkMap[id] = a;
+    });
+
+    function setActive(id){
+      links.forEach(function(a){
+        var li = a.parentElement;
+        if(!li) return;
+        if(a === linkMap[id]) li.classList.add('is-active');
+        else li.classList.remove('is-active');
+      });
+    }
+
+    var io = new IntersectionObserver(function(entries){
+      // Pick the entry closest to top that's intersecting
+      var visible = entries.filter(function(e){return e.isIntersecting;});
+      if(visible.length){
+        visible.sort(function(a,b){return a.boundingClientRect.top - b.boundingClientRect.top;});
+        var id = visible[0].target.id;
+        if(linkMap[id]) setActive(id);
+      }
+    }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
+
+    sections.forEach(function(s){ io.observe(s); });
+
+    // Click → jump (no smooth scroll per design brief)
+    links.forEach(function(a){
+      a.addEventListener('click', function(e){
+        var id = a.getAttribute('href').slice(1);
+        var target = document.getElementById(id);
+        if(target){
+          e.preventDefault();
+          // honor scroll-margin-top
+          var rect = target.getBoundingClientRect();
+          window.scrollTo(0, window.pageYOffset + rect.top - 16);
+          history.replaceState(null,'','#'+id);
+          setActive(id);
+        }
+      });
+    });
+  })();
+
+  // ----------------------------------------------------------------
+  // Expand/collapse major-figure entries on name click
+  // ----------------------------------------------------------------
+  (function(){
+    var entries = document.querySelectorAll('.figure-entry');
+    entries.forEach(function(entry){
+      var name = entry.querySelector('.name');
+      if(!name) return;
+      name.setAttribute('role','button');
+      name.setAttribute('tabindex','0');
+      name.setAttribute('aria-expanded','false');
+
+      function toggle(){
+        var open = entry.classList.toggle('is-open');
+        name.setAttribute('aria-expanded', open ? 'true' : 'false');
+        var see = name.querySelector('.see');
+        if(see) see.textContent = open ? '— close entry' : '— open entry';
+      }
+      name.addEventListener('click', toggle);
+      name.addEventListener('keydown', function(e){
+        if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(); }
+      });
+    });
+  })();
+</script>
+</body>
+</html>
