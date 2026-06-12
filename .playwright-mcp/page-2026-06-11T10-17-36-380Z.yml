@@ -1,0 +1,270 @@
+- generic [ref=e303]:
+  - generic [ref=e304]:
+    - link "← All designs" [ref=e305] [cursor=pointer]:
+      - /url: "#/"
+    - generic [ref=e306]: /
+    - generic [ref=e307]: Verdict
+    - button "Copy DESIGN.md" [ref=e308] [cursor=pointer]
+  - generic [ref=e309]:
+    - generic [ref=e310]:
+      - generic [ref=e311]: Preview
+      - iframe [ref=e312]:
+        - generic [ref=f26e2]:
+          - complementary [ref=f26e3]:
+            - generic [ref=f26e4]:
+              - generic [ref=f26e5]: VERDICT
+              - generic [ref=f26e7]: Intune Baseline Assessment
+            - generic [ref=f26e8]:
+              - generic [ref=f26e9]: Operations
+              - generic [ref=f26e10] [cursor=pointer]: assess
+              - generic [ref=f26e12] [cursor=pointer]: coverage
+              - generic [ref=f26e14] [cursor=pointer]: deploy
+              - generic [ref=f26e16] [cursor=pointer]: update
+            - generic [ref=f26e18]:
+              - generic [ref=f26e19]: Sources
+              - generic [ref=f26e20] [cursor=pointer]: tenant
+              - generic [ref=f26e22] [cursor=pointer]: store
+            - button "connect -Tenant contoso.com" [ref=f26e25] [cursor=pointer]
+          - main [ref=f26e26]:
+            - generic [ref=f26e27]: Security Baseline Assessment
+            - generic [ref=f26e28]: Assessment Results
+            - generic [ref=f26e29]: contoso.com · Windows 11 23H2 · Run 2026-06-11 14:22 UTC
+            - generic [ref=f26e30]:
+              - generic [ref=f26e31]:
+                - generic [ref=f26e32]: 92.3%
+                - generic [ref=f26e33]: Compliance Score
+              - generic [ref=f26e35]:
+                - generic [ref=f26e36]: OpenIntuneBaseline · Windows 11
+                - generic [ref=f26e37]:
+                  - generic [ref=f26e38]:
+                    - generic [ref=f26e39]: "72"
+                    - generic [ref=f26e40]: Aligned
+                  - generic [ref=f26e41]:
+                    - generic [ref=f26e42]: "4"
+                    - generic [ref=f26e43]: Missing
+                  - generic [ref=f26e44]:
+                    - generic [ref=f26e45]: "2"
+                    - generic [ref=f26e46]: Drift
+                  - generic [ref=f26e47]:
+                    - generic [ref=f26e48]: "78"
+                    - generic [ref=f26e49]: Total
+                - generic [ref=f26e50]:
+                  - generic [ref=f26e51]: Compliant
+                  - generic [ref=f26e53]: 4 Missing
+                  - generic [ref=f26e54]: 2 Drift
+                  - generic [ref=f26e55]: OIB v3.2
+            - generic [ref=f26e56]:
+              - generic [ref=f26e57]:
+                - generic [ref=f26e58]: "6"
+                - generic [ref=f26e59]: Baselines
+              - generic [ref=f26e60]:
+                - generic [ref=f26e61]: "62"
+                - generic [ref=f26e62]: Policies
+              - generic [ref=f26e63]:
+                - generic [ref=f26e64]: 1,445
+                - generic [ref=f26e65]: Settings
+              - generic [ref=f26e66]:
+                - generic [ref=f26e67]: "0"
+                - generic [ref=f26e68]: Unparsed
+            - generic [ref=f26e69]: Policy Results
+            - generic [ref=f26e70]:
+              - generic [ref=f26e73]:
+                - generic [ref=f26e74]: OIB-WIN-001 · Credential Guard
+                - generic [ref=f26e75]: OIB v3.2
+                - generic [ref=f26e76]: Aligned
+                - generic [ref=f26e78]: 100%
+              - generic [ref=f26e81]:
+                - generic [ref=f26e82]: OIB-WIN-002 · BitLocker Encryption
+                - generic [ref=f26e83]: OIB v3.2
+                - generic [ref=f26e84]: Aligned
+                - generic [ref=f26e86]: 100%
+              - generic [ref=f26e89]:
+                - generic [ref=f26e90]: OIB-DEF-003 · Defender Antivirus
+                - generic [ref=f26e91]: OIB v3.2
+                - generic [ref=f26e92]: Missing
+                - generic [ref=f26e93]: —
+              - generic [ref=f26e96]:
+                - generic [ref=f26e97]: OIB-EDG-007 · Edge Security Baseline
+                - generic [ref=f26e98]: MSFT Edge
+                - generic [ref=f26e99]: Drift
+                - generic [ref=f26e100]: 86.4%
+              - generic [ref=f26e103]:
+                - generic [ref=f26e104]: OIB-M365-004 · M365 Apps Baseline
+                - generic [ref=f26e105]: MSFT M365
+                - generic [ref=f26e106]: Aligned
+                - generic [ref=f26e108]: 99.5%
+            - generic [ref=f26e109]:
+              - generic [ref=f26e110]:
+                - generic [ref=f26e111]: Coverage by Baseline
+                - generic [ref=f26e113]:
+                  - generic [ref=f26e114]: OpenIntuneBaseline
+                  - generic [ref=f26e115]: 92.3%
+                - generic [ref=f26e119]:
+                  - generic [ref=f26e120]: Windows 11 Security
+                  - generic [ref=f26e121]: 88.0%
+                - generic [ref=f26e125]:
+                  - generic [ref=f26e126]: Microsoft Edge
+                  - generic [ref=f26e127]: 86.4%
+                - generic [ref=f26e131]:
+                  - generic [ref=f26e132]: Defender for Endpoint
+                  - generic [ref=f26e133]: 61.0%
+              - generic [ref=f26e136]:
+                - generic [ref=f26e137]: Status Breakdown
+                - generic [ref=f26e138]:
+                  - generic [ref=f26e139]:
+                    - generic [ref=f26e142]: Compliant
+                    - generic [ref=f26e143]: 72 settings
+                  - generic [ref=f26e144]:
+                    - generic [ref=f26e147]: Missing
+                    - generic [ref=f26e148]: 4 settings
+                  - generic [ref=f26e149]:
+                    - generic [ref=f26e152]: Drift
+                    - generic [ref=f26e153]: 2 settings
+                  - generic [ref=f26e154]:
+                    - generic [ref=f26e157]: Not deployed
+                    - generic [ref=f26e158]: 0 policies
+            - generic [ref=f26e159]:
+              - generic [ref=f26e164]: verdict.ps1 — PowerShell 7
+              - generic [ref=f26e165]: "PS> verdict assess -Source OIB -WindowsRelease 23H2 Connecting to tenant contoso.com … ✓ Connected. DeviceManagementConfiguration.Read.All Pulling OpenIntuneBaseline v3.2 from upstream … ✓ Baseline loaded — 78 settings across 14 profiles Reconciling against deployed policies … ✓ 72 settings aligned ● 4 settings missing ✗ 2 settings drifted Score: 92.3% compliant Report: ./verdict-report-20260611.html PS> █"
+    - generic [ref=e313]:
+      - generic [ref=e314]: Design Reference
+      - generic [ref=e315]: Verdict
+      - generic [ref=e316]: Dark slate "ink" base. Emerald signal. IBM Plex Sans meets IBM Plex Mono.
+      - paragraph [ref=e318]:
+        - strong [ref=e319]: Cool slate "ink." Emerald signal. IBM Plex Mono is the soul.
+        - text: "Verdict is a CLI-only tool for assessing Microsoft Intune security baselines — pulling upstream references, reconciling against deployed tenant policy, and rendering a readable verdict: aligned, drifted, or missing. The design system is a deliberate professional evolution of the original CRT/phosphor reports: the dark terminal heritage and phosphor-green meaning of \"pass\" are preserved, but the palette is cooled and calmed into a security-operations product aesthetic."
+    - generic [ref=e320]:
+      - generic [ref=e321]:
+        - generic [ref=e322]: 01 — Pigments
+        - generic [ref=e323]: Color palette
+        - paragraph [ref=e325]:
+          - text: The base runs from
+          - code [ref=e326]: "--ink-950"
+          - text: (#070A11, page void) through
+          - code [ref=e327]: "--ink-900"
+          - text: (app bg),
+          - code [ref=e328]: "--ink-800"
+          - text: (cards),
+          - code [ref=e329]: "--ink-700"
+          - text: (raised surfaces). This cool slate replaces the original blue-black navy with a more neutral professional tone.
+          - code [ref=e330]: "--signal"
+          - text: (#34E2A0) is the brand accent and literal meaning of a passing verdict — softer than the original
+          - code [ref=e331]: "#39ff9e"
+          - text: ", used sparingly."
+          - code [ref=e332]: "--azure"
+          - text: (#5AA2FF) handles all interactive / info states, keeping green for "pass" and blue for "action" cleanly separated. Amber and coral cover warn/missing and drift/danger respectively.
+      - generic [ref=e333]:
+        - generic [ref=e336]:
+          - generic [ref=e337]: Ink 950
+          - generic [ref=e338]: Page void / letterbox
+          - generic [ref=e339]: "#070A11"
+        - generic [ref=e342]:
+          - generic [ref=e343]: Ink 900
+          - generic [ref=e344]: App background
+          - generic [ref=e345]: "#0A0E17"
+        - generic [ref=e348]:
+          - generic [ref=e349]: Ink 800
+          - generic [ref=e350]: Card / surface
+          - generic [ref=e351]: "#121A29"
+        - generic [ref=e354]:
+          - generic [ref=e355]: Signal
+          - generic [ref=e356]: Brand emerald — pass state / primary CTA
+          - generic [ref=e357]: "#34E2A0"
+        - generic [ref=e360]:
+          - generic [ref=e361]: Azure
+          - generic [ref=e362]: Interactive accent — links, focus, info
+          - generic [ref=e363]: "#5AA2FF"
+        - generic [ref=e366]:
+          - generic [ref=e367]: Amber
+          - generic [ref=e368]: Warn / missing / WhatIf
+          - generic [ref=e369]: "#F2B45C"
+        - generic [ref=e372]:
+          - generic [ref=e373]: Coral
+          - generic [ref=e374]: Drift / danger
+          - generic [ref=e375]: "#FF6B7D"
+        - generic [ref=e378]:
+          - generic [ref=e379]: Text Hi
+          - generic [ref=e380]: Headings and high-emphasis values
+          - generic [ref=e381]: "#EAF1FB"
+    - generic [ref=e382]:
+      - generic [ref=e383]:
+        - generic [ref=e384]: 02 — Atmosphere
+        - generic [ref=e385]: Surface tones
+        - paragraph [ref=e387]:
+          - text: "IBM Plex is the complete pairing: Plex Sans for UI and headings, Plex Mono for CLI heritage — data, code, command lines, versions, identifiers, every eyebrow label. Mono is the soul of the brand. Tracking is expressive: display figures and the wordmark tighten to"
+          - code [ref=e388]: "-.04em"
+          - text: ; eyebrow labels open to
+          - code [ref=e389]: .38em
+          - text: in uppercase. This contrast is the typographic signature.
+      - generic [ref=e390]:
+        - generic [ref=e391]:
+          - generic [ref=e392]: "#0A0E17"
+          - generic [ref=e393]:
+            - generic [ref=e394]: App Background
+            - generic [ref=e395]: "--ink-900"
+        - generic [ref=e396]:
+          - generic [ref=e397]: "#121A29"
+          - generic [ref=e398]:
+            - generic [ref=e399]: Card Surface
+            - generic [ref=e400]: "--ink-800"
+        - generic [ref=e401]:
+          - generic [ref=e402]: "#18202F"
+          - generic [ref=e403]:
+            - generic [ref=e404]: Raised Surface
+            - generic [ref=e405]: "--ink-700"
+    - generic [ref=e406]:
+      - generic [ref=e407]:
+        - generic [ref=e408]: 03 — Voice
+        - generic [ref=e409]: Typography
+        - paragraph [ref=e411]:
+          - text: 4px base grid, dense by default — an ops tool, not a landing page. Radii progress from chips (4px) through buttons (7px), tiles (10px), cards (14px), to the hero score panel (20px). The signature card pattern uses a 3px left status rail in the state color. Borders are hairline
+          - code [ref=e412]: "--line"
+          - text: (#1D2840), brightening to
+          - code [ref=e413]: "--border-strong"
+          - text: on hover.
+      - generic [ref=e414]:
+        - generic [ref=e415]:
+          - generic [ref=e416]: Interface · IBM Plex Sans
+          - generic [ref=e417]: Aa
+          - generic [ref=e418]: For the working interface. Body copy and labels live here.
+          - generic [ref=e419]:
+            - generic [ref=e420]: · Regular 400
+            - generic [ref=e421]: · Medium 500
+            - generic [ref=e422]: · SemiBold 600
+        - generic [ref=e423]:
+          - generic [ref=e424]: Mono · IBM Plex Mono
+          - generic [ref=e425]: Aa
+          - generic [ref=e426]: const x = "mono"; // technical data
+          - generic [ref=e427]:
+            - generic [ref=e428]: · Regular 400
+            - generic [ref=e429]: · Medium 500
+            - generic [ref=e430]: · SemiBold 600
+    - generic [ref=e431]:
+      - generic [ref=e432]:
+        - generic [ref=e433]: 04 — Cadence
+        - generic [ref=e434]: Type scale
+        - paragraph [ref=e436]:
+          - text: The phosphor glow (
+          - code [ref=e437]: "--glow-signal-*"
+          - text: ") is reserved for the signal color only: the score number, primary buttons, active nav, status dots, the wordmark accent rule. Neutral elements never glow. The hero score panel receives a subtle green halo. This restraint makes every glow carry meaning."
+      - generic [ref=e438]:
+        - generic [ref=e439]:
+          - generic [ref=e440]: D1
+          - generic [ref=e441]: WORDMARK
+          - generic [ref=e442]: VERDICT
+          - generic [ref=e443]: 42/44
+        - generic [ref=e444]:
+          - generic [ref=e445]: S1
+          - generic [ref=e446]: STAT / SCORE
+          - generic [ref=e447]: 92.3%
+          - generic [ref=e448]: 28/32
+        - generic [ref=e449]:
+          - generic [ref=e450]: B1
+          - generic [ref=e451]: BODY
+          - generic [ref=e452]: 72 / 78 settings aligned across 6 baseline policies.
+          - generic [ref=e453]: 14/21
+        - generic [ref=e454]:
+          - generic [ref=e455]: L1
+          - generic [ref=e456]: EYEBROW · MONO
+          - generic [ref=e457]: SECURITY BASELINE ASSESSMENT
+          - generic [ref=e458]: 11/14

@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Verdict Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink-950: #070A11;
+  --ink-900: #0A0E17;
+  --ink-850: #0E1320;
+  --ink-800: #121A29;
+  --ink-700: #18202F;
+  --ink-600: #202B3F;
+  --line:        #1D2840;
+  --line-strong: #2C3A58;
+  --text-hi:    #EAF1FB;
+  --text-base:  #B4C1D8;
+  --text-dim:   #6F7E9B;
+  --text-faint: #46526E;
+  --signal:        #34E2A0;
+  --signal-bright: #5DF0BB;
+  --signal-dim:    #1C9E73;
+  --signal-deep:   #0C3729;
+  --azure:        #5AA2FF;
+  --azure-dim:    #2C5F9E;
+  --azure-deep:   #0E2238;
+  --amber:      #F2B45C;
+  --amber-dim:  #9A6E2E;
+  --amber-deep: #36280F;
+  --danger:      #FF6B7D;
+  --danger-dim:  #A33B49;
+  --danger-deep: #371520;
+  --iris:      #9D8CFF;
+  --iris-deep: #1E1A38;
+  --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --glow-signal-sm: 0 0 10px rgba(52, 226, 160, 0.45);
+  --glow-signal-md: 0 0 20px rgba(52, 226, 160, 0.45);
+  --shadow-card: 0 1px 0 rgba(255,255,255,0.02) inset, 0 12px 32px -24px rgba(0,0,0,0.8);
+  --tex-scanline: repeating-linear-gradient(0deg, rgba(255,255,255,0.013) 0 1px, transparent 1px 3px);
+}
+
+body {
+  background: var(--ink-900);
+  background-image: var(--tex-scanline);
+  color: var(--text-base);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* ---- Layout ---- */
+.shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 248px;
+  flex-shrink: 0;
+  background: var(--ink-850);
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.main {
+  margin-left: 248px;
+  flex: 1;
+  padding: 40px 48px 80px;
+  max-width: calc(248px + 960px);
+}
+
+/* ---- Sidebar ---- */
+.wordmark {
+  padding: 24px 20px 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.wordmark-text {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text-hi);
+}
+
+.wordmark-text span {
+  color: var(--signal);
+  text-shadow: var(--glow-signal-sm);
+}
+
+.wordmark-rule {
+  width: 48px;
+  height: 2px;
+  background: var(--signal);
+  box-shadow: var(--glow-signal-sm);
+  margin-top: 6px;
+}
+
+.wordmark-tag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-top: 6px;
+}
+
+.nav-section {
+  padding: 16px 12px 8px;
+}
+
+.nav-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  padding: 0 8px;
+  margin-bottom: 4px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text-dim);
+  font-size: 13px;
+  font-weight: 400;
+  transition: background 120ms, color 120ms;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.nav-item:hover {
+  background: var(--ink-700);
+  color: var(--text-base);
+}
+
+.nav-item.active {
+  background: rgba(52, 226, 160, 0.08);
+  color: var(--signal);
+  font-weight: 500;
+}
+
+.nav-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.nav-item.active .nav-dot {
+  box-shadow: 0 0 8px rgba(52, 226, 160, 0.6);
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 16px 20px;
+  border-top: 1px solid var(--line);
+}
+
+.connect-btn {
+  display: block;
+  width: 100%;
+  padding: 8px 14px;
+  background: var(--signal-deep);
+  border: 1px solid var(--signal-dim);
+  border-radius: 7px;
+  color: var(--signal);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: var(--glow-signal-sm);
+  transition: background 120ms, box-shadow 120ms;
+}
+
+.connect-btn:hover {
+  background: rgba(52, 226, 160, 0.15);
+  box-shadow: var(--glow-signal-md);
+}
+
+/* ---- Main content ---- */
+.page-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+
+.page-title {
+  font-family: var(--font-sans);
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--text-hi);
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+
+.page-sub {
+  font-size: 14px;
+  color: var(--text-dim);
+  margin-bottom: 32px;
+}
+
+/* ---- Score hero ---- */
+.score-hero {
+  background: var(--ink-800);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 32px 36px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  box-shadow: var(--shadow-card), 0 0 48px -24px rgba(52, 226, 160, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.score-hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(52, 226, 160, 0.2), transparent);
+}
+
+.score-block {
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.score-number {
+  font-family: var(--font-mono);
+  font-size: 64px;
+  font-weight: 600;
+  color: var(--signal);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  text-shadow: var(--glow-signal-md);
+}
+
+.score-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--signal-dim);
+  margin-top: 6px;
+}
+
+.score-divider {
+  width: 1px;
+  height: 80px;
+  background: var(--line);
+  flex-shrink: 0;
+}
+
+.score-meta {
+  flex: 1;
+}
+
+.score-meta-title {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-hi);
+  margin-bottom: 8px;
+}
+
+.score-meta-row {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.score-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.score-stat-val {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-hi);
+  letter-spacing: -0.02em;
+}
+
+.score-stat-key {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.score-badges {
+  display: flex;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+/* ---- Stat tiles row ---- */
+.tiles-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.tile {
+  background: var(--ink-800);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: var(--shadow-card);
+}
+
+.tile-val {
+  font-family: var(--font-mono);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-hi);
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+
+.tile-val.signal { color: var(--signal); text-shadow: 0 0 12px rgba(52,226,160,0.4); }
+.tile-val.amber  { color: var(--amber); }
+.tile-val.danger { color: var(--danger); }
+.tile-val.azure  { color: var(--azure); }
+
+.tile-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+/* ---- Cards / policy rows ---- */
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+.policy-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.policy-row {
+  background: var(--ink-800);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  transition: border-color 120ms;
+}
+
+.policy-row:hover { border-color: var(--line-strong); }
+
+.policy-rail {
+  width: 3px;
+  align-self: stretch;
+  flex-shrink: 0;
+}
+
+.policy-rail.pass   { background: var(--signal); box-shadow: 0 0 8px rgba(52,226,160,0.4); }
+.policy-rail.warn   { background: var(--amber); }
+.policy-rail.drift  { background: var(--danger); }
+.policy-rail.info   { background: var(--azure); }
+
+.policy-body {
+  flex: 1;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.policy-name {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-hi);
+}
+
+.policy-source {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.policy-score {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-base);
+  width: 64px;
+  text-align: right;
+}
+
+/* ---- Badges / tags ---- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.badge.pass   { background: var(--signal-deep); color: var(--signal); border: 1px solid rgba(52,226,160,0.2); }
+.badge.warn   { background: var(--amber-deep);  color: var(--amber);  border: 1px solid rgba(242,180,92,0.2); }
+.badge.drift  { background: var(--danger-deep); color: var(--danger); border: 1px solid rgba(255,107,125,0.2); }
+.badge.info   { background: var(--azure-deep);  color: var(--azure);  border: 1px solid rgba(90,162,255,0.2); }
+.badge.iris   { background: var(--iris-deep);   color: var(--iris);   border: 1px solid rgba(157,140,255,0.2); }
+
+.badge-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* ---- Progress meters ---- */
+.meter-wrap {
+  margin-bottom: 8px;
+}
+
+.meter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.meter-name {
+  font-size: 12px;
+  color: var(--text-base);
+}
+
+.meter-pct {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.meter-track {
+  height: 5px;
+  background: var(--ink-700);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.meter-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.meter-fill.pass  { background: var(--signal); box-shadow: 0 0 6px rgba(52,226,160,0.5); }
+.meter-fill.warn  { background: var(--amber); }
+.meter-fill.drift { background: var(--danger); }
+
+/* ---- Grid ---- */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.card {
+  background: var(--ink-800);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: var(--shadow-card);
+}
+
+.card-title {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-hi);
+  margin-bottom: 14px;
+}
+
+/* ---- Terminal block ---- */
+.terminal {
+  background: var(--ink-950);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.terminal-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.terminal-dot { width: 9px; height: 9px; border-radius: 50%; }
+.terminal-dot.r { background: #FF5F57; }
+.terminal-dot.y { background: #FFBD2E; }
+.terminal-dot.g { background: #28C840; }
+
+.terminal-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-faint);
+  margin-left: 4px;
+}
+
+.terminal pre {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--text-base);
+}
+
+.t-prompt { color: var(--signal); }
+.t-cmd    { color: var(--text-hi); }
+.t-flag   { color: var(--azure); }
+.t-val    { color: var(--amber); }
+.t-pass   { color: var(--signal); }
+.t-warn   { color: var(--amber); }
+.t-drift  { color: var(--danger); }
+.t-dim    { color: var(--text-faint); }
+.t-cursor { color: var(--signal); animation: blink 1.3s steps(2) infinite; }
+
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="wordmark">
+      <div class="wordmark-text">VER<span>DICT</span></div>
+      <div class="wordmark-rule"></div>
+      <div class="wordmark-tag">Intune Baseline Assessment</div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Operations</div>
+      <div class="nav-item active">
+        <div class="nav-dot"></div>
+        assess
+      </div>
+      <div class="nav-item">
+        <div class="nav-dot"></div>
+        coverage
+      </div>
+      <div class="nav-item">
+        <div class="nav-dot"></div>
+        deploy
+      </div>
+      <div class="nav-item">
+        <div class="nav-dot"></div>
+        update
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Sources</div>
+      <div class="nav-item">
+        <div class="nav-dot" style="background:var(--azure)"></div>
+        tenant
+      </div>
+      <div class="nav-item">
+        <div class="nav-dot" style="background:var(--iris)"></div>
+        store
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <button class="connect-btn">connect -Tenant contoso.com</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="page-eyebrow">Security Baseline Assessment</div>
+    <div class="page-title">Assessment Results</div>
+    <div class="page-sub">contoso.com &nbsp;·&nbsp; Windows 11 23H2 &nbsp;·&nbsp; Run 2026-06-11 14:22 UTC</div>
+
+    <!-- Score hero -->
+    <div class="score-hero">
+      <div class="score-block">
+        <div class="score-number">92.3%</div>
+        <div class="score-label">Compliance Score</div>
+      </div>
+      <div class="score-divider"></div>
+      <div class="score-meta">
+        <div class="score-meta-title">OpenIntuneBaseline · Windows 11</div>
+        <div class="score-meta-row">
+          <div class="score-stat">
+            <div class="score-stat-val">72</div>
+            <div class="score-stat-key">Aligned</div>
+          </div>
+          <div class="score-stat">
+            <div class="score-stat-val" style="color:var(--amber)">4</div>
+            <div class="score-stat-key">Missing</div>
+          </div>
+          <div class="score-stat">
+            <div class="score-stat-val" style="color:var(--danger)">2</div>
+            <div class="score-stat-key">Drift</div>
+          </div>
+          <div class="score-stat">
+            <div class="score-stat-val">78</div>
+            <div class="score-stat-key">Total</div>
+          </div>
+        </div>
+        <div class="score-badges">
+          <span class="badge pass"><span class="badge-dot"></span>Compliant</span>
+          <span class="badge warn">4 Missing</span>
+          <span class="badge drift">2 Drift</span>
+          <span class="badge info">OIB v3.2</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stat tiles -->
+    <div class="tiles-row">
+      <div class="tile">
+        <div class="tile-val signal">6</div>
+        <div class="tile-label">Baselines</div>
+      </div>
+      <div class="tile">
+        <div class="tile-val">62</div>
+        <div class="tile-label">Policies</div>
+      </div>
+      <div class="tile">
+        <div class="tile-val">1,445</div>
+        <div class="tile-label">Settings</div>
+      </div>
+      <div class="tile">
+        <div class="tile-val azure">0</div>
+        <div class="tile-label">Unparsed</div>
+      </div>
+    </div>
+
+    <!-- Policy list -->
+    <div class="section-label">Policy Results</div>
+    <div class="policy-list">
+      <div class="policy-row">
+        <div class="policy-rail pass"></div>
+        <div class="policy-body">
+          <div class="policy-name">OIB-WIN-001 · Credential Guard</div>
+          <div class="policy-source">OIB v3.2</div>
+          <span class="badge pass"><span class="badge-dot"></span>Aligned</span>
+          <div class="policy-score">100%</div>
+        </div>
+      </div>
+      <div class="policy-row">
+        <div class="policy-rail pass"></div>
+        <div class="policy-body">
+          <div class="policy-name">OIB-WIN-002 · BitLocker Encryption</div>
+          <div class="policy-source">OIB v3.2</div>
+          <span class="badge pass"><span class="badge-dot"></span>Aligned</span>
+          <div class="policy-score">100%</div>
+        </div>
+      </div>
+      <div class="policy-row">
+        <div class="policy-rail warn"></div>
+        <div class="policy-body">
+          <div class="policy-name">OIB-DEF-003 · Defender Antivirus</div>
+          <div class="policy-source">OIB v3.2</div>
+          <span class="badge warn">Missing</span>
+          <div class="policy-score" style="color:var(--amber)">—</div>
+        </div>
+      </div>
+      <div class="policy-row">
+        <div class="policy-rail drift"></div>
+        <div class="policy-body">
+          <div class="policy-name">OIB-EDG-007 · Edge Security Baseline</div>
+          <div class="policy-source">MSFT Edge</div>
+          <span class="badge drift">Drift</span>
+          <div class="policy-score" style="color:var(--danger)">86.4%</div>
+        </div>
+      </div>
+      <div class="policy-row">
+        <div class="policy-rail pass"></div>
+        <div class="policy-body">
+          <div class="policy-name">OIB-M365-004 · M365 Apps Baseline</div>
+          <div class="policy-source">MSFT M365</div>
+          <span class="badge pass"><span class="badge-dot"></span>Aligned</span>
+          <div class="policy-score">99.5%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grid: meters + terminal -->
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Coverage by Baseline</div>
+        <div class="meter-wrap">
+          <div class="meter-header"><span class="meter-name">OpenIntuneBaseline</span><span class="meter-pct">92.3%</span></div>
+          <div class="meter-track"><div class="meter-fill pass" style="width:92.3%"></div></div>
+        </div>
+        <div class="meter-wrap" style="margin-top:10px">
+          <div class="meter-header"><span class="meter-name">Windows 11 Security</span><span class="meter-pct">88.0%</span></div>
+          <div class="meter-track"><div class="meter-fill pass" style="width:88%"></div></div>
+        </div>
+        <div class="meter-wrap" style="margin-top:10px">
+          <div class="meter-header"><span class="meter-name">Microsoft Edge</span><span class="meter-pct">86.4%</span></div>
+          <div class="meter-track"><div class="meter-fill warn" style="width:86.4%"></div></div>
+        </div>
+        <div class="meter-wrap" style="margin-top:10px">
+          <div class="meter-header"><span class="meter-name">Defender for Endpoint</span><span class="meter-pct">61.0%</span></div>
+          <div class="meter-track"><div class="meter-fill drift" style="width:61%"></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Status Breakdown</div>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-top:4px">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="width:10px;height:10px;border-radius:50%;background:var(--signal);box-shadow:0 0 6px rgba(52,226,160,0.5)"></div>
+              <span style="font-size:13px;color:var(--text-base)">Compliant</span>
+            </div>
+            <span style="font-family:var(--font-mono);font-size:13px;color:var(--signal)">72 settings</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="width:10px;height:10px;border-radius:50%;background:var(--amber)"></div>
+              <span style="font-size:13px;color:var(--text-base)">Missing</span>
+            </div>
+            <span style="font-family:var(--font-mono);font-size:13px;color:var(--amber)">4 settings</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="width:10px;height:10px;border-radius:50%;background:var(--danger)"></div>
+              <span style="font-size:13px;color:var(--text-base)">Drift</span>
+            </div>
+            <span style="font-family:var(--font-mono);font-size:13px;color:var(--danger)">2 settings</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="width:10px;height:10px;border-radius:50%;background:var(--azure)"></div>
+              <span style="font-size:13px;color:var(--text-base)">Not deployed</span>
+            </div>
+            <span style="font-family:var(--font-mono);font-size:13px;color:var(--azure)">0 policies</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Terminal -->
+    <div class="terminal">
+      <div class="terminal-titlebar">
+        <div class="terminal-dot r"></div>
+        <div class="terminal-dot y"></div>
+        <div class="terminal-dot g"></div>
+        <div class="terminal-title">verdict.ps1 — PowerShell 7</div>
+      </div>
+      <pre><span class="t-prompt">PS></span> <span class="t-cmd">verdict</span> <span class="t-flag">assess</span> <span class="t-flag">-Source</span> <span class="t-val">OIB</span> <span class="t-flag">-WindowsRelease</span> <span class="t-val">23H2</span>
+
+<span class="t-dim">  Connecting to tenant contoso.com …</span>
+<span class="t-pass">  ✓  Connected. DeviceManagementConfiguration.Read.All</span>
+<span class="t-dim">  Pulling OpenIntuneBaseline v3.2 from upstream …</span>
+<span class="t-pass">  ✓  Baseline loaded — 78 settings across 14 profiles</span>
+<span class="t-dim">  Reconciling against deployed policies …</span>
+
+<span class="t-pass">  ✓  72 settings aligned</span>
+<span class="t-warn">  ●  4 settings missing</span>
+<span class="t-drift">  ✗  2 settings drifted</span>
+
+<span class="t-dim">  Score: </span><span class="t-pass">92.3%</span><span class="t-dim"> compliant</span>
+<span class="t-dim">  Report: </span><span class="t-val">./verdict-report-20260611.html</span>
+
+<span class="t-prompt">PS></span> <span class="t-cursor">█</span></pre>
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>
