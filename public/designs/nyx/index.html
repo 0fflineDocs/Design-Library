@@ -1,0 +1,1007 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nyx — Compendium of Night</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     NYX — Void and moonstone. The primordial night.
+     ============================================================ */
+  :root {
+    --void:      #06060e;
+    --night:     #0c0c1e;
+    --dusk:      #12122a;
+    --twilight:  #1e1e3a;
+    --starlight: #f0eef8;
+    --moonstone: #c8c0e8;
+    --frost:     #7875a8;
+    --lunar:     #a89ec8;
+    --aurora:    #5ae8c8;
+    --dawnrise:  #e87890;
+    --hair:      1px solid rgba(168,158,200,0.12);
+    --hair-mid:  1px solid rgba(168,158,200,0.2);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--void);
+    color: var(--moonstone);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* Stars canvas — fixed to viewport, rendered behind content */
+  #star-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* All content above the canvas */
+  .layer { position: relative; z-index: 1; }
+
+  /* ============================================================
+     TOPBAR
+     ============================================================ */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    padding: 0 48px;
+    gap: 32px;
+    background: rgba(6,6,14,0.9);
+    backdrop-filter: blur(14px);
+    border-bottom: var(--hair);
+  }
+
+  .topbar-wordmark {
+    font-family: 'Cormorant', serif;
+    font-size: 21px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--starlight);
+  }
+
+  .topbar-rule {
+    width: 1px;
+    height: 18px;
+    background: var(--lunar);
+    opacity: 0.35;
+    flex: none;
+  }
+
+  .topbar-nav {
+    display: flex;
+    gap: 26px;
+    list-style: none;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--frost);
+  }
+  .topbar-nav a { transition: color 0.25s; }
+  .topbar-nav a:hover { color: var(--lunar); }
+
+  .topbar-end {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--lunar);
+    opacity: 0.45;
+    letter-spacing: 0.1em;
+  }
+
+  /* ============================================================
+     HERO
+     ============================================================ */
+  .hero {
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 64px 84px;
+    border-bottom: var(--hair);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Faint lunar glow at the very top */
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: -120px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    height: 500px;
+    background: radial-gradient(ellipse, rgba(168,158,200,0.065) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  /* Vignette bottom */
+  .hero::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 280px;
+    background: linear-gradient(to bottom, transparent, rgba(6,6,14,0.6));
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--lunar);
+    margin-bottom: 30px;
+  }
+
+  .hero-heading {
+    font-family: 'Cormorant', serif;
+    font-weight: 300;
+    font-size: clamp(76px, 10vw, 148px);
+    line-height: 0.87;
+    letter-spacing: -0.02em;
+    color: var(--starlight);
+    margin-bottom: 36px;
+  }
+
+  .hero-heading em {
+    font-style: italic;
+    color: var(--lunar);
+  }
+
+  .hero-sub {
+    max-width: 50ch;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--frost);
+    margin-bottom: 48px;
+  }
+
+  .hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--frost);
+    opacity: 0.55;
+  }
+
+  .hero-sep { color: var(--lunar); opacity: 0.4; font-size: 8px; }
+
+  /* ============================================================
+     GENERIC SECTION WRAPPER
+     ============================================================ */
+  .section {
+    padding: 80px 64px;
+    border-bottom: var(--hair);
+  }
+
+  .section-eyebrow {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--lunar);
+    margin-bottom: 14px;
+  }
+
+  .section-title {
+    font-family: 'Cormorant', serif;
+    font-size: 46px;
+    font-weight: 400;
+    color: var(--starlight);
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+    margin-bottom: 52px;
+  }
+
+  /* ============================================================
+     DOMAINS GRID
+     ============================================================ */
+  .domains {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(168,158,200,0.1);
+  }
+
+  .domain {
+    background: var(--night);
+    padding: 32px;
+    transition: background 0.4s;
+    cursor: default;
+  }
+
+  .domain:hover { background: var(--dusk); }
+
+  .domain-num {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--frost);
+    margin-bottom: 16px;
+    opacity: 0.6;
+  }
+
+  .domain-name {
+    font-family: 'Cormorant', serif;
+    font-size: 30px;
+    font-weight: 400;
+    color: var(--starlight);
+    letter-spacing: 0.03em;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+
+  .domain-greek {
+    font-family: 'Cormorant', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--lunar);
+    margin-bottom: 14px;
+    letter-spacing: 0.05em;
+  }
+
+  .domain-body {
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--frost);
+  }
+
+  /* Aurora accent on second row */
+  .domain:nth-child(n+4) .domain-num { color: var(--aurora); opacity: 0.5; }
+
+  /* ============================================================
+     FIGURE ENTRY — Morpheus
+     ============================================================ */
+  .figure {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .figure-aside {
+    position: sticky;
+    top: 72px;
+  }
+
+  .figure-plate {
+    width: 260px;
+    height: 340px;
+    background: var(--dusk);
+    border: var(--hair);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+
+  .figure-caption {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--frost);
+    opacity: 0.45;
+    text-align: center;
+  }
+
+  .figure-name {
+    font-family: 'Cormorant', serif;
+    font-size: 52px;
+    font-weight: 400;
+    color: var(--starlight);
+    line-height: 0.95;
+    letter-spacing: 0.01em;
+    margin-bottom: 8px;
+  }
+
+  .figure-epithet {
+    font-family: 'Cormorant', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--lunar);
+    margin-bottom: 20px;
+  }
+
+  .figure-meta {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--frost);
+    opacity: 0.55;
+    padding-bottom: 20px;
+    border-bottom: var(--hair);
+  }
+
+  .figure-meta-sep { color: var(--lunar); opacity: 0.4; }
+
+  .figure-lede {
+    font-size: 16.5px;
+    line-height: 1.75;
+    color: var(--moonstone);
+    max-width: 62ch;
+    margin-bottom: 28px;
+  }
+
+  .figure-lede p + p { margin-top: 14px; }
+
+  .figure-lede em {
+    font-family: 'Cormorant', serif;
+    font-style: italic;
+    font-size: 1.07em;
+    color: var(--starlight);
+  }
+
+  /* Drop cap */
+  .dropcap::first-letter {
+    font-family: 'Cormorant', serif;
+    font-weight: 300;
+    font-size: 5em;
+    line-height: 0.79;
+    float: left;
+    color: var(--lunar);
+    padding: 10px 12px 0 0;
+    margin-top: 4px;
+  }
+
+  .figure-blockquote {
+    border-left: 2px solid var(--lunar);
+    padding: 16px 24px;
+    background: var(--dusk);
+    margin: 24px 0;
+    max-width: 56ch;
+  }
+
+  .figure-blockquote p {
+    font-family: 'Cormorant', serif;
+    font-size: 19px;
+    font-style: italic;
+    color: var(--moonstone);
+    line-height: 1.55;
+    margin-bottom: 10px;
+  }
+
+  .figure-blockquote cite {
+    font-size: 10px;
+    font-style: normal;
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--frost);
+    opacity: 0.55;
+  }
+
+  /* ============================================================
+     ORNAMENT DIVIDER
+     ============================================================ */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 28px 64px;
+    border-bottom: var(--hair);
+  }
+
+  .divider::before,
+  .divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(168,158,200,0.1);
+  }
+
+  .divider-mark {
+    font-size: 10px;
+    color: var(--lunar);
+    opacity: 0.4;
+    letter-spacing: 0.4em;
+  }
+
+  /* ============================================================
+     PROGENY TABLE
+     ============================================================ */
+  .progeny {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(168,158,200,0.08);
+  }
+
+  .progeny-entry {
+    background: var(--night);
+    padding: 22px 28px;
+    transition: background 0.35s;
+    cursor: default;
+  }
+
+  .progeny-entry:hover { background: var(--dusk); }
+
+  .progeny-name {
+    font-family: 'Cormorant', serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--starlight);
+    margin-bottom: 3px;
+  }
+
+  .progeny-greek {
+    font-family: 'Cormorant', serif;
+    font-style: italic;
+    font-size: 12px;
+    color: var(--lunar);
+    margin-bottom: 8px;
+    letter-spacing: 0.04em;
+  }
+
+  .progeny-desc {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--frost);
+  }
+
+  /* Accent alternation */
+  .progeny-entry:nth-child(4n+3) .progeny-name { color: var(--moonstone); }
+
+  /* ============================================================
+     HESIOD BANNER
+     ============================================================ */
+  .banner {
+    padding: 72px 64px;
+    text-align: center;
+    background: var(--dusk);
+    border-top: 1px solid rgba(90,232,200,0.15);
+    border-bottom: 1px solid rgba(90,232,200,0.15);
+  }
+
+  .banner-eyebrow {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--aurora);
+    margin-bottom: 20px;
+    opacity: 0.85;
+  }
+
+  .banner-quote {
+    font-family: 'Cormorant', serif;
+    font-size: 32px;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--starlight);
+    line-height: 1.35;
+    max-width: 58ch;
+    margin: 0 auto 20px;
+  }
+
+  .banner-attrib {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--frost);
+    opacity: 0.5;
+  }
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  footer {
+    padding: 56px 64px 44px;
+    border-top: var(--hair);
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: 56px;
+  }
+
+  .footer-wordmark {
+    font-family: 'Cormorant', serif;
+    font-size: 34px;
+    font-weight: 300;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--starlight);
+    margin-bottom: 14px;
+  }
+
+  .footer-tagline {
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: var(--frost);
+    opacity: 0.65;
+    max-width: 28ch;
+  }
+
+  .footer-col-title {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--lunar);
+    margin-bottom: 18px;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    display: grid;
+    gap: 9px;
+  }
+
+  .footer-col li {
+    font-size: 13px;
+    color: var(--frost);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .footer-col li::before {
+    content: "✦";
+    font-size: 7px;
+    color: var(--lunar);
+    opacity: 0.45;
+    flex: none;
+  }
+
+  .footer-bottom {
+    grid-column: 1 / -1;
+    padding-top: 28px;
+    border-top: var(--hair);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--frost);
+    opacity: 0.3;
+  }
+
+  /* ============================================================
+     RESPONSIVE
+     ============================================================ */
+  @media (max-width: 1000px) {
+    .domains { grid-template-columns: 1fr 1fr; }
+    .figure { grid-template-columns: 1fr; }
+    .figure-aside { position: static; }
+    .figure-plate { width: 100%; max-width: 260px; }
+    footer { grid-template-columns: 1fr 1fr; }
+    .footer-bottom { grid-column: 1 / -1; }
+  }
+
+  @media (max-width: 680px) {
+    .topbar { padding: 0 24px; }
+    .topbar-nav { display: none; }
+    .hero, .section, footer { padding-left: 28px; padding-right: 28px; }
+    .domains { grid-template-columns: 1fr; }
+    .progeny { grid-template-columns: 1fr; }
+    footer { grid-template-columns: 1fr; }
+    .divider { padding: 20px 28px; }
+    .banner { padding: 52px 28px; }
+    .banner-quote { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="star-canvas"></canvas>
+
+<div class="layer">
+
+  <!-- ============================================================
+       TOPBAR
+       ============================================================ -->
+  <header class="topbar">
+    <div class="topbar-wordmark">Nyx</div>
+    <div class="topbar-rule"></div>
+    <ul class="topbar-nav">
+      <li><a href="#domains">Domains</a></li>
+      <li><a href="#morpheus">Children</a></li>
+      <li><a href="#progeny">Progeny</a></li>
+    </ul>
+    <span class="topbar-end">✦</span>
+  </header>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section class="hero" id="hero">
+    <div class="hero-eyebrow">Primordial · Cosmogony · The Eternal Night</div>
+    <h1 class="hero-heading">
+      From the<br>
+      <em>Void,</em><br>
+      Night arose.
+    </h1>
+    <p class="hero-sub">
+      Before Gaia, before Eros, before the ordered cosmos —
+      Nyx stepped forth from the primordial Chaos.
+      She is the mother of a thousand darknesses:
+      Sleep and Death, Dreams and Discord,
+      Fate and Retribution. Feared even by Zeus.
+    </p>
+    <div class="hero-meta">
+      <span>Theogony · Hesiod</span>
+      <span class="hero-sep">✦</span>
+      <span>c. 700 BCE</span>
+      <span class="hero-sep">✦</span>
+      <span>Primordial Generation</span>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       DOMAINS
+       ============================================================ -->
+  <section class="section" id="domains">
+    <div class="section-eyebrow">✦ The Sovereign Domains</div>
+    <div class="section-title">What Night governs,<br>she governs absolutely.</div>
+
+    <div class="domains">
+      <div class="domain">
+        <div class="domain-num">Domain I</div>
+        <div class="domain-name">Sleep</div>
+        <div class="domain-greek">Ὕπνος · Hypnos</div>
+        <div class="domain-body">Twin of Death, born in a single night. Hypnos rules the nightly surrender of consciousness — the velvet erasure through which every mortal passes, and from which they return, diminished by a small death.</div>
+      </div>
+      <div class="domain">
+        <div class="domain-num">Domain II</div>
+        <div class="domain-name">Death</div>
+        <div class="domain-greek">Θάνατος · Thanatos</div>
+        <div class="domain-body">Gentle and merciless in equal measure. Thanatos does not rage — he arrives. Unlike his violent sister Ker, his touch is the quiet extinguishing of a candle held too long against the wind.</div>
+      </div>
+      <div class="domain">
+        <div class="domain-num">Domain III</div>
+        <div class="domain-name">Dreams</div>
+        <div class="domain-greek">Μορφεύς · Morpheus</div>
+        <div class="domain-body">Of all the Oneiroi, Morpheus alone can take the shape of a human figure — appearing to kings as counsellors, to widows as their lost husbands, to heroes as the gods themselves.</div>
+      </div>
+      <div class="domain">
+        <div class="domain-num">Domain IV</div>
+        <div class="domain-name">Fate</div>
+        <div class="domain-greek">Μοῖραι · Moirai</div>
+        <div class="domain-body">Three sisters — Clotho who spins the thread, Lachesis who measures, Atropos whose name means unturnable. Even Zeus does not overturn their decree. They were there before he was.</div>
+      </div>
+      <div class="domain">
+        <div class="domain-num">Domain V</div>
+        <div class="domain-name">Discord</div>
+        <div class="domain-greek">Ἔρις · Eris</div>
+        <div class="domain-body">Born of night, sister to strife. Her apple inscribed "to the fairest" — thrown at the wedding of Peleus — set in motion the chain of causation that required an entire city to burn.</div>
+      </div>
+      <div class="domain">
+        <div class="domain-num">Domain VI</div>
+        <div class="domain-name">Retribution</div>
+        <div class="domain-greek">Νέμεσις · Nemesis</div>
+        <div class="domain-body">The proportioner of fortune. What is given in excess, she takes back. She is the corrective principle in a cosmos that tends toward equilibrium — the shadow behind every windfall.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FIGURE: MORPHEUS
+       ============================================================ -->
+  <section class="section" id="morpheus">
+    <div class="section-eyebrow">✦ Study · The Shaper</div>
+    <div class="section-title">Morpheus</div>
+
+    <div class="figure">
+      <div class="figure-aside">
+        <div class="figure-plate">
+          <svg viewBox="0 0 260 340" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="260" height="340">
+            <rect width="260" height="340" fill="#12122a"/>
+            <!-- Ambient stars -->
+            <circle cx="42" cy="38" r="0.8" fill="#f0eef8" opacity="0.3"/>
+            <circle cx="198" cy="28" r="1.1" fill="#a89ec8" opacity="0.35"/>
+            <circle cx="228" cy="70" r="0.7" fill="#f0eef8" opacity="0.2"/>
+            <circle cx="22" cy="150" r="0.9" fill="#f0eef8" opacity="0.25"/>
+            <circle cx="240" cy="190" r="0.7" fill="#a89ec8" opacity="0.25"/>
+            <circle cx="30" cy="280" r="0.6" fill="#f0eef8" opacity="0.18"/>
+            <circle cx="218" cy="305" r="0.9" fill="#a89ec8" opacity="0.22"/>
+            <circle cx="100" cy="15" r="0.5" fill="#f0eef8" opacity="0.2"/>
+            <circle cx="155" cy="22" r="0.7" fill="#a89ec8" opacity="0.28"/>
+            <!-- Halo / moonlight suggestion -->
+            <ellipse cx="130" cy="76" rx="56" ry="56" fill="none" stroke="#a89ec8" stroke-width="0.3" opacity="0.18"/>
+            <!-- Head -->
+            <ellipse cx="130" cy="78" rx="34" ry="40" fill="none" stroke="#a89ec8" stroke-width="0.55" opacity="0.7"/>
+            <!-- Closed eyes — sleep -->
+            <path d="M112 74 q 8 -3 14 0" fill="none" stroke="#a89ec8" stroke-width="0.6" opacity="0.65"/>
+            <path d="M134 74 q 8 -3 14 0" fill="none" stroke="#a89ec8" stroke-width="0.6" opacity="0.65"/>
+            <!-- Mouth, subtle -->
+            <path d="M120 90 q 10 3 20 0" fill="none" stroke="#a89ec8" stroke-width="0.4" opacity="0.4"/>
+            <!-- Wings — left, layered -->
+            <path d="M96 92 C 56 72, 12 90, 20 120 C 28 148, 72 136, 96 114" fill="none" stroke="#a89ec8" stroke-width="0.6" opacity="0.55"/>
+            <path d="M96 104 C 44 92, 10 114, 18 140 C 26 162, 68 154, 94 130" fill="none" stroke="#a89ec8" stroke-width="0.35" opacity="0.35"/>
+            <path d="M96 116 C 40 112, 8 136, 16 156 C 22 170, 62 164, 92 148" fill="none" stroke="#a89ec8" stroke-width="0.2" opacity="0.2"/>
+            <!-- Wings — right, layered -->
+            <path d="M164 92 C 204 72, 248 90, 240 120 C 232 148, 188 136, 164 114" fill="none" stroke="#a89ec8" stroke-width="0.6" opacity="0.55"/>
+            <path d="M164 104 C 216 92, 250 114, 242 140 C 234 162, 192 154, 166 130" fill="none" stroke="#a89ec8" stroke-width="0.35" opacity="0.35"/>
+            <path d="M164 116 C 220 112, 252 136, 244 156 C 238 170, 198 164, 168 148" fill="none" stroke="#a89ec8" stroke-width="0.2" opacity="0.2"/>
+            <!-- Body / robes -->
+            <path d="M112 116 C 100 148, 98 190, 104 270 L 156 270 C 162 190, 160 148, 148 116 Z" fill="none" stroke="#a89ec8" stroke-width="0.55" opacity="0.5"/>
+            <!-- Robe folds -->
+            <path d="M120 140 C 116 170, 114 210, 112 250" fill="none" stroke="#a89ec8" stroke-width="0.3" opacity="0.25"/>
+            <path d="M140 140 C 138 168, 138 206, 136 248" fill="none" stroke="#a89ec8" stroke-width="0.3" opacity="0.25"/>
+            <!-- Hem -->
+            <path d="M104 270 C 80 292, 50 314, 36 340 L 224 340 C 210 314, 180 292, 156 270" fill="none" stroke="#a89ec8" stroke-width="0.4" opacity="0.35"/>
+            <!-- Poppy stalk — symbol of Morpheus, in aurora teal -->
+            <path d="M130 116 L 130 192" stroke="#5ae8c8" stroke-width="0.55" opacity="0.6"/>
+            <!-- Poppy head -->
+            <circle cx="130" cy="188" r="9" fill="none" stroke="#5ae8c8" stroke-width="0.55" opacity="0.6"/>
+            <path d="M121 183 Q 126 176 130 188" fill="none" stroke="#5ae8c8" stroke-width="0.4" opacity="0.45"/>
+            <path d="M139 183 Q 134 176 130 188" fill="none" stroke="#5ae8c8" stroke-width="0.4" opacity="0.45"/>
+            <!-- Petals -->
+            <path d="M130 179 Q 136 172 140 178" fill="none" stroke="#5ae8c8" stroke-width="0.35" opacity="0.35"/>
+            <path d="M130 179 Q 124 172 120 178" fill="none" stroke="#5ae8c8" stroke-width="0.35" opacity="0.35"/>
+          </svg>
+        </div>
+        <div class="figure-caption">Plate I · The Shaper of Dreams</div>
+      </div>
+
+      <div class="figure-body">
+        <div class="figure-name">Morpheus</div>
+        <div class="figure-epithet">Lord of Forms · Shaper of the Dream</div>
+        <div class="figure-meta">
+          <span>Son of Hypnos</span>
+          <span class="figure-meta-sep">✦</span>
+          <span>Grandson of Nyx</span>
+          <span class="figure-meta-sep">✦</span>
+          <span>Chief of the Oneiroi</span>
+        </div>
+
+        <div class="figure-lede dropcap">
+          <p>Of the thousand children of Sleep who inhabit the cave beyond the world's edge — where the sun never reaches and poppies grow in perpetual bloom — Morpheus alone holds the gift of the human <em>form.</em> His brothers, Phobetor and Phantasos, take the shapes of beasts and inanimate matter in sleep. It is Morpheus who steps into dreams wearing the face of someone you know.</p>
+          <p>He appears to kings in the guise of trusted counsellors; to grieving widows as the shade of their husbands; to heroes as the gods themselves. When Iris descends to his cave bearing a message from Olympus, she crosses the shore of Lethe, passes through the valley of perpetual dusk, and wakes him from the poppy-scented dark.</p>
+        </div>
+
+        <div class="figure-blockquote">
+          <p>"There the god of sleep has his cave, deep among hollow mountains — a place the sun never touches with its beams, where night forever broods."</p>
+          <cite>Ovid · Metamorphoses XI · c. 8 CE</cite>
+        </div>
+
+        <div class="figure-lede">
+          <p>The cave of the Oneiroi sits at the shore of Lethe, the river of forgetting. Every dream flows from this source: formed by Morpheus, delivered through the gate of horn if it is true, through ivory if it is false. He governs neither fate nor death — only the intermediate, the brief republic of the unconscious where the laws of daylight are suspended.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       DIVIDER
+       ============================================================ -->
+  <div class="divider">
+    <span class="divider-mark">✦ ✦ ✦</span>
+  </div>
+
+  <!-- ============================================================
+       PROGENY TABLE
+       ============================================================ -->
+  <section class="section" id="progeny">
+    <div class="section-eyebrow">✦ Complete Progeny</div>
+    <div class="section-title">The Children of Nyx,<br>as recorded by Hesiod</div>
+
+    <div class="progeny">
+      <div class="progeny-entry">
+        <div class="progeny-name">Moros</div>
+        <div class="progeny-greek">Μόρος · Doom</div>
+        <div class="progeny-desc">The impending sense of doom, distinct from death itself. The weight that descends before the end arrives.</div>
+      </div>
+      <div class="progeny-entry">
+        <div class="progeny-name">Ker</div>
+        <div class="progeny-greek">Κήρ · Violent Death</div>
+        <div class="progeny-desc">The goddess of violent death, distinct from Thanatos's peaceful passage. She presides over the battlefield and sudden catastrophe.</div>
+      </div>
+      <div class="progeny-entry">
+        <div class="progeny-name">Hypnos</div>
+        <div class="progeny-greek">Ὕπνος · Sleep</div>
+        <div class="progeny-desc">Twin of Thanatos. He makes his home in a cave of perpetual dusk, where the poppy grows and the river Lethe murmurs.</div>
+      </div>
+      <div class="progeny-entry">
+        <div class="progeny-name">Thanatos</div>
+        <div class="progeny-greek">Θάνατος · Death</div>
+        <div class="progeny-desc">The personification of peaceful death. Unlike his sister Ker, he is depicted as a beautiful youth with an inverted torch.</div>
+      </div>
+      <div class="progeny-entry">
+        <div class="progeny-name">Oneiroi</div>
+        <div class="progeny-greek">Ὄνειροι · The Dreams</div>
+        <div class="progeny-desc">A collective of dream-spirits — Morpheus, Phobetor, Phantasos — who govern the different categories and qualities of dream.</div>
+      </div>
+      <div class="progeny-entry">
+        <div class="progeny-name">Momos</div>
+        <div class="progeny-greek">Μῶμος · Blame</div>
+        <div class="progeny-desc">The spirit of satire and criticism. He found fault with every creation and was eventually expelled from Olympus for mocking the gods.</div>
+      </div>
+      <div class="progeny-entry">
+        <div class="progeny-name">Oizys</div>
+        <div class="progeny-greek">Ὀϊζύς · Misery</div>
+        <div class="progeny-desc">The spirit of woe and suffering, anxiety without cause or cure. She is often paired with Ponos, the toil that never ends.</div>
+      </div>
+      <div class="progeny-entry">
+        <div class="progeny-name">Hesperides</div>
+        <div class="progeny-greek">Ἑσπερίδες · The Evening</div>
+        <div class="progeny-desc">The nymphs of evening, guardians of the garden at the world's western edge where the golden apples grow.</div>
+      </div>
+      <div class="progeny-entry">
+        <div class="progeny-name">Moirai</div>
+        <div class="progeny-greek">Μοῖραι · The Fates</div>
+        <div class="progeny-desc">Clotho, Lachesis, and Atropos. They spin, measure, and cut the thread of life. Zeus himself does not overturn their decree.</div>
+      </div>
+      <div class="progeny-entry">
+        <div class="progeny-name">Keres</div>
+        <div class="progeny-greek">Κῆρες · Death-Spirits</div>
+        <div class="progeny-desc">Female spirits of violent or cruel death, disease, old age, and the specific violence that attends battle.</div>
+      </div>
+      <div class="progeny-entry">
+        <div class="progeny-name">Nemesis</div>
+        <div class="progeny-greek">Νέμεσις · Retribution</div>
+        <div class="progeny-desc">She redistributes fortune, bringing consequences on those who offend the cosmos with hubris or unearned excess.</div>
+      </div>
+      <div class="progeny-entry">
+        <div class="progeny-name">Apate</div>
+        <div class="progeny-greek">Ἀπάτη · Deceit</div>
+        <div class="progeny-desc">The goddess of fraud and guile — present wherever self-deception, false witness, or deliberate dishonesty takes root.</div>
+      </div>
+      <div class="progeny-entry">
+        <div class="progeny-name">Philotes</div>
+        <div class="progeny-greek">Φιλότης · Friendship</div>
+        <div class="progeny-desc">The spirit of affection and friendship, born alongside Discord — the ancient pairing of connection and its perpetual undoing.</div>
+      </div>
+      <div class="progeny-entry">
+        <div class="progeny-name">Geras</div>
+        <div class="progeny-greek">Γῆρας · Old Age</div>
+        <div class="progeny-desc">The spirit of old age, who robs the body of strength and the eye of clarity. Depicted as a small, withered figure.</div>
+      </div>
+      <div class="progeny-entry">
+        <div class="progeny-name">Eris</div>
+        <div class="progeny-greek">Ἔρις · Discord</div>
+        <div class="progeny-desc">Her uninvited apple — inscribed "to the fairest" — thrown at Peleus's wedding, set in motion the chain that ended Troy.</div>
+      </div>
+      <div class="progeny-entry">
+        <div class="progeny-name">Styx</div>
+        <div class="progeny-greek">Στύξ · Hatred</div>
+        <div class="progeny-desc">The goddess of the underworld river, by which the gods swear their most binding oaths — oaths not even Zeus dares break.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       HESIOD BANNER
+       ============================================================ -->
+  <div class="banner">
+    <div class="banner-eyebrow">✦ From the Theogony · Hesiod</div>
+    <div class="banner-quote">
+      "Nyx who subdues both gods and men — she whom not even Zeus himself approaches without awe."
+    </div>
+    <div class="banner-attrib">Theogony · c. 700 BCE</div>
+  </div>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer>
+    <div>
+      <div class="footer-wordmark">Nyx</div>
+      <div class="footer-tagline">A compendium of the primordial night — her domains, her children, and the darkness that preceded the gods.</div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Primary Sources</div>
+      <ul>
+        <li>Theogony — Hesiod</li>
+        <li>Iliad, Book XIV</li>
+        <li>Metamorphoses XI — Ovid</li>
+        <li>Orphic Hymn III</li>
+        <li>Library — Apollodorus</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Domains</div>
+      <ul>
+        <li>Sleep · Hypnos</li>
+        <li>Death · Thanatos</li>
+        <li>Dreams · Morpheus</li>
+        <li>Fate · Moirai</li>
+        <li>Discord · Eris</li>
+        <li>Retribution · Nemesis</li>
+      </ul>
+    </div>
+    <div class="footer-bottom">
+      <span>Nyx · Primordial Night</span>
+      <span>✦</span>
+      <span>Compendium · First Edition</span>
+    </div>
+  </footer>
+
+</div><!-- /.layer -->
+
+<script>
+  // ============================================================
+  // Starfield — fixed canvas, twinkling stars
+  // ============================================================
+  const canvas = document.getElementById('star-canvas');
+  const ctx = canvas.getContext('2d');
+
+  let W, H, stars = [];
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    generateStars();
+  }
+
+  function generateStars() {
+    stars = [];
+    const count = Math.floor((W * H) / 2800);
+    for (let i = 0; i < count; i++) {
+      const rnd = Math.random();
+      stars.push({
+        x:       Math.random() * W,
+        y:       Math.random() * H,
+        r:       rnd < 0.72 ? 0.38 : rnd < 0.92 ? 0.65 : 1.05,
+        base:    0.1 + Math.random() * 0.62,
+        lunar:   Math.random() < 0.2,
+        twinkle: Math.random() < 0.1,
+        phase:   Math.random() * Math.PI * 2,
+      });
+    }
+  }
+
+  function draw(t) {
+    ctx.clearRect(0, 0, W, H);
+    for (const s of stars) {
+      let a = s.base;
+      if (s.twinkle) {
+        a *= 0.55 + 0.45 * Math.sin(t * 0.00065 + s.phase);
+      }
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = s.lunar
+        ? `rgba(168,158,200,${a.toFixed(3)})`
+        : `rgba(240,238,248,${a.toFixed(3)})`;
+      ctx.fill();
+    }
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+
+  (function loop(t) {
+    draw(t);
+    requestAnimationFrame(loop);
+  })(0);
+</script>
+</body>
+</html>

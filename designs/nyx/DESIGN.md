@@ -1,6 +1,7 @@
 ---
 name: Nyx
 tagline: Void and moonstone. The primordial night. Cormorant serif meets Jost geometric.
+preview: index.html
 
 palette:
   - name: Void
