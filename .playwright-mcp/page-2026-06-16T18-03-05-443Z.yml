@@ -1,0 +1,178 @@
+- generic [ref=e2]:
+  - complementary [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: ✦
+        - generic [ref=e7]: Nyx
+      - generic [ref=e8]: AI Workspace v0.4
+    - navigation [ref=e9]:
+      - button "⬡ inference ⌘I" [ref=e10] [cursor=pointer]:
+        - generic [ref=e11]:
+          - generic [ref=e12]: ⬡
+          - generic [ref=e13]: inference
+        - generic [ref=e14]: ⌘I
+      - button "◈ memory" [ref=e15] [cursor=pointer]:
+        - generic [ref=e16]:
+          - generic [ref=e17]: ◈
+          - generic [ref=e18]: memory
+      - button "▦ operators" [ref=e19] [cursor=pointer]:
+        - generic [ref=e20]:
+          - generic [ref=e21]: ▦
+          - generic [ref=e22]: operators
+      - button "◎ usage" [ref=e23] [cursor=pointer]:
+        - generic [ref=e24]:
+          - generic [ref=e25]: ◎
+          - generic [ref=e26]: usage
+    - generic [ref=e27]:
+      - button "⟁ New session Clear context and begin" [ref=e28] [cursor=pointer]:
+        - generic [ref=e29]: ⟁ New session
+        - generic [ref=e30]: Clear context and begin
+      - button "⊞ Import context Load a prior memory state" [ref=e31] [cursor=pointer]:
+        - generic [ref=e32]: ⊞ Import context
+        - generic [ref=e33]: Load a prior memory state
+      - generic [ref=e34]:
+        - generic [ref=e35]:
+          - generic [ref=e36]: ●
+          - generic [ref=e37]: online
+          - generic [ref=e38]: latency 38ms
+        - generic [ref=e39]:
+          - generic [ref=e40]: ◑
+          - generic [ref=e41]: context
+          - generic [ref=e42]: 18.4k / 128k
+  - main [ref=e43]:
+    - generic [ref=e44]:
+      - generic [ref=e45]:
+        - generic [ref=e46]:
+          - button "chat" [ref=e47] [cursor=pointer]
+          - button "complete" [ref=e48] [cursor=pointer]
+          - button "embed" [ref=e49] [cursor=pointer]
+        - generic [ref=e50]:
+          - generic [ref=e51]: ✦
+          - generic [ref=e52]: claude-sonnet-4-6
+      - generic [ref=e53]:
+        - button "session" [ref=e54] [cursor=pointer]
+        - button "history" [ref=e55] [cursor=pointer]
+        - button "debug" [ref=e56] [cursor=pointer]
+    - generic [ref=e58]:
+      - generic [ref=e59]:
+        - generic [ref=e60]:
+          - generic [ref=e61]:
+            - generic [ref=e62]: ✦
+            - generic [ref=e63]: session
+            - generic [ref=e64]: nyx-2026-06-16-0341
+          - generic [ref=e65]:
+            - generic [ref=e66]: ◌
+            - generic [ref=e67]: operator
+            - generic [ref=e68]: default · no persona
+          - generic [ref=e69]:
+            - generic [ref=e70]: ▸
+            - generic [ref=e71]: tools
+            - generic [ref=e72]: search · code · fs
+        - generic [ref=e73]:
+          - generic [ref=e74]: you
+          - generic [ref=e75]: Analyse the semantic drift across my last three prompts — is intent converging or diverging?
+        - generic [ref=e76]:
+          - generic [ref=e77]:
+            - generic [ref=e78]: ✦
+            - text: nyx
+          - generic [ref=e79]:
+            - text: Retrieving session vectors for p[−3], p[−2], p[−1]…
+            - generic [ref=e80]:
+              - generic [ref=e81]:
+                - generic [ref=e82]: ●
+                - generic [ref=e83]: 10:41:02
+                - generic [ref=e84]:
+                  - strong [ref=e85]: embed
+                  - text: p[−3] → 1536-dim
+              - generic [ref=e86]:
+                - generic [ref=e87]: ●
+                - generic [ref=e88]: 10:41:02
+                - generic [ref=e89]:
+                  - strong [ref=e90]: embed
+                  - text: p[−2] → 1536-dim
+              - generic [ref=e91]:
+                - generic [ref=e92]: ●
+                - generic [ref=e93]: 10:41:03
+                - generic [ref=e94]:
+                  - strong [ref=e95]: cosine
+                  - text: p[−3]→p[−2] = 0.847
+              - generic [ref=e96]:
+                - generic [ref=e97]: ●
+                - generic [ref=e98]: 10:41:03
+                - generic [ref=e99]:
+                  - strong [ref=e100]: cosine
+                  - text: p[−2]→p[−1] = 0.923
+        - generic [ref=e101]:
+          - generic [ref=e102]:
+            - generic [ref=e103]: ✦
+            - text: nyx
+          - generic [ref=e104]:
+            - text: Intent is converging. Similarity climbed 0.847 → 0.923 across the three-prompt window — each reformulation tightened toward a common attractor.
+            - generic [ref=e105]:
+              - generic [ref=e106]:
+                - generic [ref=e107]: ◈
+                - generic [ref=e108]: specificity
+                - generic [ref=e111]: "0.78"
+              - generic [ref=e112]:
+                - generic [ref=e113]: ◈
+                - generic [ref=e114]: coherence
+                - generic [ref=e117]: "0.92"
+              - generic [ref=e118]:
+                - generic [ref=e119]: ◈
+                - generic [ref=e120]: ambiguity
+                - generic [ref=e123]: "0.24"
+            - generic [ref=e124]:
+              - generic [ref=e125]: converging
+              - generic [ref=e126]: 214 tokens
+              - generic [ref=e127]: 38ms
+        - generic [ref=e129]:
+          - generic [ref=e130]: ✦
+          - text: nyx
+      - generic [ref=e133]:
+        - generic [ref=e134]:
+          - button "chat" [ref=e135] [cursor=pointer]
+          - textbox "Ask anything — or type / for commands" [ref=e136]
+          - button "send ↵" [ref=e137] [cursor=pointer]
+        - generic [ref=e138]:
+          - generic [ref=e139]: / commands · ⇧⏎ newline · ⌘K clear
+          - generic [ref=e140]: 18 413 / 128 000 tokens
+  - complementary [ref=e141]:
+    - generic [ref=e142]:
+      - generic [ref=e143]: Tier 2
+      - generic [ref=e144]: claude-sonnet-4-6
+    - generic [ref=e145]:
+      - generic [ref=e146]:
+        - generic [ref=e147]: ◈
+        - generic [ref=e148]: Avatar
+      - generic [ref=e150]: NYX
+    - generic [ref=e151]:
+      - generic [ref=e152]:
+        - generic [ref=e153]: ▦
+        - generic [ref=e154]: Session metrics
+      - generic [ref=e155]:
+        - generic [ref=e156]: context
+        - generic [ref=e159]: 14%
+      - generic [ref=e160]:
+        - generic [ref=e161]: coherence
+        - generic [ref=e164]: 92%
+      - generic [ref=e165]:
+        - generic [ref=e166]: ambiguity
+        - generic [ref=e169]: 24%
+    - generic [ref=e170]:
+      - generic [ref=e171]:
+        - generic [ref=e172]: ◎
+        - generic [ref=e173]: Token usage
+      - generic [ref=e174]:
+        - generic [ref=e175]:
+          - generic [ref=e176]: prompt
+          - generic [ref=e177]: 14.2k
+        - generic [ref=e178]:
+          - generic [ref=e179]: output
+          - generic [ref=e180]: 4.2k
+        - generic [ref=e181]:
+          - generic [ref=e182]: cached
+          - generic [ref=e183]: 8.1k
+      - generic [ref=e188]:
+        - generic [ref=e189]: ■ prompt
+        - generic [ref=e190]: ■ output
+        - generic [ref=e191]: ■ cached

@@ -1,0 +1,356 @@
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - link "← All designs" [ref=e5] [cursor=pointer]:
+      - /url: "#/"
+    - generic [ref=e6]: /
+    - generic [ref=e7]: Nyx
+    - button "Copy DESIGN.md" [ref=e8] [cursor=pointer]
+  - generic [ref=e9]:
+    - generic [ref=e10]:
+      - generic [ref=e11]: Preview
+      - iframe [ref=e12]:
+        - generic [ref=f1e2]:
+          - complementary [ref=f1e3]:
+            - generic [ref=f1e4]:
+              - generic [ref=f1e5]:
+                - generic [ref=f1e6]: ✦
+                - generic [ref=f1e7]: Nyx
+              - generic [ref=f1e8]: AI Workspace v0.4
+            - navigation [ref=f1e9]:
+              - button "⬡ inference ⌘I" [ref=f1e10] [cursor=pointer]:
+                - generic [ref=f1e11]:
+                  - generic [ref=f1e12]: ⬡
+                  - generic [ref=f1e13]: inference
+                - generic [ref=f1e14]: ⌘I
+              - button "◈ memory" [ref=f1e15] [cursor=pointer]:
+                - generic [ref=f1e16]:
+                  - generic [ref=f1e17]: ◈
+                  - generic [ref=f1e18]: memory
+              - button "▦ operators" [ref=f1e19] [cursor=pointer]:
+                - generic [ref=f1e20]:
+                  - generic [ref=f1e21]: ▦
+                  - generic [ref=f1e22]: operators
+              - button "◎ usage" [ref=f1e23] [cursor=pointer]:
+                - generic [ref=f1e24]:
+                  - generic [ref=f1e25]: ◎
+                  - generic [ref=f1e26]: usage
+            - generic [ref=f1e27]:
+              - button "⟁ New session Clear context and begin" [ref=f1e28] [cursor=pointer]:
+                - generic [ref=f1e29]: ⟁ New session
+                - generic [ref=f1e30]: Clear context and begin
+              - button "⊞ Import context Load a prior memory state" [ref=f1e31] [cursor=pointer]:
+                - generic [ref=f1e32]: ⊞ Import context
+                - generic [ref=f1e33]: Load a prior memory state
+              - generic [ref=f1e34]:
+                - generic [ref=f1e35]:
+                  - generic [ref=f1e36]: ●
+                  - generic [ref=f1e37]: online
+                  - generic [ref=f1e38]: latency 38ms
+                - generic [ref=f1e39]:
+                  - generic [ref=f1e40]: ◑
+                  - generic [ref=f1e41]: context
+                  - generic [ref=f1e42]: 18.4k / 128k
+          - main [ref=f1e43]:
+            - generic [ref=f1e44]:
+              - generic [ref=f1e45]:
+                - generic [ref=f1e46]:
+                  - button "chat" [ref=f1e47] [cursor=pointer]
+                  - button "complete" [ref=f1e48] [cursor=pointer]
+                  - button "embed" [ref=f1e49] [cursor=pointer]
+                - generic [ref=f1e50]:
+                  - generic [ref=f1e51]: ✦
+                  - generic [ref=f1e52]: claude-sonnet-4-6
+              - generic [ref=f1e53]:
+                - button "session" [ref=f1e54] [cursor=pointer]
+                - button "history" [ref=f1e55] [cursor=pointer]
+                - button "debug" [ref=f1e56] [cursor=pointer]
+            - generic [ref=f1e58]:
+              - generic [ref=f1e59]:
+                - generic [ref=f1e60]:
+                  - generic [ref=f1e61]:
+                    - generic [ref=f1e62]: ✦
+                    - generic [ref=f1e63]: session
+                    - generic [ref=f1e64]: nyx-2026-06-16-0341
+                  - generic [ref=f1e65]:
+                    - generic [ref=f1e66]: ◌
+                    - generic [ref=f1e67]: operator
+                    - generic [ref=f1e68]: default · no persona
+                  - generic [ref=f1e69]:
+                    - generic [ref=f1e70]: ▸
+                    - generic [ref=f1e71]: tools
+                    - generic [ref=f1e72]: search · code · fs
+                - generic [ref=f1e73]:
+                  - generic [ref=f1e74]: you
+                  - generic [ref=f1e75]: Analyse the semantic drift across my last three prompts — is intent converging or diverging?
+                - generic [ref=f1e76]:
+                  - generic [ref=f1e77]:
+                    - generic [ref=f1e78]: ✦
+                    - text: nyx
+                  - generic [ref=f1e79]:
+                    - text: Retrieving session vectors for p[−3], p[−2], p[−1]…
+                    - generic [ref=f1e80]:
+                      - generic [ref=f1e81]:
+                        - generic [ref=f1e82]: ●
+                        - generic [ref=f1e83]: 10:41:02
+                        - generic [ref=f1e84]:
+                          - strong [ref=f1e85]: embed
+                          - text: p[−3] → 1536-dim
+                      - generic [ref=f1e86]:
+                        - generic [ref=f1e87]: ●
+                        - generic [ref=f1e88]: 10:41:02
+                        - generic [ref=f1e89]:
+                          - strong [ref=f1e90]: embed
+                          - text: p[−2] → 1536-dim
+                      - generic [ref=f1e91]:
+                        - generic [ref=f1e92]: ●
+                        - generic [ref=f1e93]: 10:41:03
+                        - generic [ref=f1e94]:
+                          - strong [ref=f1e95]: cosine
+                          - text: p[−3]→p[−2] = 0.847
+                      - generic [ref=f1e96]:
+                        - generic [ref=f1e97]: ●
+                        - generic [ref=f1e98]: 10:41:03
+                        - generic [ref=f1e99]:
+                          - strong [ref=f1e100]: cosine
+                          - text: p[−2]→p[−1] = 0.923
+                - generic [ref=f1e101]:
+                  - generic [ref=f1e102]:
+                    - generic [ref=f1e103]: ✦
+                    - text: nyx
+                  - generic [ref=f1e104]:
+                    - text: Intent is converging. Similarity climbed 0.847 → 0.923 across the three-prompt window — each reformulation tightened toward a common attractor.
+                    - generic [ref=f1e105]:
+                      - generic [ref=f1e106]:
+                        - generic [ref=f1e107]: ◈
+                        - generic [ref=f1e108]: specificity
+                        - generic [ref=f1e111]: "0.78"
+                      - generic [ref=f1e112]:
+                        - generic [ref=f1e113]: ◈
+                        - generic [ref=f1e114]: coherence
+                        - generic [ref=f1e117]: "0.92"
+                      - generic [ref=f1e118]:
+                        - generic [ref=f1e119]: ◈
+                        - generic [ref=f1e120]: ambiguity
+                        - generic [ref=f1e123]: "0.24"
+                    - generic [ref=f1e124]:
+                      - generic [ref=f1e125]: converging
+                      - generic [ref=f1e126]: 214 tokens
+                      - generic [ref=f1e127]: 38ms
+                - generic [ref=f1e129]:
+                  - generic [ref=f1e130]: ✦
+                  - text: nyx
+              - generic [ref=f1e133]:
+                - generic [ref=f1e134]:
+                  - button "chat" [ref=f1e135] [cursor=pointer]
+                  - textbox "Ask anything — or type / for commands" [ref=f1e136]
+                  - button "send ↵" [ref=f1e137] [cursor=pointer]
+                - generic [ref=f1e138]:
+                  - generic [ref=f1e139]: / commands · ⇧⏎ newline · ⌘K clear
+                  - generic [ref=f1e140]: 18 413 / 128 000 tokens
+          - complementary [ref=f1e141]:
+            - generic [ref=f1e142]:
+              - generic [ref=f1e143]: Tier 2
+              - generic [ref=f1e144]: claude-sonnet-4-6
+            - generic [ref=f1e145]:
+              - generic [ref=f1e146]:
+                - generic [ref=f1e147]: ◈
+                - generic [ref=f1e148]: Avatar
+              - generic [ref=f1e150]: NYX
+            - generic [ref=f1e151]:
+              - generic [ref=f1e152]:
+                - generic [ref=f1e153]: ▦
+                - generic [ref=f1e154]: Session metrics
+              - generic [ref=f1e155]:
+                - generic [ref=f1e156]: context
+                - generic [ref=f1e159]: 14%
+              - generic [ref=f1e160]:
+                - generic [ref=f1e161]: coherence
+                - generic [ref=f1e164]: 92%
+              - generic [ref=f1e165]:
+                - generic [ref=f1e166]: ambiguity
+                - generic [ref=f1e169]: 24%
+            - generic [ref=f1e170]:
+              - generic [ref=f1e171]:
+                - generic [ref=f1e172]: ◎
+                - generic [ref=f1e173]: Token usage
+              - generic [ref=f1e174]:
+                - generic [ref=f1e175]:
+                  - generic [ref=f1e176]: prompt
+                  - generic [ref=f1e177]: 14.2k
+                - generic [ref=f1e178]:
+                  - generic [ref=f1e179]: output
+                  - generic [ref=f1e180]: 4.2k
+                - generic [ref=f1e181]:
+                  - generic [ref=f1e182]: cached
+                  - generic [ref=f1e183]: 8.1k
+              - generic [ref=f1e188]:
+                - generic [ref=f1e189]: ■ prompt
+                - generic [ref=f1e190]: ■ output
+                - generic [ref=f1e191]: ■ cached
+    - generic [ref=e13]:
+      - generic [ref=e14]: Design Reference
+      - generic [ref=e15]: Nyx
+      - generic [ref=e16]: Void and static. Terminal-first AI workspace. JetBrains Mono meets Instrument Serif.
+      - paragraph [ref=e18]:
+        - strong [ref=e19]: Void and static. Terminal-first.
+        - text: "Nyx is a monospace-dominant AI workspace — the interface dissolves into conversation, leaving only text and signal. JetBrains Mono carries everything from body copy to labels; Instrument Serif surfaces only in headlines, as a reminder that thought precedes the machine. Colour is almost entirely withheld: three accents mark the moments that warrant attention — violet for interaction, acid green for measure, rose for the AI's own voice."
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - generic [ref=e22]: 01 — Pigments
+        - generic [ref=e23]: Color palette
+        - paragraph [ref=e25]:
+          - text: The background hierarchy descends through absolute black.
+          - code [ref=e26]: "--color-void"
+          - text: (#000000) is the page frame;
+          - code [ref=e27]: "--color-surface"
+          - text: (#0a0a0a) is the application ground;
+          - code [ref=e28]: "--color-bubble"
+          - text: (#27272a) is the raised surface for message bubbles and panels.
+          - code [ref=e29]: "--color-border"
+          - text: (#3f3f46) draws faint zinc lines that divide without decorating. These are not design choices in the aesthetic sense — they are the load-bearing walls of a system that treats darkness as content.
+      - generic [ref=e30]:
+        - generic [ref=e33]:
+          - generic [ref=e34]: Void
+          - generic [ref=e35]: Page frame — absolute black
+          - generic [ref=e36]: "#000000"
+        - generic [ref=e39]:
+          - generic [ref=e40]: Surface
+          - generic [ref=e41]: Application background
+          - generic [ref=e42]: "#0a0a0a"
+        - generic [ref=e45]:
+          - generic [ref=e46]: Bubble
+          - generic [ref=e47]: Message bubbles and raised surfaces
+          - generic [ref=e48]: "#27272a"
+        - generic [ref=e51]:
+          - generic [ref=e52]: Border
+          - generic [ref=e53]: Borders and structural dividers
+          - generic [ref=e54]: "#3f3f46"
+        - generic [ref=e57]:
+          - generic [ref=e58]: Ink Primary
+          - generic [ref=e59]: High-emphasis text
+          - generic [ref=e60]: "#f4f4f5"
+        - generic [ref=e63]:
+          - generic [ref=e64]: Ink Muted
+          - generic [ref=e65]: Secondary text and metadata
+          - generic [ref=e66]: "#a1a1aa"
+        - generic [ref=e69]:
+          - generic [ref=e70]: Ink Subtle
+          - generic [ref=e71]: Tertiary text and placeholders
+          - generic [ref=e72]: "#71717a"
+        - generic [ref=e75]:
+          - generic [ref=e76]: Accent
+          - generic [ref=e77]: Primary accent — violet, interactive and focus states
+          - generic [ref=e78]: "#8850f3"
+        - generic [ref=e81]:
+          - generic [ref=e82]: Spark
+          - generic [ref=e83]: Measure accent — acid green, progress and positive states
+          - generic [ref=e84]: "#c8f040"
+        - generic [ref=e87]:
+          - generic [ref=e88]: Rose
+          - generic [ref=e89]: AI marker — warm chromatic signal in the void
+          - generic [ref=e90]: "#f26ac9"
+        - generic [ref=e93]:
+          - generic [ref=e94]: Blue
+          - generic [ref=e95]: Info accent — links and informational states
+          - generic [ref=e96]: "#56b6ff"
+    - generic [ref=e97]:
+      - generic [ref=e98]:
+        - generic [ref=e99]: 02 — Atmosphere
+        - generic [ref=e100]: Surface tones
+        - paragraph [ref=e102]:
+          - text: Three accents punctuate the void.
+          - code [ref=e103]: "--color-accent"
+          - text: "(oklch(55% 0.22 290) — violet) is the primary interactive signal: focus rings, user message surfaces, active states."
+          - code [ref=e104]: "--color-spark"
+          - text: (#c8f040) is measurement and progress — acid green reserved for bars, completions, and the gradient
+          - code [ref=e105]: "--gradient-measure"
+          - text: .
+          - code [ref=e106]: "--color-rose"
+          - text: "(#f26ac9) marks the AI's own outputs: a warm chromatic signal in an otherwise monochrome field."
+          - code [ref=e107]: "--color-blue"
+          - text: (#56b6ff) is informational only, never structural.
+      - generic [ref=e108]:
+        - generic [ref=e109]:
+          - generic [ref=e110]: "#000000"
+          - generic [ref=e111]:
+            - generic [ref=e112]: Void
+            - generic [ref=e113]: "--color-void"
+        - generic [ref=e114]:
+          - generic [ref=e115]: "#0a0a0a"
+          - generic [ref=e116]:
+            - generic [ref=e117]: Surface
+            - generic [ref=e118]: "--color-surface"
+        - generic [ref=e119]:
+          - generic [ref=e120]: "#27272a"
+          - generic [ref=e121]:
+            - generic [ref=e122]: Bubble
+            - generic [ref=e123]: "--color-bubble"
+        - generic [ref=e124]:
+          - generic [ref=e125]: "#3f3f46"
+          - generic [ref=e126]:
+            - generic [ref=e127]: Border
+            - generic [ref=e128]: "--color-border"
+    - generic [ref=e129]:
+      - generic [ref=e130]:
+        - generic [ref=e131]: 03 — Voice
+        - generic [ref=e132]: Typography
+        - paragraph [ref=e134]: "JetBrains Mono is the body font — a deliberate inversion of convention. The interface is a terminal; the monospace grid is the grid. Every label, every sentence, every data value inherits the same optical rhythm. Space Grotesk handles higher-level UI chrome — geometric, traceable to Futura, never decorative. Instrument Serif appears only at display scale: nameplates and section headings where human authorship should be legible in the type."
+      - generic [ref=e135]:
+        - generic [ref=e136]:
+          - generic [ref=e137]: Display · Instrument Serif
+          - generic [ref=e138]: Aa
+          - generic [ref=e139]: Intelligence meets elegance. Precision in every letter.
+          - generic [ref=e140]:
+            - generic [ref=e141]: · Regular 400
+            - generic [ref=e142]: · Italic
+        - generic [ref=e143]:
+          - generic [ref=e144]: Interface · Space Grotesk
+          - generic [ref=e145]: Aa
+          - generic [ref=e146]: For the working interface. Body copy and labels live here.
+          - generic [ref=e147]:
+            - generic [ref=e148]: · Regular 400
+            - generic [ref=e149]: · Medium 500
+            - generic [ref=e150]: · Bold 700
+        - generic [ref=e151]:
+          - generic [ref=e152]: Body · JetBrains Mono
+          - generic [ref=e153]: Aa
+          - generic [ref=e154]: const x = "mono"; // technical data
+          - generic [ref=e155]:
+            - generic [ref=e156]: · Light 100
+            - generic [ref=e157]: · Regular 400
+            - generic [ref=e158]: · Medium 500
+            - generic [ref=e159]: · Bold 700
+    - generic [ref=e160]:
+      - generic [ref=e161]:
+        - generic [ref=e162]: 04 — Cadence
+        - generic [ref=e163]: Type scale
+        - paragraph [ref=e165]:
+          - text: "Transitions are fast and precise: 100ms for micro-interactions, 150ms for state changes, 250ms for reveals. The interface responds immediately — latency is the enemy of focus. Radius values are near-zero: 2px (sm), 4px (md), 6px (lg). The single gradient in the system —"
+          - code [ref=e166]: "--gradient-measure"
+          - text: — runs violet to spark and is reserved exclusively for progress and usage bars.
+      - generic [ref=e167]:
+        - generic [ref=e168]:
+          - generic [ref=e169]: D1
+          - generic [ref=e170]: DISPLAY
+          - generic [ref=e171]: Nyx — the void before thought
+          - generic [ref=e172]: 20/28
+        - generic [ref=e173]:
+          - generic [ref=e174]: T1
+          - generic [ref=e175]: TITLE
+          - generic [ref=e176]: Session Memory
+          - generic [ref=e177]: 14/21
+        - generic [ref=e178]:
+          - generic [ref=e179]: B1
+          - generic [ref=e180]: BODY
+          - generic [ref=e181]: Query patterns suggest recursive intent. Confidence 0.91.
+          - generic [ref=e182]: 14/22
+        - generic [ref=e183]:
+          - generic [ref=e184]: L1
+          - generic [ref=e185]: LABEL
+          - generic [ref=e186]: INFERENCE · 0.15s · 214 TOKENS
+          - generic [ref=e187]: 12/17
+        - generic [ref=e188]:
+          - generic [ref=e189]: C1
+          - generic [ref=e190]: CODE
+          - generic [ref=e191]: const res = await nyx.query(prompt)
+          - generic [ref=e192]: 13/20
