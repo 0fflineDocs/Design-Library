@@ -20,7 +20,10 @@ export function createRouter(
         root.appendChild(renderDetail(design))
       } else {
         document.title = 'Design Library'
-        root.innerHTML = `<p style="padding:40px;color:#666;">Design "${hash}" not found.</p>`
+        const notFound = document.createElement('p')
+        notFound.style.cssText = 'padding:40px;color:#666;'
+        notFound.textContent = `Design "${hash}" not found.`
+        root.appendChild(notFound)
       }
     }
 

@@ -1,30 +1,7 @@
 import type { DesignSystem } from '../lib/types'
 import { el } from '../lib/el'
 
-function renderCard(design: DesignSystem): HTMLElement {
-  const card = el('a', {
-    href: `#/${design.slug}`,
-    style: {
-      display: 'block',
-      background: '#111',
-      border: '1px solid rgba(255,255,255,0.07)',
-      borderRadius: '4px',
-      cursor: 'pointer',
-      transition: 'border-color 0.15s, transform 0.15s',
-      textDecoration: 'none',
-      overflow: 'hidden',
-    },
-  })
-
-  card.addEventListener('mouseenter', () => {
-    card.style.borderColor = 'rgba(212,175,55,0.4)'
-    card.style.transform = 'translateY(-2px)'
-  })
-  card.addEventListener('mouseleave', () => {
-    card.style.borderColor = 'rgba(255,255,255,0.07)'
-    card.style.transform = 'translateY(0)'
-  })
-
+function renderCardPreview(design: DesignSystem): HTMLElement {
   const previewFrame = el('div', {
     style: {
       position: 'relative',
@@ -40,7 +17,7 @@ function renderCard(design: DesignSystem): HTMLElement {
       src: `/designs/${design.slug}/${design.preview}`,
       title: `${design.name} preview`,
       loading: 'lazy',
-      tabIndex: '-1',
+      tabIndex: -1,
       style: {
         width: '1280px',
         height: '800px',
@@ -67,6 +44,10 @@ function renderCard(design: DesignSystem): HTMLElement {
     }, 'Preview unavailable'))
   }
 
+  return previewFrame
+}
+
+function renderCardBody(design: DesignSystem): HTMLElement {
   const body = el('div', {
     style: { padding: '20px 24px 24px' },
   })
@@ -112,8 +93,36 @@ function renderCard(design: DesignSystem): HTMLElement {
   body.appendChild(swatchRow)
   body.appendChild(name)
   body.appendChild(tagline)
-  card.appendChild(previewFrame)
-  card.appendChild(body)
+
+  return body
+}
+
+function renderCard(design: DesignSystem): HTMLElement {
+  const card = el('a', {
+    href: `#/${design.slug}`,
+    style: {
+      display: 'block',
+      background: '#111',
+      border: '1px solid rgba(255,255,255,0.07)',
+      borderRadius: '4px',
+      cursor: 'pointer',
+      transition: 'border-color 0.15s, transform 0.15s',
+      textDecoration: 'none',
+      overflow: 'hidden',
+    },
+  })
+
+  card.addEventListener('mouseenter', () => {
+    card.style.borderColor = 'rgba(212,175,55,0.4)'
+    card.style.transform = 'translateY(-2px)'
+  })
+  card.addEventListener('mouseleave', () => {
+    card.style.borderColor = 'rgba(255,255,255,0.07)'
+    card.style.transform = 'translateY(0)'
+  })
+
+  card.appendChild(renderCardPreview(design))
+  card.appendChild(renderCardBody(design))
 
   return card
 }
@@ -153,7 +162,7 @@ export function renderGallery(designs: DesignSystem[]): HTMLElement {
       lineHeight: '1.7',
       fontWeight: '300',
     },
-  }, 'A grid of live preview windows. Click any card to open that design system’s full reference page.')
+  }, 'A grid of live preview windows. Click any card to open that design system\'s full reference page.')
   header.appendChild(title)
   header.appendChild(heading)
   header.appendChild(subtitle)
